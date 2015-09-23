@@ -15,13 +15,20 @@ Version 0.1
 * Implement dotEnv for configurations
 
 ***Basic PSR-4 Structure***
-WPExpress
-WPExpress/Query
-WPExpress/SettingsPage
-WPExpress/Model/Post
-WPExpress/Model/Page
-WPExpress/UI/Page
-WPExpress/UI/Metaboxes
+
+  WPExpress
+  
+  WPExpress/Query
+  
+  WPExpress/SettingsPage
+  
+  WPExpress/Model/Post
+  
+  WPExpress/Model/Page
+  
+  WPExpress/UI/Page
+  
+  WPExpress/UI/Metaboxes
 
 Verion 0.2 
 Implement Twig
