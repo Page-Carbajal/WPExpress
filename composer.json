@@ -1,4 +1,5 @@
 {
+    "name": "page-carbajal/wpexpress",
     "autoload": {
         "psr-4":{
             "WPExpress\\": "source/"
