@@ -7,7 +7,7 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 
 * Encapsulate common tasks such as getAll, getByField, getPermalink, getThumbailURL, getAttachments
 
-***Framework Structure***
+###Framework Structure
 
 * WPExpress
     * Query
@@ -23,6 +23,43 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
     * UI
         * Templates
 
+###Custom Post Types Decalaration
+
+```php
+
+    final class Service extends Post    
+    {
+    
+        public function __construct(){
+        
+            $this->postType = sanitize_title( _x( 'service' ,'Post Type Service Declaration', 'text-domain') );
+            
+            $this->postSlug = sanitize_title( _x( 'service' ,'Service Slug Declaration', 'text-domain') ); // Uses postType if not declared
+            
+            $this->addField( 
+                'name' => __('price', 'textdomain'), 
+                'label' => __('Price', 'textdomain'), 
+                'type' => 'number',
+                'placeHolder' => '0.00');
+    
+            $this->addField( 
+                'name' => __('schedules', 'textdomain'), 
+                'label' => __('Schedules', 'textdomain'), 
+                'type' => 'textarea',
+                'placeHolder' => '8:00, 9:00, 10:00',
+                'transform' => 'listFromCSV' );
+        }
+    }
+
+    // Usage
+    
+    add_filter('init', 'myInitHook');
+    
+    function myInitHook(){
+        new Service();
+    }
+
+```
 
 ##Changelog
 
