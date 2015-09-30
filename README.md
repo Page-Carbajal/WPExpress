@@ -32,9 +32,11 @@ final class Service extends Post
 
     public function __construct($bean){
     
-        $this->postType = sanitize_title( _x( 'service' ,'Post Type Service Declaration', 'text-domain') );
         
-        $this->postSlug = sanitize_title( _x( 'service' ,'Service Slug Declaration', 'text-domain') ); // Uses postType if not declared
+        // Uses WordPress _x function to generate the translations. You can use __ instead
+        $translatedPostType = _x( 'service' ,'Post Type Service Declaration', 'text-domain');
+        $this->postType = sanitize_title( $translatedPostType );
+        $this->postSlug = sanitize_title( _x( 'service' ,'Service Slug Declaration', 'text-domain') ); // Uses postType value by default
         
         $this->addField( 
             'name' => __('price', 'textdomain'), 
