@@ -16,38 +16,33 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 ##Nice to Have
 
 * Register CPTs and Taxonomies
-* Provides a set of Abstract classes to build Settings Pages and Metaboxes
-* Implements Mustache to keep your code clean and readable
 * Implement dotEnv for configurations
+* Implements Mustache to keep your code clean and readable
+* Provides a set of Abstract classes to build 
+    * Admin Pages
+    * Custom Post Types / Fields
+    * Custom Taxonomies
+    * DashboardWidgets
+* Implement Twig to further improve templating and coding experience // Mustache will still be supported
 
 ***Basic PSR-4 Structure***
 
-  WPExpress
-  
-  WPExpress/Query
-  
-  WPExpress/SettingsPage
-  
-  WPExpress/Model/Post
-  
-  WPExpress/Model/Page
-  
-  WPExpress/UI/Page
-  
-  WPExpress/UI/Metaboxes
-
-Verion 0.2 
-Implement Twig
+* WPExpress
+    * Query
+    * Abstractions
+        * Model
+            * BaseModel
+            * BaseTaxonomy
+        * Admin Page
+        * Dashboard Widget
+    * Model
+        * Post
+        * Taxonomy
+    * UI
+        * Templates
 
 
 ##Changelog##
-
-***Version 0.1***
-
-* Created empty repository
-* Defined basic PSR-4 structure
-* Added Road Map and Changelog
-* Created the class Query. An abstraction layer for the class WP_Query
 
 ***Version 0.2(Current)***
 
@@ -55,4 +50,9 @@ Implement Twig
 * Created the Interface iBaseModel
 * Created the class Model/Post implements BaseModel and iBaseModel
 
-***Version 0.3***
+***Version 0.1***
+
+* Created empty repository
+* Defined basic PSR-4 structure
+* Added Road Map and Changelog
+* Created the class Query. An abstraction layer for the class WP_Query
