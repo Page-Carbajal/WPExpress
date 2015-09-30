@@ -5,7 +5,7 @@
  * Generator: PhpStorm
  */
 
-namespace WPExpress\Model\Abstractions;
+namespace WPExpress\Abstractions\Model;
 
 use WPExpress\Query;
 

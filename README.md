@@ -6,10 +6,16 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 
 ##Road Map
 
-Version 0.1
+
+
+* Encapsulate common tasks such as getAll, getByField, getPermalink, getThumbailURL, getAttachments
+
+
+
+
+##Nice to Have
 
 * Register CPTs and Taxonomies
-* Encapsulate common tasks such as getAll, getByField, getPermalink, getThumbailURL, getAttachments
 * Provides a set of Abstract classes to build Settings Pages and Metaboxes
 * Implements Mustache to keep your code clean and readable
 * Implement dotEnv for configurations
@@ -41,3 +47,12 @@ Implement Twig
 * Created empty repository
 * Defined basic PSR-4 structure
 * Added Road Map and Changelog
+* Created the class Query. An abstraction layer for the class WP_Query
+
+***Version 0.2(Current)***
+
+* Created Abstract class /Model/Abstractions/BaseModel
+* Created the Interface iBaseModel
+* Created the class Model/Post implements BaseModel and iBaseModel
+
+***Version 0.3***

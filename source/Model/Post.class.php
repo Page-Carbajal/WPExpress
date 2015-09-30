@@ -8,7 +8,7 @@
 namespace WPExpress\Model;
 
 
-use WPExpress\Model\Abstractions\BaseModel;
+use WPExpress\Abstractions\Model\BaseModel;
 use WPExpress\Interfaces\Model\iBaseModel;
 
 
