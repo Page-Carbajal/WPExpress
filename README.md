@@ -30,7 +30,7 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 final class Service extends Post    
 {
 
-    public function __construct(){
+    public function __construct($bean){
     
         $this->postType = sanitize_title( _x( 'service' ,'Post Type Service Declaration', 'text-domain') );
         
@@ -48,6 +48,8 @@ final class Service extends Post
             'type' => 'textarea',
             'placeHolder' => '8:00, 9:00, 10:00',
             'transform' => 'listFromCSV' );
+            
+        parent::__construct($bean);
     }
 }
 
@@ -59,6 +61,37 @@ function myInitHook(){
     new Service();
 }
 
+// Prebuilt Basic CRUD and Traversing
+
+function someOtherFunction(){
+
+    $allServices = Service::getAll();
+    foreach( $allServices as $service){
+        // TODO: Do something pretty
+        $service->getField('price')->format('currency');
+    }
+    
+    $someServices = Service::getByField('price', 200); // All services that have a price of 200
+    $someServices = Service::getByTaxonomy('taxonomy', 'term'); // Get all services of the given Taxonomy
+
+    // Get one service by ID
+    $oneService = new Service($id);
+    // Default methods
+    $oneService->getThumbnail();
+    $oneService->getThumbnailURL();
+    $oneService->getContent(); 
+    $oneService->getTitle();
+    // Update a field and Save
+    $oneService->set('price', 300)->save();
+    // Delete
+    $oneService()->delete()
+    // Create a new Service
+    $newService = new Service();
+    $newService->set('price', 300);
+    $newService->set('post_title', 'New Service');
+    $newService->save();
+    
+}
 ```
 
 ##Changelog
