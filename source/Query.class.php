@@ -44,7 +44,16 @@ class Query
         return $this;
     }
 
-    // Post metadata methods
+    // Post TaxQuery Methods
+
+    public function term($taxonomy, $term)
+    {
+        // TODO: Implement modifiers for parameters
+        return $this;
+    }
+
+
+    // Post MetaQuery Methods
 
     public function meta($field, $value, $operator = null)
     {
@@ -52,6 +61,12 @@ class Query
         switch( $operator ){
             case "like":
                 $compare = "like";
+                break;
+            case "in":
+                $compare = "in";
+                break;
+            case "not":
+                $compare = "not";
                 break;
             default:
                 $compare = "=";
@@ -138,4 +153,16 @@ class Query
         return $query->postType( $postType );
     }
 
+    // Sorting
+    public function sortBy($field)
+    {
+        // TODO: Add functionality
+        return $this;
+    }
+
+    public function sortOrder($ascendingOrder = true)
+    {
+        // TODO: Add functionality
+        return $this;
+    }
 }

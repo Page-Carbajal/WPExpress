@@ -6,6 +6,16 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 ##Road Map
 
 * Encapsulate common tasks such as getAll, getByField, getPermalink, getThumbailURL, getAttachments
+* Register CPTs and Taxonomies
+* Implement dotEnv for configurations
+* Implements Mustache to keep your code clean and readable
+* Provides a set of Abstract classes to build 
+    * Admin Pages
+    * Custom Post Types / Fields
+    * Custom Taxonomies
+    * DashboardWidgets
+* Implement Twig to further improve templating and coding experience // Mustache will still be supported
+
 
 ###Framework Structure
 
@@ -22,6 +32,31 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
         * Taxonomy
     * UI
         * Templates
+
+###Query an Object Oriented Abstraction Layer for WP_Query
+
+```php
+
+// Usage Examples
+
+use WPExpress\Query;
+// Get all posts
+$allPosts = Query::Post()->all()->get();
+
+// Get N number of posts. For this case N = 10
+// Note: Sticky posts will be prepend to the query as per WordPress standards
+// Note: If limit is not set defaults to 10 using ***showposts*** parameter
+$tenPosts = Query::Post()->limit(10)->get();
+
+// Query posts by meta value
+$somePosts = Query::Post()->meta('fieldName', 'value')->all()->get();
+// Value can also be an array
+$somePosts = Query::Post()->meta('fieldName', array( 'value', 'value2' ) )->all()->get();
+// Exclude using operator not
+$somePosts = Query::Post()->meta('fieldName', array( 'value', 'value2' ), 'not' )->all()->get();
+
+
+```
 
 ###Custom Post Types Decalaration
 
@@ -98,28 +133,30 @@ function someOtherFunction(){
 
 ##Changelog
 
-***Version 0.2(Current)***
+###Version 0.2.2
+
+* Added the empty methods registerCustomPostType and addCustomField to BaseModel
+* Added the getField method to BaseModel
+* Added the property postTypeSlug to BaseModel
+* Added the basic Constructor for class Post
+* Added empty sort and term methods to Query
+* Added methods getThumbnail and getThumbnailURL to Post class
+* Implemented static methods getAll, getByField, getByTaxonomy on BaseMode
+
+###Version 0.2.1
+
+* Implements basic methods for class Query
+
+###Version 0.2
 
 * Created Abstract class /Model/Abstractions/BaseModel
 * Created the Interface iBaseModel
 * Created the class Model/Post implements BaseModel and iBaseModel
 
-***Version 0.1***
+###Version 0.1
 
 * Created empty repository
 * Defined basic PSR-4 structure
 * Added Road Map and Changelog
 * Created the class Query. An abstraction layer for the class WP_Query
 
-
-##Nice to Have
-
-* Register CPTs and Taxonomies
-* Implement dotEnv for configurations
-* Implements Mustache to keep your code clean and readable
-* Provides a set of Abstract classes to build 
-    * Admin Pages
-    * Custom Post Types / Fields
-    * Custom Taxonomies
-    * DashboardWidgets
-* Implement Twig to further improve templating and coding experience // Mustache will still be supported

@@ -15,13 +15,59 @@ use WPExpress\Interfaces\Model\iBaseModel;
 class Post extends BaseModel implements iBaseModel
 {
 
-    public function __construct()
+    public function __construct($bean)
     {
+
+        $this->postType = 'post';
+        $this->postTypeSlug = ''; // Set Yours for to register your CPT
+
+        $post = null;
+        if( is_int( $bean ) ){
+            $post = get_post( $bean );
+        } elseif( ( $bean instanceof \WP_Post ) && !empty($bean->ID) ){
+            $post = $bean;
+        }
+
+        if( !empty($post) ){
+            $this->post = $post;
+            $this->ID = $post->ID;
+            $this->title = $post->post_title;
+            $this->content = $post->post_content;
+            $this->excerpt = $post->post_excerpt;
+            // TODO: Load the rest of the significant properties
+        }
 
     }
 
+    /**
+     * Override this function on your theme to set your Custom Post Type
+     *
+     * @return string. The custom post type.
+     */
     public static function getPostType(){
+        if( !isset(self::$postType) ){
+            self::$postType = 'post';
+        }
+        return self::$postType;
+    }
 
+
+    public function getThumbnail()
+    {
+        if ( has_post_thumbnail( $this->ID ) ){
+            $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ) );
+            return $thumbnail[0];
+        }
+
+        return false;
+    }
+
+    public function getThumbnailURL()
+    {
+        if( $thumbnail = $this->getThumbnailURL() ){
+            return $thumbnail[0];
+        }
+        return '';
     }
 
 }
