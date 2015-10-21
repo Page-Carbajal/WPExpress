@@ -1,14 +1,14 @@
 {
     "name": "page-carbajal/wpexpress",
     "version": "0.2.2",
-    "dist":{
-        "url": "https://github.com/Page-Carbajal/WPExpress/archive/v0.2.2.zip",
-        "type": "zip"
-    },
-    "source":{
-        "url": "https://github.com/Page-Carbajal/WPExpress.git",
-        "type": "git"
-    },
+    "type": "lybrary",
+    "license": "GNU-3.0",
+    "authors":[
+        {
+            "name": "Page Carbajal",
+            "homepage": "http://pagecarbajal.com"
+        }
+    ],
     "autoload": {
         "psr-4":{
             "WPExpress\\": "source/"
