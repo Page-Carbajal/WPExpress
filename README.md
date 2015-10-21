@@ -10,7 +10,6 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
 * Implement dotEnv for configurations
 * Implements Mustache to keep your code clean and readable
 * Provides a set of Abstract classes to build 
-    * Admin Pages
     * Custom Post Types / Fields
     * Custom Taxonomies
     * DashboardWidgets
@@ -25,13 +24,13 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
         * Model
             * BaseModel
             * BaseTaxonomy
-        * Admin Page
+        * Settings Page
         * Dashboard Widget
     * Model
         * Post
         * Taxonomy
     * UI
-        * Templates
+        * RenderEngine
 
 ###Query an Object Oriented Abstraction Layer for WP_Query
 
@@ -135,6 +134,8 @@ function someOtherFunction(){
 
 ###Version 0.3
 
+* Rendering empty settings page
+* Added RenderEngine
 * Added empty settings page
 * Added resources directory
 * Added SettingPage abstract class

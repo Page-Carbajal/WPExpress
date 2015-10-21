@@ -7,7 +7,7 @@
 namespace WPExpress\Abstractions;
 
 
-use Mustache_Engine;
+use WPExpress\UI\RenderEngine;
 
 
 abstract class SettingsPage
@@ -22,16 +22,28 @@ abstract class SettingsPage
 
     abstract public function __construct();
 
-    public function registerFilters()
+    private function registerFilters()
     {
-
-    }
-
-    public function pluginPage()
-    {
-        // TODO: Set as plugin page
         return $this;
     }
+
+    public function pluginPage( $parent = 'settings' )
+    {
+        add_filter('after_setup_theme', array(&$this, 'addTopLevelPage' )); // TODO: Add to Menu
+        return $this;
+    }
+
+    public function topLevelPage()
+    {
+        add_filter('after_setup_theme', array(&$this, 'addTopLevelPage'));
+        return $this;
+    }
+
+    public function addTopLevelPage()
+    {
+        add_menu_page( $this->pageTitle, $this->menuTitle, 'administrator', $this->menuSlug, array(&$this, 'render') );
+    }
+
 
     /**
      * Sets menu title, menu slug, and page title. Page title is concatenated with the translatable string " settings"
@@ -49,7 +61,10 @@ abstract class SettingsPage
 
     public function render()
     {
-        // TODO: Render
+
+        $renderer = new RenderEngine();
+
+        echo $renderer->renderTemplate('settings-page', array());
 
     }
 

@@ -42,4 +42,6 @@ return array(
     'WPExpress\\Interfaces\\Model\\iBaseModel' => $baseDir . '/source/Interfaces/Model/iBaseModel.class.php',
     'WPExpress\\Model\\Post' => $baseDir . '/source/Model/Post.class.php',
     'WPExpress\\Query' => $baseDir . '/source/Query.class.php',
+    'WPExpress\\UI' => $baseDir . '/source/UI.class.php',
+    'WPExpress\\UI\\RenderEngine' => $baseDir . '/source/UI/RenderEngine.class.php',
 );
