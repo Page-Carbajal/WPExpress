@@ -2,6 +2,7 @@
     "name": "page-carbajal/wpexpress",
     "type": "lybrary",
     "license": "GNU-3.0",
+    "homepage": "https://github.com/Page-Carbajal/WPExpress",
     "authors":[
         {
             "name": "Page Carbajal",
@@ -12,5 +13,9 @@
         "psr-4":{
             "WPExpress\\": "source/"
         }
+    },
+    "require": {
+        "php": ">=5.3",
+        "mustache/mustache": "^2.9"
     }
 }
