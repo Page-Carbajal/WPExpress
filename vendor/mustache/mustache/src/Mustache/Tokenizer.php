@@ -12,7 +12,7 @@
 /**
  * Mustache Tokenizer class.
  *
- * This class is responsible for turning raw template source into a set of Mustache tokens.
+ * This class is responsible for turning raw templates source into a set of Mustache tokens.
  */
 class Mustache_Tokenizer
 {
@@ -78,11 +78,11 @@ class Mustache_Tokenizer
     private $ctagLen;
 
     /**
-     * Scan and tokenize template source.
+     * Scan and tokenize templates source.
      *
      * @throws Mustache_Exception_SyntaxException when mismatched section tags are encountered.
      *
-     * @param string $text       Mustache template source to tokenize
+     * @param string $text       Mustache templates source to tokenize
      * @param string $delimiters Optionally, pass initial opening and closing delimiters (default: null)
      *
      * @return array Set of Mustache tokens
@@ -244,7 +244,7 @@ class Mustache_Tokenizer
     /**
      * Change the current Mustache delimiters. Set new `otag` and `ctag` values.
      *
-     * @param string $text  Mustache template source
+     * @param string $text  Mustache templates source
      * @param int    $index Current tokenizer index
      *
      * @return int New index value
@@ -282,7 +282,7 @@ class Mustache_Tokenizer
     /**
      * Add pragma token.
      *
-     * Pragmas are hoisted to the front of the template, so all pragma tokens
+     * Pragmas are hoisted to the front of the templates, so all pragma tokens
      * will appear at the front of the token list.
      *
      * @param string $text
@@ -295,7 +295,7 @@ class Mustache_Tokenizer
         $end    = strpos($text, $this->ctag, $index);
         $pragma = trim(substr($text, $index + 2, $end - $index - 2));
 
-        // Pragmas are hoisted to the front of the template.
+        // Pragmas are hoisted to the front of the templates.
         array_unshift($this->tokens, array(
             self::TYPE => self::T_PRAGMA,
             self::NAME => $pragma,
@@ -310,7 +310,7 @@ class Mustache_Tokenizer
      *
      * @param string $tag    Current tag name
      * @param int    $tagLen Current tag name length
-     * @param string $text   Mustache template source
+     * @param string $text   Mustache templates source
      * @param int    $index  Current tokenizer index
      *
      * @return bool True if this is a closing section tag

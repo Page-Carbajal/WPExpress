@@ -133,6 +133,12 @@ function someOtherFunction(){
 
 ##Changelog
 
+###Version 0.3
+
+* Added SettingPage abstract class
+* Added Mustache with composer
+* Added UI Class
+
 ###Version 0.2.2
 
 * Added the empty methods registerCustomPostType and addCustomField to BaseModel

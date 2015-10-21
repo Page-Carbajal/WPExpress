@@ -55,7 +55,7 @@ abstract class Mustache_Test_SpecTestCase extends PHPUnit_Framework_TestCase
         foreach ($spec['tests'] as $test) {
             $data[] = array(
                 $test['name'] . ': ' . $test['desc'],
-                $test['template'],
+                $test['templates'],
                 isset($test['partials']) ? $test['partials'] : array(),
                 $test['data'],
                 $test['expected'],

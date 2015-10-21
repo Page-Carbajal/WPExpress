@@ -67,7 +67,7 @@ class Mustache_Cache_FilesystemCache extends Mustache_Cache_AbstractCache
 
         $this->log(
             Mustache_Logger::DEBUG,
-            'Writing to template cache: "{fileName}"',
+            'Writing to templates cache: "{fileName}"',
             array('fileName' => $fileName)
         );
 
@@ -103,7 +103,7 @@ class Mustache_Cache_FilesystemCache extends Mustache_Cache_AbstractCache
         if (!is_dir($dirName)) {
             $this->log(
                 Mustache_Logger::INFO,
-                'Creating Mustache template cache directory: "{dirName}"',
+                'Creating Mustache templates cache directory: "{dirName}"',
                 array('dirName' => $dirName)
             );
 
@@ -130,7 +130,7 @@ class Mustache_Cache_FilesystemCache extends Mustache_Cache_AbstractCache
 
         $this->log(
             Mustache_Logger::DEBUG,
-            'Caching compiled template to "{fileName}"',
+            'Caching compiled templates to "{fileName}"',
             array('fileName' => $fileName)
         );
 

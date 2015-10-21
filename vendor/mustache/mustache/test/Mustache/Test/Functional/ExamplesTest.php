@@ -39,7 +39,7 @@ class Mustache_Test_Functional_ExamplesTest extends PHPUnit_Framework_TestCase
      * Loads examples from the test fixtures directory.
      *
      * This examples directory should contain any number of subdirectories, each of which contains
-     * three files: one Mustache class (.php), one Mustache template (.mustache), and one output file
+     * three files: one Mustache class (.php), one Mustache templates (.mustache), and one output file
      * (.txt). Optionally, the directory may contain a folder full of partials.
      *
      * @return array

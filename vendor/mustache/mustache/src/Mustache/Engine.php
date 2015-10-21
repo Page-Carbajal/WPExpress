@@ -15,7 +15,7 @@
  * {@link http://defunkt.github.com/mustache}
  *
  * Mustache is a framework-agnostic logic-less templating language. It enforces separation of view
- * logic from template files. In fact, it is not even possible to embed logic in the template.
+ * logic from templates files. In fact, it is not even possible to embed logic in the templates.
  *
  * This is very, very rad.
  *
@@ -81,19 +81,19 @@ class Mustache_Engine
      *         // sections are often too dynamic to benefit from caching.
      *         'cache_lambda_templates' => true,
      *
-     *         // A Mustache template loader instance. Uses a StringLoader if not specified.
+     *         // A Mustache templates loader instance. Uses a StringLoader if not specified.
      *         'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/views'),
      *
      *         // A Mustache loader instance for partials.
      *         'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/views/partials'),
      *
-     *         // An array of Mustache partials. Useful for quick-and-dirty string template loading, but not as
+     *         // An array of Mustache partials. Useful for quick-and-dirty string templates loading, but not as
      *         // efficient or lazy as a Filesystem (or database) loader.
      *         'partials' => array('foo' => file_get_contents(dirname(__FILE__).'/views/partials/foo.mustache')),
      *
      *         // An array of 'helpers'. Helpers can be global variables or objects, closures (e.g. for higher order
      *         // sections), or any other valid Mustache context value. They will be prepended to the context stack,
-     *         // so they will be available in any template loaded by this Mustache instance.
+     *         // so they will be available in any templates loaded by this Mustache instance.
      *         'helpers' => array('i18n' => function ($text) {
      *             // do something translatey here...
      *         }),
@@ -117,7 +117,7 @@ class Mustache_Engine
      *         // Only treat Closure instances and invokable classes as callable. If true, values like
      *         // `array('ClassName', 'methodName')` and `array($classInstance, 'methodName')`, which are traditionally
      *         // "callable" in PHP, are not called to resolve variables for interpolation or section contexts. This
-     *         // helps protect against arbitrary code execution when user input is passed directly into the template.
+     *         // helps protect against arbitrary code execution when user input is passed directly into the templates.
      *         // This currently defaults to false, but will default to true in v3.0.
      *         'strict_callables' => true,
      *
@@ -204,7 +204,7 @@ class Mustache_Engine
     /**
      * Shortcut 'render' invocation.
      *
-     * Equivalent to calling `$mustache->loadTemplate($template)->render($context);`
+     * Equivalent to calling `$mustache->loadTemplate($templates)->render($context);`
      *
      * @see Mustache_Engine::loadTemplate
      * @see Mustache_Template::render
@@ -212,7 +212,7 @@ class Mustache_Engine
      * @param string $template
      * @param mixed  $context  (default: array())
      *
-     * @return string Rendered template
+     * @return string Rendered templates
      */
     public function render($template, $context = array())
     {
@@ -260,7 +260,7 @@ class Mustache_Engine
     }
 
     /**
-     * Set the Mustache template Loader instance.
+     * Set the Mustache templates Loader instance.
      *
      * @param Mustache_Loader $loader
      */
@@ -270,7 +270,7 @@ class Mustache_Engine
     }
 
     /**
-     * Get the current Mustache template Loader instance.
+     * Get the current Mustache templates Loader instance.
      *
      * If no Loader instance has been explicitly specified, this method will instantiate and return
      * a StringLoader instance.
@@ -338,7 +338,7 @@ class Mustache_Engine
      *
      * An array of 'helpers'. Helpers can be global variables or objects, closures (e.g. for higher order sections), or
      * any other valid Mustache context value. They will be prepended to the context stack, so they will be available in
-     * any template loaded by this Mustache instance.
+     * any templates loaded by this Mustache instance.
      *
      * @throws Mustache_Exception_InvalidArgumentException if $helpers is not an array or Traversable
      *
@@ -587,7 +587,7 @@ class Mustache_Engine
     }
 
     /**
-     * Helper method to generate a Mustache template class.
+     * Helper method to generate a Mustache templates class.
      *
      * @param string $source
      *
@@ -704,7 +704,7 @@ class Mustache_Engine
 
             $this->log(
                 Mustache_Logger::DEBUG,
-                'Instantiating template: "{className}"',
+                'Instantiating templates: "{className}"',
                 array('className' => $className)
             );
 
@@ -715,7 +715,7 @@ class Mustache_Engine
     }
 
     /**
-     * Helper method to tokenize a Mustache template.
+     * Helper method to tokenize a Mustache templates.
      *
      * @see Mustache_Tokenizer::scan
      *
@@ -729,7 +729,7 @@ class Mustache_Engine
     }
 
     /**
-     * Helper method to parse a Mustache template.
+     * Helper method to parse a Mustache templates.
      *
      * @see Mustache_Parser::parse
      *
@@ -746,13 +746,13 @@ class Mustache_Engine
     }
 
     /**
-     * Helper method to compile a Mustache template.
+     * Helper method to compile a Mustache templates.
      *
      * @see Mustache_Compiler::compile
      *
      * @param string $source
      *
-     * @return string generated Mustache template class code
+     * @return string generated Mustache templates class code
      */
     private function compile($source)
     {
@@ -761,7 +761,7 @@ class Mustache_Engine
 
         $this->log(
             Mustache_Logger::INFO,
-            'Compiling template to "{className}" class',
+            'Compiling templates to "{className}" class',
             array('className' => $name)
         );
 

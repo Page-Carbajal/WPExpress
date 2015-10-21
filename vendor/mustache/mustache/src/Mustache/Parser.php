@@ -230,7 +230,7 @@ class Mustache_Parser
             }
 
             if (count($tokens) !== 1) {
-                // Unless it's the last token in the template, the next token
+                // Unless it's the last token in the templates, the next token
                 // must end in newline for this to be standalone.
                 if (substr($next[Mustache_Tokenizer::VALUE], -1) !== "\n") {
                     return;

@@ -274,10 +274,10 @@ class Mustache_Test_EngineTest extends Mustache_Test_FunctionalTestCase
             'foo' => 'f00',
         ));
 
-        // setting partials overrides the default template loading fallback.
+        // setting partials overrides the default templates loading fallback.
         $this->assertNotSame($tpl, $mustache->loadPartial('foo'));
 
-        // but it didn't overwrite the original template loader templates.
+        // but it didn't overwrite the original templates loader templates.
         $this->assertSame($tpl, $mustache->loadTemplate('foo'));
     }
 
@@ -317,7 +317,7 @@ class Mustache_Test_EngineTest extends Mustache_Test_FunctionalTestCase
         list($name, $mustache) = $this->getLoggedMustache(Mustache_Logger::DEBUG);
         $mustache->render('{{ foo }}{{> bar }}', array('foo' => 'FOO'));
         $log = file_get_contents($name);
-        $this->assertContains('DEBUG: Instantiating template: ',   $log);
+        $this->assertContains('DEBUG: Instantiating templates: ',   $log);
         $this->assertContains('WARNING: Partial not found: "bar"', $log);
     }
 

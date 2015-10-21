@@ -33,7 +33,7 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                 ),
-                '{{<foo}}{{^bar}}{{$baz}}set by template{{/baz}}{{/bar}}{{/foo}}',
+                '{{<foo}}{{^bar}}{{$baz}}set by templates{{/baz}}{{/bar}}{{/foo}}',
             ),
             array(
                 array(
@@ -42,7 +42,7 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                 ),
-                '{{<foo}}{{>qux}}{{$baz}}set by template{{/baz}}{{/foo}}',
+                '{{<foo}}{{>qux}}{{$baz}}set by templates{{/baz}}{{/foo}}',
             ),
             array(
                 array(
@@ -73,16 +73,16 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
                 ),
                 array(
                 ),
-                '{{<foo}}{{! ignore me }}{{$baz}}set by template{{/baz}}{{/foo}}',
-                'set by template',
+                '{{<foo}}{{! ignore me }}{{$baz}}set by templates{{/baz}}{{/foo}}',
+                'set by templates',
             ),
             array(
                 array(
                     'foo' => '{{$baz}}defualt content{{/baz}}',
                 ),
                 array(),
-                '{{<foo}}set by template{{$baz}}also set by template{{/baz}}{{/foo}}',
-                'also set by template',
+                '{{<foo}}set by templates{{$baz}}also set by templates{{/baz}}{{/foo}}',
+                'also set by templates',
             ),
         );
     }
@@ -184,12 +184,12 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
         $this->mustache->setPartials($partials);
 
         $tpl = $this->mustache->loadTemplate(
-            '{{<super}}{{$title}}sub template title{{/title}}{{/super}}'
+            '{{<super}}{{$title}}sub templates title{{/title}}{{/super}}'
         );
 
         $data = array();
 
-        $this->assertEquals('...sub template title...', $tpl->render($data));
+        $this->assertEquals('...sub templates title...', $tpl->render($data));
     }
 
     public function testOverriddenPartial()
@@ -218,14 +218,14 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
         $this->mustache->setPartials($partials);
 
         $tpl = $this->mustache->loadTemplate(
-            '{{<include}}{{$var}}var in template{{/var}}{{/include}}'
+            '{{<include}}{{$var}}var in templates{{/var}}{{/include}}'
         );
 
         $data = array(
             'var' => 'var in data',
         );
 
-        $this->assertEquals('var in template', $tpl->render($data));
+        $this->assertEquals('var in templates', $tpl->render($data));
     }
 
     public function testDataDoesNotOverrideDefaultBlockValue()

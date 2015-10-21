@@ -113,7 +113,7 @@ class Mustache_Context
      *         ),
      *     );
      *
-     * ... and the Mustache following template:
+     * ... and the Mustache following templates:
      *
      *     {{ child.name }}
      *

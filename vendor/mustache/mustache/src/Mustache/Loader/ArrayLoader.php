@@ -41,7 +41,7 @@ class Mustache_Loader_ArrayLoader implements Mustache_Loader, Mustache_Loader_Mu
     /**
      * Load a Template.
      *
-     * @throws Mustache_Exception_UnknownTemplateException If a template file is not found.
+     * @throws Mustache_Exception_UnknownTemplateException If a templates file is not found.
      *
      * @param string $name
      *

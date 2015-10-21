@@ -21,7 +21,7 @@ class Mustache_Test_Exception_UnknownTemplateExceptionTest extends PHPUnit_Frame
     public function testMessage()
     {
         $e = new Mustache_Exception_UnknownTemplateException('luigi');
-        $this->assertEquals('Unknown template: luigi', $e->getMessage());
+        $this->assertEquals('Unknown templates: luigi', $e->getMessage());
     }
 
     public function testGetTemplateName()
