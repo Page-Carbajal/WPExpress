@@ -135,6 +135,8 @@ function someOtherFunction(){
 
 ###Version 0.3
 
+* Added empty settings page
+* Added resources directory
 * Added SettingPage abstract class
 * Added Mustache with composer
 * Added UI Class
