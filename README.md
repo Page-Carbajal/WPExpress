@@ -13,7 +13,7 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
     * Custom Post Types / Fields
     * Custom Taxonomies
     * DashboardWidgets
-* Implement Twig to further improve templating and coding experience // Mustache will still be supported
+* Implement Twig to improve the template and coding experience // Mustache will still be supported
 
 
 ###Framework Structure
