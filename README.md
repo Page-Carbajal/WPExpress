@@ -31,15 +31,16 @@ Built to help you DRY. WPExpress is a package that helps you achieve the most co
         * Taxonomy
     * UI
         * RenderEngine
-        * FormFields
-            * Textbox
-            * TextArea
-            * Select
-            * Radio
-            * Checkbox
-            * WYSIWYG
-            * GoogleMap
-            * Code
+        * HTML
+            *Tags
+                * Textbox
+                * TextArea
+                * Select
+                * Radio
+                * Checkbox
+                * WYSIWYG
+                * GoogleMap
+                * Code
 
 ###Query an Object Oriented Abstraction Layer for WP_Query
 
@@ -141,8 +142,6 @@ function someOtherFunction(){
 
 ### Settings Page Abstraction
 ```php
-
-
 
 use WPExpress\Abstractions\SettingsPage;
 use WPExpress\UI\HTML\Tags;
