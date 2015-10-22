@@ -139,10 +139,40 @@ function someOtherFunction(){
 }
 ```
 
+### Settings Page Abstraction
+```php
+
+
+
+use WPExpress\Abstractions\SettingsPage;
+use WPExpress\UI\HTML\Tags;
+
+
+class PluginPage extends SettingsPage
+{
+
+    public function __construct()
+    {
+        // Invoke the paren constructor
+        parent::__construct( 'Performance Enhancements', 'manage_options' );
+        $this->registerPage();
+
+        // Add fields
+        $this->addOptionField( Tags::textField('test', array( 'id' => 'test', 'class' => 'form-control' ) )  )
+            ->addOptionField(  Tags::textField('test', array( 'id' => 'test', 'class' => 'form-control' ) )  );
+
+    }
+
+}
+
+```
+
 ##Changelog
 
 ###Version 0.3
 
+* Finished Functionality to render settings page
+* Added empty UI/HTML/Tags class 
 * Rendering empty settings page
 * Added RenderEngine
 * Added empty settings page

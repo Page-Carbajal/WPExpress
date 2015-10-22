@@ -43,5 +43,6 @@ return array(
     'WPExpress\\Model\\Post' => $baseDir . '/source/Model/Post.class.php',
     'WPExpress\\Query' => $baseDir . '/source/Query.class.php',
     'WPExpress\\UI' => $baseDir . '/source/UI.class.php',
+    'WPExpress\\UI\\HTML\\Tags' => $baseDir . '/source/UI/HTML/Tags.class.php',
     'WPExpress\\UI\\RenderEngine' => $baseDir . '/source/UI/RenderEngine.class.php',
 );
