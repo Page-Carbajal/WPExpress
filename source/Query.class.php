@@ -32,6 +32,15 @@ class Query
 
     // Set the limit of posts to retrieve;
 
+    public function ID($ID)
+    {
+        if( is_array($ID) ){
+            $this->addParameter( 'post_in', $ID );
+        } else {
+            $this->addParameter('p', $ID);
+        }
+    }
+
     public function all(){
         $this->limit(-1);
         return $this;

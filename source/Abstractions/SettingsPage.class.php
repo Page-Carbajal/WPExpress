@@ -17,6 +17,8 @@ abstract class SettingsPage
     protected $menuTitle;
     protected $capabilities;
     protected $menuSlug;
+    protected $fields;
+
 
     protected $textDomain = 'default_text_domain';
 
@@ -56,6 +58,17 @@ abstract class SettingsPage
         $this->menuSlug = sanitize_title($menuTitle);
         $this->pageTitle = $menuTitle . ' ' . __('Settings', $this->textDomain);
 
+        return $this;
+    }
+
+    // Option Functions
+
+    public function addOptionField($type, $name, $defaultValue = '')
+    {
+        if(empty($this->fields)){
+            $this->fields = array();
+        }
+        $this->fields[] = array( 'type' => $type, 'name' => $name, 'defaultValue' => $defaultValue );
         return $this;
     }
 
