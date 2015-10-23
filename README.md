@@ -169,6 +169,10 @@ class PluginPage extends SettingsPage
 
 ###Version 0.3
 
+* Added support for custom template path in SettingsPage
+* Added filter to support custom context
+* Refactoring of the template properties
+* Added checkboxField and radioButtonField methods
 * Finished Functionality to render settings page
 * Added empty UI/HTML/Tags class 
 * Rendering empty settings page
