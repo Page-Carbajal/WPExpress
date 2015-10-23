@@ -15,7 +15,7 @@ use WPExpress\UI\HTML\Tags;
 abstract class SettingsPage
 {
 
-    protected $settingsPrefix;
+    protected $fieldPrefix;
     protected $pageTitle;
     protected $pageType;
     protected $menuTitle;
@@ -28,11 +28,17 @@ abstract class SettingsPage
     protected $templateExtension;
     protected $templateFolder;
 
+    protected $post;
 
     protected $settingsLegend;
 
     public function __construct( $title, $capabilities, $menuSlug = false, $settingsLegend = 'Settings' )
     {
+        $this->post = null;
+
+        $this->fields = array();
+        $this->properties = array();
+
         $this->templateExtension = 'mustache';
         $this->customTemplatesPath = untrailingslashit(get_stylesheet_directory());
         $this->capabilities = $capabilities;
@@ -43,11 +49,30 @@ abstract class SettingsPage
         // TODO: Add filter before saving data
         // TODO: Add filter after saving data
 
+        if( !empty( $_POST ) ){
+            $this->post = $_POST;
+        }
+
+    }
+
+    /* Validate and Persist Data */
+    public function save()
+    {
+        $abc = 1;
+        if( !empty($_POST) ){
+            foreach( $this->properties as $name => $value ){
+                $fieldName = substr( $name, strlen($this->fieldPrefix), ( strlen($name) - strlen($this->fieldPrefix) ) );
+                if( isset($_POST[$fieldName]) && !empty($_POST[$fieldName]) ){
+                    update_option( $name, $_POST[$fieldName] );
+                    $this->properties[$name] = $_POST[$fieldName];
+                }
+            }
+        }
     }
 
     private function registerFilters()
     {
-        add_filter( 'admin_init', array(&$this,) );
+        add_filter( 'wp_loaded', array(&$this, 'save') );
         return $this;
     }
 
@@ -170,7 +195,7 @@ abstract class SettingsPage
      */
     public function getProperty($property)
     {
-        $propertyName = "{$this->settingsPrefix}{}";
+        $propertyName = "{$this->fieldPrefix}{}";
         if( in_array($propertyName, array_keys($this->properties)) ){
             // If property exists return the value
             return $this->properties[$propertyName];
@@ -181,44 +206,54 @@ abstract class SettingsPage
         return $fieldValue;
     }
 
+    public function addMetaFieldsArray($name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array())
+    {
+        $name = sanitize_title($name);
+        $propertyName = "{$this->fieldPrefix}{$name}";
+        $this->properties[$propertyName] = $items = get_option( $propertyName, "" );
+
+        foreach( $collection as $key => $value ){
+//            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
+            $properties = array(
+                'name' => $name . '[]',
+                'id' => $name. "_{$key}",
+                'value' => $value,
+                'labelText' => $value,
+                'group' => ( empty($groupName) ? '' : $groupName ),
+            );
+
+            if( in_array( $fieldType, array('checkbox', 'radiobutton') ) && in_array( $value, $items ) ){
+                $properties['checked'] = true;
+            }
+
+            $this->fields[] = $this->getFieldTag( $fieldType, $name.'[]', array_merge( $properties, $customAttributes ) );
+        }
+    }
+
     public function addMetaField($name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array())
     {
         $name = sanitize_title($name);
-
-        if(empty($this->fields)){
-            $this->fields = array();
-            $this->properties = array();
-        }
-
         // Add the field Markup
-        $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $labelText, $groupName);
-        $this->fields[] = $this->getFieldTag( $fieldType, $name, array_merge( $basicFieldProperties, $customAttributes ) );
-
-    }
-
-
-    private function getFieldBasicProperties($fieldType, $name, $labelText, $group = '')
-    {
         // Get the value if any!
-        $propertyName = "{$this->settingsPrefix}{$name}";
+        $propertyName = "{$this->fieldPrefix}{$name}";
         $this->properties[$propertyName] = $fieldValue = get_option( $propertyName, "" );
 
         // Add the field Markup
-        $properties = array( 'id' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
+        $properties = array( 'name' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
+        $properties['id'] = $properties['name'];
         if(!empty($group)){
-            $properties['group'] = $group;
+            $properties['group'] = $groupName;
         }
 
         if( in_array( $fieldType, array('checkbox', 'radiobutton') ) ){
-            $fieldValue = $name;
-            if( ($this->properties[$propertyName] == 'on') ){
+            if( $fieldValue == $name ){
                 $properties['checked'] = true;
             }
         }
 
-
-        return $properties;
+        $this->fields[] = $this->getFieldTag( $fieldType, $name, array_merge( $properties, $customAttributes ) );
     }
+
 
     private function getFieldTag($fieldType, $name, $attributes)
     {
