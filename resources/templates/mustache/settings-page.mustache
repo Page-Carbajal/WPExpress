@@ -1,3 +1,11 @@
 <div class="wrapper">
-    <h1>Settings Page</h1>
+    <h1>{{pageTitle}}</h1>
+
+    {{# fields}}
+        <p>
+            <label for="{{properties.id}}">{{properties.labelText}}</label> <br />
+            {{{ html }}}
+        </p>
+    {{/fields}}
+
 </div>

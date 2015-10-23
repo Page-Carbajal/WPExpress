@@ -7,7 +7,9 @@
 namespace WPExpress\Abstractions;
 
 
+use WPExpress\UI;
 use WPExpress\UI\RenderEngine;
+use WPExpress\UI\HTML\Tags;
 
 
 abstract class SettingsPage
@@ -20,12 +22,19 @@ abstract class SettingsPage
     protected $capabilities;
     protected $menuSlug;
     protected $fields;
+    protected $properties;
+    protected $description;
+    protected $customTemplatesPath;
+    protected $templateExtension;
+    protected $templateFolder;
 
 
     protected $settingsLegend;
 
     public function __construct( $title, $capabilities, $menuSlug = false, $settingsLegend = 'Settings' )
     {
+        $this->templateExtension = 'mustache';
+        $this->customTemplatesPath = untrailingslashit(get_stylesheet_directory());
         $this->capabilities = $capabilities;
         $this->settingsLegend = $settingsLegend;
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
@@ -42,6 +51,7 @@ abstract class SettingsPage
 
     }
 
+    // TODO: Delete this function
     public function pluginPage( $parent = 'settings' )
     {
         add_filter('after_setup_theme', array(&$this, 'addTopLevelPage' )); // TODO: Add to Menu
@@ -110,7 +120,6 @@ abstract class SettingsPage
         return $this;
     }
 
-
     /**
      * Handler to set a custom page title
      * @param $title
@@ -122,24 +131,151 @@ abstract class SettingsPage
         return $this;
     }
 
-    // Option Functions
-
-    public function addOptionField($field, $groupName = 'default')
+    public function setPageDescription($description)
     {
-        if(empty($this->fields)){
-            $this->fields = array();
-        }
-        $this->fields[] = array( 'field' => $field, 'group' => $groupName );
+        $this->description = $description;
         return $this;
     }
 
-    public function render()
+    public function setCustomTemplatePath($path)
+    {
+        $this->customTemplatesPath = $path;
+        return $this;
+    }
+
+    public function useMustacheTemplates()
+    {
+        $this->templateExtension = 'mustache';
+        return $this;
+    }
+
+    public function useTwigTemplates()
+    {
+        $this->templateExtension = 'twig';
+        return $this;
+    }
+
+    // Option Functions
+
+    /**
+     * Get the property values for the settings page.
+     *
+     * @param $property
+     * @return mixed|void
+     */
+    public function getProperty($property)
+    {
+        $propertyName = "{$this->settingsPrefix}{}";
+        if( in_array($propertyName, array_keys($this->properties)) ){
+            // If property exists return the value
+            return $this->properties[$propertyName];
+        }
+        // Check the database for the value and return the result
+        $this->properties[$propertyName] = $fieldValue = get_option( $propertyName, "" );
+
+        return $fieldValue;
+    }
+
+    public function addMetaField($name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array())
+    {
+        $name = sanitize_title($name);
+
+        if(empty($this->fields)){
+            $this->fields = array();
+            $this->properties = array();
+        }
+
+        // Add the field Markup
+        $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $labelText, $groupName);
+        $this->fields[] = $this->getFieldTag( $fieldType, $name, array_merge( $basicFieldProperties, $customAttributes ) );
+
+    }
+
+
+    private function getFieldBasicProperties($fieldType, $name, $labelText, $group = '')
+    {
+        // Get the value if any!
+        $propertyName = "{$this->settingsPrefix}{$name}";
+        $this->properties[$propertyName] = $fieldValue = get_option( $propertyName, "" );
+
+        // Add the field Markup
+        $properties = array( 'id' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
+        if(!empty($group)){
+            $properties['group'] = $group;
+        }
+
+        if( in_array( $fieldType, array('checkbox', 'radiobutton') ) ){
+            $fieldValue = $name;
+            if( ($this->properties[$propertyName] == 'on') ){
+                $properties['checked'] = true;
+            }
+        }
+
+
+        return $properties;
+    }
+
+    private function getFieldTag($fieldType, $name, $attributes)
+    {
+        $field = false;
+
+        switch($fieldType){
+            case "select":
+                break;
+            case "radio":
+            case "radiobutton":
+                break;
+            case "check":
+            case "checkbox":
+                $field = Tags::checkboxField($name, $attributes);
+                break;
+            default:
+                $field = Tags::textField($name, $attributes);
+                break;
+        }
+
+        return $field;
+    }
+
+    private function getSegments()
     {
 
+        return '';
+    }
+
+    private function getContext()
+    {
+        $context = array( 'pageTitle' => $this->pageTitle, 'description' => $this->description );
+        $context['fields'] = $this->fields;
+        $context['segments'] = $this->getSegments();
+
+        $context = apply_filters( 'wpExpressSettingsPageContext', $context );
+
+        return $context;
+    }
+
+    private function getTemplateFilePath()
+    {
+        // Search for the custom file
+        if( file_exists( $templatePath = "{$this->customTemplatesPath}/{$this->templateExtension}/{$this->menuSlug}.{$this->templateExtension}" )  ){
+            $this->templateFolder = "{$this->customTemplatesPath}/{$this->templateExtension}/";
+            return $templatePath;
+        }
+
+        // Else return default template path
+        if( file_exists( $templatePath = UI::getResourceDirectory( "settings-page.{$this->templateExtension}", "templates/{$this->templateExtension}" ) ) ){
+            $this->templateFolder = UI::getResourceDirectory( "", "templates/{$this->templateExtension}" );
+            return $templatePath;
+        }
+
+        return false;
+    }
+
+
+    public function render()
+    {
         $renderer = new RenderEngine();
-
-        echo $renderer->renderTemplate('settings-page', array());
-
+        echo $renderer->renderTemplate( $this->getTemplateFilePath(), $this->getContext() );
     }
 
 }

@@ -8,7 +8,6 @@
 namespace WPExpress\UI;
 
 
-use WPExpress\UI;
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
 
@@ -21,37 +20,28 @@ class RenderEngine
     protected $templatePath;
     protected $templateFolder;
 
-    public function __construct($type = 'mustache')
+    public function __construct($type = 'mustache', $templateFolder = false)
     {
         $this->type = trim(strtolower($type));
         $this->typeExtension = sanitize_title($this->type);
+        if($templateFolder !== false && file_exists( $templateFolder ) ){
+            $this->templateFolder = $templateFolder;
+        }
     }
 
-    public function renderTemplate($templateName, $context)
+    public function renderTemplate($templatePath, $context)
     {
-        $template = $this->getTemplate($templateName);
-        switch($this->type){
-            default:
-                $raw = $this->renderMustacheTemplate($template, $context);
-                break;
-        }
-        return $raw;
-    }
-
-    private function getTemplate($templateName)
-    {
-        $template = false;
-        $customPath = untrailingslashit(get_stylesheet_directory());
-        if( file_exists( $customTemplate = "$customPath/custom-templates/{$this->type}/{$templateName}.{$this->typeExtension}" )  ){
-            $this->templateFolder = "$customPath/custom-templates/{$this->type}/";
-            return file_get_contents($customTemplate);
+        if( file_exists( $templatePath ) ){
+            $template = file_get_contents( $templatePath );
+            switch($this->type){
+                default:
+                    $raw = $this->renderMustacheTemplate($template, $context);
+                    break;
+            }
+            return $raw;
         }
 
-        if( file_exists( $filePath = UI::getResourceDirectory( "{$templateName}.{$this->typeExtension}", 'templates/mustache' ) ) ){
-            $this->templateFolder = UI::getResourceDirectory( "", 'templates/mustache' );
-            return file_get_contents($filePath);
-        }
-        return $template;
+        return "<strong>Not it!</strong>";
     }
 
     private function renderMustacheTemplate($template, $context)
