@@ -28,6 +28,10 @@ abstract class SettingsPage
     protected $templateExtension;
     protected $templateFolder;
 
+    protected $registeredMetaFields;
+    protected $registeredMetaFieldArrays;
+
+
     protected $post;
 
     protected $settingsLegend;
@@ -38,6 +42,8 @@ abstract class SettingsPage
 
         $this->fields = array();
         $this->properties = array();
+        $this->registeredMetaFieldArrays = array();
+        $this->registeredMetaFields = array();
 
         $this->templateExtension = 'mustache';
         $this->customTemplatesPath = untrailingslashit(get_stylesheet_directory());
@@ -45,55 +51,23 @@ abstract class SettingsPage
         $this->settingsLegend = $settingsLegend;
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
 
-        // TODO: Process data persistence on POST
-        // TODO: Add filter before saving data
-        // TODO: Add filter after saving data
-
         if( !empty( $_POST ) ){
             $this->post = $_POST;
         }
 
     }
 
-    /* Validate and Persist Data */
-    public function save()
-    {
-        $abc = 1;
-        if( !empty($_POST) ){
-            foreach( $this->properties as $name => $value ){
-                $fieldName = substr( $name, strlen($this->fieldPrefix), ( strlen($name) - strlen($this->fieldPrefix) ) );
-                if( isset($_POST[$fieldName]) && !empty($_POST[$fieldName]) ){
-                    update_option( $name, $_POST[$fieldName] );
-                    $this->properties[$name] = $_POST[$fieldName];
-                }
-            }
-        }
-    }
-
     private function registerFilters()
     {
-        add_filter( 'wp_loaded', array(&$this, 'save') );
-        return $this;
-    }
-
-    public function registerSettings()
-    {
-
-    }
-
-    // TODO: Delete this function
-    public function pluginPage( $parent = 'settings' )
-    {
-        add_filter('after_setup_theme', array(&$this, 'addTopLevelPage' )); // TODO: Add to Menu
+        add_filter( 'wp_loaded', array($this, 'save'), 10 );
+//        add_filter( 'wp_loaded', array($this, 'processRegisteredFields'), 99 );
         return $this;
     }
 
     public function registerPage($type = 'options', $level = null)
     {
         $this->pageType = $type;
-
         add_action( 'admin_menu', array(&$this, 'addMenuItem') );
-
         return $this;
     }
 
@@ -206,7 +180,30 @@ abstract class SettingsPage
         return $fieldValue;
     }
 
-    public function addMetaFieldsArray($name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array())
+    /* Validate and Persist Data */
+    public function save()
+    {
+        if( !empty($_POST) ){
+            do_action('wpExpressSettingsPageBeforeSave', $this, $_POST);
+            foreach( $this->properties as $name => $value ){
+                $fieldName = substr( $name, strlen($this->fieldPrefix), ( strlen($name) - strlen($this->fieldPrefix) ) );
+                if( isset($_POST[$fieldName]) && !empty($_POST[$fieldName]) ){
+                    update_option( $name, $_POST[$fieldName] );
+                    $this->properties[$name] = $_POST[$fieldName];
+                }
+            }
+            do_action('wpExpressSettingsPageAfterSave', $this, $_POST);
+        }
+    }
+
+    public function registerMetaFieldsArray($name, $collection, $fieldType, $groupName, $customAttributes = array())
+    {
+        $name = sanitize_title($name);
+        $this->registeredMetaFieldArrays[] = array( 'name' => $name, 'collection' => $collection, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
+        $this->properties["{$this->fieldPrefix}{$name}"] = '';
+    }
+
+    private function addMetaFieldsArray($name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array())
     {
         $name = sanitize_title($name);
         $propertyName = "{$this->fieldPrefix}{$name}";
@@ -226,11 +223,18 @@ abstract class SettingsPage
                 $properties['checked'] = true;
             }
 
-            $this->fields[] = $this->getFieldTag( $fieldType, $name.'[]', array_merge( $properties, $customAttributes ) );
+            $this->fields[] = array( 'type' => $fieldType, 'name' => $name.'[]', 'properties' => array_merge( $properties, $customAttributes ) );
         }
     }
 
-    public function addMetaField($name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array())
+    public function registerMetaField($name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array())
+    {
+        $name = sanitize_title($name);
+        $this->registeredMetaFields[] = array( 'name' => $name, 'labelText' => $labelText, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
+        $this->properties["{$this->fieldPrefix}{$name}"] = '';
+    }
+
+    private function addMetaField($name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array())
     {
         $name = sanitize_title($name);
         // Add the field Markup
@@ -251,30 +255,18 @@ abstract class SettingsPage
             }
         }
 
-        $this->fields[] = $this->getFieldTag( $fieldType, $name, array_merge( $properties, $customAttributes ) );
+        $this->fields[] = array( 'type' => $fieldType, 'name' => $name, 'properties' => array_merge( $properties, $customAttributes ) );
     }
 
-
-    private function getFieldTag($fieldType, $name, $attributes)
+    public function processRegisteredFields()
     {
-        $field = false;
-
-        switch($fieldType){
-            case "select":
-                break;
-            case "radio":
-            case "radiobutton":
-                break;
-            case "check":
-            case "checkbox":
-                $field = Tags::checkboxField($name, $attributes);
-                break;
-            default:
-                $field = Tags::textField($name, $attributes);
-                break;
+        foreach($this->registeredMetaFields as $field ){
+            $this->addMetaField( $field['name'], $field['labelText'], $field['fieldType'], $field['groupName'], $field['customAttributes'] );
         }
 
-        return $field;
+        foreach($this->registeredMetaFieldArrays as $arrayField){
+            $this->addMetaFieldsArray( $arrayField['name'], $arrayField['collection'], $arrayField['fieldType'], $arrayField['groupName'], $arrayField['customAttributes'] );
+        }
     }
 
     private function getSegments()
@@ -286,7 +278,7 @@ abstract class SettingsPage
     private function getContext()
     {
         $context = array( 'pageTitle' => $this->pageTitle, 'description' => $this->description );
-        $context['fields'] = $this->fields;
+        $context['fields'] = Tags::parseFields($this->fields);
         $context['segments'] = $this->getSegments();
 
         $context = apply_filters( 'wpExpressSettingsPageContext', $context );
@@ -315,6 +307,7 @@ abstract class SettingsPage
     public function render()
     {
         $renderer = new RenderEngine();
+        $this->processRegisteredFields();
         echo $renderer->renderTemplate( $this->getTemplateFilePath(), $this->getContext() );
     }
 

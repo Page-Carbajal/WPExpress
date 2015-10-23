@@ -49,6 +49,9 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ###Version 0.3
 
+* Refactoring of field management // Needs more work
+* Added save method to the SettingsPage class
+* Added Support for Array Fields
 * Added support for custom template path in SettingsPage
 * Added filter to support custom context
 * Refactoring of the template properties

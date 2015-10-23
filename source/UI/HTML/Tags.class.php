@@ -106,4 +106,32 @@ class Tags
 
         return self::renderInputField($attributes);
     }
+
+
+    public static function parseFields($collection)
+    {
+        $list = array();
+
+        foreach( $collection as $item ){
+
+            switch($item['type']){
+                case "select":
+                    break;
+                case "radio":
+                case "radiobutton":
+                    break;
+                case "check":
+                case "checkbox":
+                    $list[] = self::checkboxField($item['name'], $item['properties']);
+                    break;
+                default:
+                    $list[] = self::textField($item['name'], $item['properties']);
+                    break;
+            }
+
+        }
+
+        return $list;
+    }
+
 }
