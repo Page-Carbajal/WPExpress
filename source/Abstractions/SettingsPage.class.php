@@ -38,6 +38,11 @@ abstract class SettingsPage
         $this->capabilities = $capabilities;
         $this->settingsLegend = $settingsLegend;
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
+
+        // TODO: Process data persistence on POST
+        // TODO: Add filter before saving data
+        // TODO: Add filter after saving data
+
     }
 
     private function registerFilters()
