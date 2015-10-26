@@ -269,6 +269,17 @@ abstract class SettingsPage
         }
     }
 
+    public function getValue($fieldName)
+    {
+        $propertyName = "{$this->fieldPrefix}{$fieldName}";
+        if( isset($this->properties[$propertyName]) ){
+            if( empty($this->properties[$propertyName]) ){
+                return $this->properties["{$this->fieldPrefix}{$fieldName}"] = get_option($propertyName, '');
+            }
+        }
+        return false;
+    }
+
     private function getSegments()
     {
 
