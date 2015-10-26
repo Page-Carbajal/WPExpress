@@ -60,7 +60,6 @@ abstract class SettingsPage
     private function registerFilters()
     {
         add_filter( 'wp_loaded', array($this, 'save'), 10 );
-//        add_filter( 'wp_loaded', array($this, 'processRegisteredFields'), 99 );
         return $this;
     }
 
@@ -276,6 +275,7 @@ abstract class SettingsPage
             if( empty($this->properties[$propertyName]) ){
                 return $this->properties["{$this->fieldPrefix}{$fieldName}"] = get_option($propertyName, '');
             }
+            return $this->properties[$propertyName];
         }
         return false;
     }
