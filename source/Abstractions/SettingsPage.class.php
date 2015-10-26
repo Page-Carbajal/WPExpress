@@ -207,18 +207,19 @@ abstract class SettingsPage
         $name = sanitize_title($name);
         $propertyName = "{$this->fieldPrefix}{$name}";
         $this->properties[$propertyName] = $items = get_option( $propertyName, "" );
+        $itemKeys = array_keys($items);
 
         foreach( $collection as $key => $value ){
 //            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
             $properties = array(
                 'name' => $name . '[]',
                 'id' => $name. "_{$key}",
-                'value' => $value,
-                'labelText' => $value,
+                'value' => $key,
+                'labelText' => $key,
                 'group' => ( empty($groupName) ? '' : $groupName ),
             );
 
-            if( in_array( $fieldType, array('checkbox', 'radiobutton') ) && in_array( $value, $items ) ){
+            if( in_array( $fieldType, array('checkbox', 'radiobutton') ) && in_array( $key, $items ) ){
                 $properties['checked'] = true;
             }
 
