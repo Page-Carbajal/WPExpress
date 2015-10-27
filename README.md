@@ -47,6 +47,12 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Changelog
 
+###Version 0.3.1
+
+- Added the selectField method to Tags class
+- Edited the settings page template
+- Added the getValue method to SettingsPage class
+
 ###Version 0.3
 
 * Refactoring of field management // Needs more work

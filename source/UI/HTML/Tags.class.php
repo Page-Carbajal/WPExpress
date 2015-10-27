@@ -90,21 +90,50 @@ class Tags
         return implode( ' ', $attributes );
     }
 
-//  def fieldImpl(GrailsPrintWriter out, Map attrs) {
-//      resolveAttributes(attrs)
-//
-//      attrs.value = processFormFieldValueIfNecessary(attrs.name, attrs.value, attrs.type)
-//
-//      out << "<input type=\"${attrs.remove('type')}\" "
-//          outputAttributes(attrs, out, true)
-//      out << "/>"
-//  }
-
-
-    public static function selectField($name, $attributes)
+    /**
+     * Generate a Select Field.
+     * @param $name
+     * @param $options: An array with items. Accepts simple array or nested array with the properties [text, value, selected]
+     * @param $attributes
+     * @return bool|string
+     */
+    public static function selectField($name, $options, $attributes)
     {
+        if( empty($name) ){
+            return false;
+        }
 
-        return self::renderInputField($attributes);
+        $properties = array( 'id' => $name, 'name' => $name );
+        $source = '';
+
+        foreach( $options as $item ){
+            $option = '';
+            if( !is_array($item) ){
+                $option .= "<option value=\"{$item}\">{$item}</option>";
+            } else {
+                $option = "<option ";
+                if( isset($item['value']) ){
+                    $option .= " value=\"{$item['value']}\"";
+                } else {
+                    $option .= " value=\"{$item['text']}\"";
+                }
+
+                if( isset($item['selected']) && $item['selected'] == true ){
+                    $option .= ' selected="selected" ';
+                }
+                $option = trim( $option ) . ">{$item['text']}</option>";
+            }
+            $source .= $option;
+        }
+
+        $attsString = self::arrayToHTMLAttributes( array_merge($properties, $attributes) );
+        $output = "<select {$attsString}>{$source}</select>";
+
+        $field = new \stdClass();
+        $field->html = $output;
+        $field->properties = array_merge( $attributes, array('options' => $options) );
+
+        return $field;
     }
 
 
@@ -116,11 +145,15 @@ class Tags
 
             switch($item['type']){
                 case "select":
+                    $list[] = self::selectField($item['name'], $item['options'], $item['properties']);
                     break;
                 case "radio":
+                    break;
                 case "radiobutton":
                     break;
                 case "check":
+                    $list[] = self::checkboxField($item['name'], $item['properties']);
+                    break;
                 case "checkbox":
                     $list[] = self::checkboxField($item['name'], $item['properties']);
                     break;
