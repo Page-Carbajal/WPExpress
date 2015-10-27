@@ -1,11 +1,17 @@
 <div class="wrapper">
     <h1>{{pageTitle}}</h1>
+    <p>{{description}}</p>
 
-    {{# fields}}
+    <form method="post">
+        {{# fields}}
+            <p>
+                <label for="{{properties.id}}">{{properties.labelText}}</label> <br />
+                {{{ html }}}
+            </p>
+        {{/fields}}
         <p>
-            <label for="{{properties.id}}">{{properties.labelText}}</label> <br />
-            {{{ html }}}
+            <input type="submit" value="Save" />
         </p>
-    {{/fields}}
+    </form>
 
 </div>
