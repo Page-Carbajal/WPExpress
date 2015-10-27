@@ -131,7 +131,7 @@ class Tags
 
         $field = new \stdClass();
         $field->html = $output;
-        $field->properties = array_merge( $attributes, array('options' => $options) );
+        $field->properties = array_merge( $properties, $attributes, array('options' => $options) );
 
         return $field;
     }
