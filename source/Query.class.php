@@ -66,7 +66,15 @@ class Query
 
     public function meta($field, $value, $operator = null)
     {
-        $compare = '';
+        $compare = '=';
+        if( !empty($operator) ){
+            $operator = trim(strtolower($operator));
+        }
+
+        if( is_array( $value ) ){
+            $operator = 'in';
+            $value = implode(',', $value);
+        }
         switch( $operator ){
             case "like":
                 $compare = "like";
@@ -82,7 +90,7 @@ class Query
                 break;
         }
 
-        $this->metaConditions[] =array(
+        $this->metaConditions[] = array(
             'key' => $field,
             'value' => $value,
             'compare' => $compare,
