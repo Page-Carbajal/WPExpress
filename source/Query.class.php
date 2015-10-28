@@ -13,6 +13,7 @@ class Query
 
     protected $parameters;
     protected $metaConditions;
+    protected $termConditions;
     protected $metaRelation;
     protected $taxonomyConditions;
     protected $taxonomyRelation;
@@ -55,9 +56,20 @@ class Query
 
     // Post TaxQuery Methods
 
-    public function term($taxonomy, $term)
+    public function term($taxonomySlug, $term)
     {
-        // TODO: Implement modifiers for parameters
+        $operator = '=';
+        if( is_array($term) ){
+            $operator = 'IN';
+        }
+
+        $this->metaConditions[] = array(
+            'taxonomy' => $taxonomySlug,
+            'field' => 'slug',
+            'terms' => $term,
+            'operator' => $operator,
+        );
+
         return $this;
     }
 
@@ -128,6 +140,10 @@ class Query
 
         if( !empty($this->metaConditions) ){
             $this->parameters['meta_query'] = array_merge( array( 'relation' => $this->metaRelation ), $this->metaConditions);
+        }
+
+        if( !empty($this->termConditions) ){
+            $this->parameters['tax_query'] = $this->termConditions;
         }
 
         return $this->parameters;
