@@ -49,6 +49,8 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ###Version 0.3.1
 
+- Implemented the term() method to search by taxonomy/value
+- Array values are transformed to a csv string in the meta method
 - Added the selectField method to Tags class
 - Edited the settings page template
 - Added the getValue method to SettingsPage class
