@@ -146,15 +146,24 @@ abstract class BaseModel
         if( array_key_exists( $property, $this->fields ) ){
             return reset( $this->fields[$property] );
         }
-        if( array_key_exists( $property, $this->data ) ){
-            return $this->data[$property];
+        if( property_exists( $this, $property ) ){
+            return $this->$property;
         }
+        // TODO: Implement overridable data as follows. Instead of property_exists method
+//        if( array_key_exists( $property, $this->data ) ){
+//            return $this->data[$property];
+//        }
         return false;
     }
 
     public function __set($property, $value)
     {
-        $this->data[$property] = $value;
+        if( property_exists( $this, $property ) ){
+            return $this->$property = $value;
+        }
+
+        // TODO: Same as with the get Method
+//        $this->data[$property] = $value;
     }
 
     protected function addCustomField(){
