@@ -18,7 +18,7 @@ class Post extends BaseModel implements iBaseModel
     public function __construct($bean)
     {
 
-        $this->postType = 'post';
+        static::$postType = 'post';
         $this->postTypeSlug = ''; // Set Yours for to register your CPT
 
         $post = null;
@@ -49,25 +49,6 @@ class Post extends BaseModel implements iBaseModel
             self::$postType = 'post';
         }
         return self::$postType;
-    }
-
-
-    public function getThumbnail()
-    {
-        if ( has_post_thumbnail( $this->ID ) ){
-            $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ) );
-            return $thumbnail[0];
-        }
-
-        return false;
-    }
-
-    public function getThumbnailURL()
-    {
-        if( $thumbnail = $this->getThumbnailURL() ){
-            return $thumbnail[0];
-        }
-        return '';
     }
 
 }

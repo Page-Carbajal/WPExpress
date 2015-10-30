@@ -47,6 +47,21 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Changelog
 
+###Version 0.3.2 - BaseModel Enhancements
+
+- Tagged to 0.3.2
+- Updated documentation
+- Moved methods getThumbnail and getThumbnailURL to BaseModel
+    - Both methods check for thumbnailSupport, else return false
+- Added empty BaseModel setPostTypeLabels
+- Implemented BaseModel getPostTypeLabels
+- Implemented BaseModel setSupportedFeatures and getSupportedFeatures (Title, Editor, Thumbnail)
+- Implemented BaseModel getByTerm
+- Implemented BaseModel getByField
+- Implemented BaseModel getAll
+- Implemented magic methods __set and __get in the base model
+- Implemented BaseModel registerCustomPostType method
+
 ###Version 0.3.1
 
 - Implemented the term() method to search by taxonomy/value

@@ -15,7 +15,6 @@ abstract class BaseModel
 
     // Basic WordPress
     protected $ID;
-    protected $name;
     protected $title;
     protected $content;
     protected $excerpt;
@@ -24,31 +23,111 @@ abstract class BaseModel
     protected $author;
 
     protected $properties;
+    protected $parentPostType;
+    protected $titleSupport = true;
+    protected $editorSupport = true;
+    protected $thumbnailSupport = true;
+    protected $postTypeDescription = '';
 
     protected $fields;
 
     protected $fieldPrefix;
 
+    protected $isPublic;
+    protected $name;
     protected static $postType;
     protected $postTypeSlug;
+    // Labels
+    protected $nameLabel;
+    protected $singularNameLabel;
+
+
 
     protected $post;
 
     //public function __construct(){};
 
+    protected function setPublic(bool $public)
+    {
+        $this->isPublic = $public;
+    }
+
+    protected function getPostTypeLabels()
+    {
+        $labels = array(
+            'name' => $this->nameLabel,
+            'singular_name' => ( empty($this->singularNameLabel) ? $this->nameLabel : $this->singularNameLabel ),
+        );
+        return $labels;
+    }
+
+    protected function setPostTypeLabels()
+    {
+        // TODO: Add all the labels here
+    }
+
+    protected function setSupportedFeatures($supportTitle = true, $supportEditor = true, $supportThumbnail = false)
+    {
+        $this->titleSupport = $supportTitle;
+        $this->editorSupport = $supportEditor;
+        $this->thumbnailSupport = $supportThumbnail;
+        return $this;
+    }
+
+    protected function getSupportedFeatures()
+    {
+        $features = array(
+            'title' => $this->titleSupport,
+            'editor' => $this->editorSupport,
+            'thumbnail' => $this->thumbnailSupport,
+            );
+        return $features;
+    }
+
+    protected function registerCustomPostType()
+    {
+        $options =             array(
+            'labels'              => $this->getPostTypeLabels(),
+            'description'           => $this->postTypeDescription,
+            'public'                => $this->isPublic,
+            'show_ui'               => true,
+            'capability_type'       => 'post',
+            'map_meta_cap'          => true,
+            'publicly_queryable'    => true,
+            'menu_icon'			    => '',
+            'menu_position'         => 1,
+            'exclude_from_search'   => true,
+            'hierarchical'          => false,
+            'rewrite' 	            => array( 'slug' => $this->postTypeSlug ),
+            'query_var'             => true,
+            'supports' 	            => $this->getSupportedFeatures(),
+            'has_archive'           => false,
+            'show_in_nav_menus'     => false,
+        );
+
+        if(!empty($this->parentPostType)){
+            $options['show_in_menu'] = "edit.php?post_type={$this->parentPostType}";
+        }
+
+        register_post_type( $this->getPostType(), $options);
+
+        return $this;
+    }
+
+    private function loadCustomFields()
+    {
+        if( empty($this->fields) ){
+            $this->fields = get_post_meta( $this->ID );
+        }
+        return $this;
+    }
 
     // Field Methods
     public function getField($fieldName, $returnAsArray = false)
     {
-        if( !empty($this->postTypeSlug) ){
-            // For CPTs only
-            $fieldName = "_wpx_{$this->postTypeSlug}_$fieldName";
-        }
-        if( empty($this->fields) ){
-            $this->fields = get_post_meta( $this->ID );
-        }
+        $this->loadCustomFields();
 
-        if( in_array( $fieldName, $this->fields ) ){
+        if( array_key_exists( $fieldName, $this->fields ) ){
             if( $returnAsArray ){
                 return $this->fields[$fieldName];
             } else {
@@ -61,49 +140,87 @@ abstract class BaseModel
 
     // Magic Methods
     public function __get($property){
-        // TODO: Search property with the class and within the meta_fields
-        // TODO: transform someProperty_name to some_variable_name with and without leading underscore
-        // TODO: Consider not pre-loading the fields, but to load them on demand. Reduces the DB stress??
+        $this->loadCustomFields();
+
+        // Searches property within the class and within the meta_fields
+        if( array_key_exists( $property, $this->fields ) ){
+            return reset( $this->fields[$property] );
+        }
+        if( array_key_exists( $property, $this->data ) ){
+            return $this->data[$property];
+        }
+        return false;
     }
 
-    public function __set($property)
+    public function __set($property, $value)
     {
-
-    }
-
-    // Custom Post Types
-
-    protected function registerCustomPostType()
-    {
-
+        $this->data[$property] = $value;
     }
 
     protected function addCustomField(){
 
     }
 
-    // Static Methods
+
+    /****** Helper Methods ***********/
+
+    public function getThumbnail()
+    {
+        if ( $this->thumbnailSupport && has_post_thumbnail( $this->ID ) ){
+            $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ) );
+            return $thumbnail[0];
+        }
+
+        return false;
+    }
+
+    public function getThumbnailURL()
+    {
+        if( !$this->thumbnailSupport ){
+            return false;
+        }
+
+        if( $thumbnail = $this->getThumbnailURL() ){
+            return $thumbnail[0];
+        }
+        return false;
+    }
+
+
+    /****** Static Methods **********/
     // Traversing Methods
 
     public static function getAll()
     {
-        $posts = Query::Custom(self::$postType)->all()->get();
-//        $list = array();
-//        foreach( $posts as $post ){
-//            $list = new
-//        }
+        $posts = Query::Custom(static::getPostType())->all()->get();
+        $list = array();
+        foreach( $posts as $post ){
+            $item = new static($post);
+            $list[] = $item;
+        }
+        return $list;
     }
 
     public static function getByField($field, $value)
     {
-        $operator = ( is_array( $value ) ? 'in' : '=' );
-        $post = Query::Custom(self::$postType)->all()->meta( $field, $value, $operator )->get();
+        $posts = Query::Custom(static::getPostType())->all()->meta( $field, $value )->get();
+        $list = array();
+        foreach( $posts as $post ){
+            $item = new static($post);
+            $list[] = $item;
+        }
+        return $list;
     }
 
     public static function getByTaxonomy($taxonomyName, $taxonomyTerm)
     {
-        // TODO: Develop the necesary methods on Query
-        $post = Query::Custom(static::$postType)->all()->term( $taxonomyName, $taxonomyTerm )->get();
+        $posts = Query::Custom(static::getPostType())->all()->term( $taxonomyName, $taxonomyTerm )->get();
+        $list = array();
+        foreach( $posts as $post ){
+            $item = new static($post);
+            $list[] = $item;
+        }
+        return $list;
     }
 
 }
