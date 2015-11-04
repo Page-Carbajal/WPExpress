@@ -46,9 +46,9 @@ class Post extends BaseModel implements iBaseModel
      */
     public static function getPostType(){
         if( !isset(self::$postType) ){
-            self::$postType = 'post';
+            static::$postType = 'post';
         }
-        return self::$postType;
+        return static::$postType;
     }
 
 }
