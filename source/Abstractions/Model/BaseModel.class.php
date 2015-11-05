@@ -1,8 +1,6 @@
 <?php
 /**
  * Developer: Page Carbajal (https://github.com/Page-Carbajal)
- * Date: 9/29/15, 8:20 PM
- * Generator: PhpStorm
  */
 
 namespace WPExpress\Abstractions\Model;
@@ -125,6 +123,9 @@ abstract class BaseModel
     // Field Methods
     public function getField($fieldName, $returnAsArray = false)
     {
+        if( empty($this->fields) ){
+            $this->fields = array();
+        }
         if( !array_key_exists( $fieldName, $this->fields ) ){
             if( !empty( $value = get_post_meta( $this->ID, $fieldName ) ) ){
                 $this->fields[$fieldName] = $value;
@@ -146,7 +147,7 @@ abstract class BaseModel
     public function __get($property){
 
         // Searches property within the class and within the meta_fields
-        if( array_key_exists( $property, $this->fields ) ){
+        if( !empty($this->fields) && array_key_exists( $property, $this->fields ) ){
             return reset( $this->fields[$property] );
         }
         if( property_exists( $this, $property ) ){
