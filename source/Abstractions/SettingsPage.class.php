@@ -271,6 +271,7 @@ abstract class SettingsPage
 
     public function getValue($fieldName)
     {
+        $fieldName = sanitize_title($fieldName);
         $propertyName = "{$this->fieldPrefix}{$fieldName}";
         if( isset($this->properties[$propertyName]) ){
             if( empty($this->properties[$propertyName]) ){
