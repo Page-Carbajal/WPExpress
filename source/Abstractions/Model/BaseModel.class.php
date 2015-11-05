@@ -172,6 +172,10 @@ abstract class BaseModel
 
 
     /****** Helper Methods ***********/
+    public function getPermalink()
+    {
+        return get_permalink( $this->ID );
+    }
 
     public function getThumbnail()
     {
@@ -189,7 +193,7 @@ abstract class BaseModel
             return false;
         }
 
-        if( $thumbnail = $this->getThumbnailURL() ){
+        if( $thumbnail = $this->getThumbnail() ){
             return $thumbnail[0];
         }
         return false;
