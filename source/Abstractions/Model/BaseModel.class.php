@@ -118,9 +118,6 @@ abstract class BaseModel
     {
         if( empty($this->fields) ){
             $this->fields = get_post_meta( $this->ID );
-            foreach( $this->fields as $i => $value ){
-                $this->fields[$i] = maybe_unserialize( $value ); 
-            }
         }
         return $this;
     }
@@ -128,22 +125,25 @@ abstract class BaseModel
     // Field Methods
     public function getField($fieldName, $returnAsArray = false)
     {
-        $this->loadCustomFields();
+        if( !array_key_exists( $fieldName, $this->fields ) ){
+            if( !empty( $value = get_post_meta( $this->ID, $fieldName ) ) ){
+                $this->fields[$fieldName] = $value;
+            }
+        }
 
-        if( array_key_exists( $fieldName, $this->fields ) ){
+        if( !empty($this->fields[$fieldName]) ){
             if( $returnAsArray ){
                 return $this->fields[$fieldName];
             } else {
                 return reset( $this->fields[$fieldName] );
             }
         }
-
+        
         return false;
     }
 
     // Magic Methods
     public function __get($property){
-        $this->loadCustomFields();
 
         // Searches property within the class and within the meta_fields
         if( array_key_exists( $property, $this->fields ) ){
