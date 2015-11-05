@@ -118,6 +118,9 @@ abstract class BaseModel
     {
         if( empty($this->fields) ){
             $this->fields = get_post_meta( $this->ID );
+            foreach( $this->fields as $i => $value ){
+                $this->fields[$i] = maybe_unserialize( $value ); 
+            }
         }
         return $this;
     }
@@ -181,7 +184,7 @@ abstract class BaseModel
     {
         if ( $this->thumbnailSupport && has_post_thumbnail( $this->ID ) ){
             $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ) );
-            return $thumbnail[0];
+            return $thumbnail;
         }
 
         return false;
