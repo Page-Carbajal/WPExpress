@@ -127,7 +127,8 @@ abstract class BaseModel
             $this->fields = array();
         }
         if( !array_key_exists( $fieldName, $this->fields ) ){
-            if( !empty( $value = get_post_meta( $this->ID, $fieldName ) ) ){
+            $value = get_post_meta( $this->ID, $fieldName );
+            if( !empty( $value ) ){
                 $this->fields[$fieldName] = $value;
             }
         }
