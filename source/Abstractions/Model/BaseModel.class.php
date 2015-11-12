@@ -182,10 +182,10 @@ abstract class BaseModel
         return get_permalink( $this->ID );
     }
 
-    public function getThumbnail()
+    public function getThumbnail($size = 'full')
     {
         if ( $this->thumbnailSupport && has_post_thumbnail( $this->ID ) ){
-            $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ) );
+            $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $this->ID ), $size );
             return $thumbnail;
         }
 
