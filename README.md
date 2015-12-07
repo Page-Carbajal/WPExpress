@@ -47,6 +47,15 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Changelog
 
+###Version 0.3.3 - Twig and RenderEngine enhancements
+
+- Added RenderEngine getTemplatePath public method
+- Added RenderEngine createDirectoryStructure private method
+- Finished the renderTwigTemplate method
+- Render Engine can now use Twig or Mustache
+- Required Twig with Composer
+
+
 ###Version 0.3.2 - BaseModel Enhancements
 
 - Tagged to 0.3.2

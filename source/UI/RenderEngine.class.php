@@ -1,8 +1,4 @@
 <?php
-/**
- * Developer: Page Carbajal (https://github.com/Page-Carbajal)
- * Date: October 21 2015, 3:04 PM
- */
 
 
 namespace WPExpress\UI;
@@ -10,6 +6,8 @@ namespace WPExpress\UI;
 
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 
 
 
@@ -27,13 +25,53 @@ class RenderEngine
         if($templateFolder !== false && file_exists( $templateFolder ) ){
             $this->templateFolder = $templateFolder;
         }
+
+        $this->createDirectoryStructure();
+
     }
 
-    public function renderTemplate($templatePath, $context)
+    private function createDirectoryStructure()
     {
-        if( file_exists( $templatePath ) ){
-            $template = file_get_contents( $templatePath );
+        switch( $this->type ){
+            case "twig":
+                // Create the directory <path-to-template>/twig/cache
+                $partialsPath = untrailingslashit( $this->getTemplatePath() ) . '/cache/';
+                if( !file_exists( $partialsPath ) ){
+                    wp_mkdir_p( $partialsPath );
+                }
+                break;
+            default:
+                // Create the directory <path-to-template>/mustache/partials
+                $partialsPath = untrailingslashit( $this->getTemplatePath() ) . '/partials/';
+                if( !file_exists( $partialsPath ) ){
+                    wp_mkdir_p( $partialsPath );
+                }
+                break;
+        }
+    }
+
+    public function getTemplatePath( $fileName = '' )
+    {
+        if( file_exists($fileName) ){
+            return $fileName;
+        }
+
+
+        $pathToFile = "{$this->templateFolder}/{$this->type}/{$fileName}";
+        if( file_exists( $pathToFile ) ){
+            return $pathToFile;
+        }
+
+        return false;
+    }
+
+    public function renderTemplate($fileName, $context)
+    {
+        if( $template = $this->getTemplatePath( $fileName ) ){
             switch($this->type){
+                case "twig":
+                    $raw = $this->renderTwigTemplate( $template, $context );
+                    break;
                 default:
                     $raw = $this->renderMustacheTemplate($template, $context);
                     break;
@@ -41,6 +79,7 @@ class RenderEngine
             return $raw;
         }
 
+        // TODO: Improve this message
         return "<strong>Not it!</strong>";
     }
 
@@ -56,7 +95,12 @@ class RenderEngine
 
     private function renderTwigTemplate($template, $context)
     {
-        // TODO: implement twig
+
+        $loader = new Twig_Loader_Filesystem( $this->getTemplatePath() );
+        $twig = new Twig_Environment( $loader, array( 'cache' => $this->getTemplatePath('cache') ) );
+        $template = $twig->loadTemplate( $this->getTemplatePath($template) );
+        return $template->render( $context );
+
     }
 
 }
