@@ -41,14 +41,15 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
     * Custom Post Types / Fields
     * Custom Taxonomies
     * DashboardWidgets
-* Implement Twig to improve the template and coding experience // Mustache will still be supported
 
 
 
 ##Changelog
 
-###Version 0.3.3 - Twig and RenderEngine enhancements
+###Version 0.4 - Twig and RenderEngine enhancements
 
+- Implemented RenderEngine changes to SettingsPage class
+- Modified the constructor for RenderEngine 
 - Added RenderEngine getTemplatePath public method
 - Added RenderEngine createDirectoryStructure private method
 - Finished the renderTwigTemplate method

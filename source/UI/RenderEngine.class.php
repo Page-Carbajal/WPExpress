@@ -17,17 +17,27 @@ class RenderEngine
     protected $typeExtension;
     protected $templatePath;
     protected $templateFolder;
+    protected $useTypeAsExtension;
 
-    public function __construct($type = 'mustache', $templateFolder = false)
+    public function __construct($templateFolderPath, $type = 'mustache')
     {
         $this->type = trim(strtolower($type));
+        $this->useTypeAsExtension = true;
         $this->typeExtension = sanitize_title($this->type);
-        if($templateFolder !== false && file_exists( $templateFolder ) ){
-            $this->templateFolder = $templateFolder;
+
+        if($templateFolderPath !== false && file_exists( $templateFolderPath ) ){
+            $this->templateFolder = $templateFolderPath;
+        }else{
+            throw new \Exception( __('No such folder! - WPExpress @ Render Engine', 'wpexpress') );
         }
 
         $this->createDirectoryStructure();
 
+    }
+
+    public function setTypeAsExtension($flag)
+    {
+        $this->useTypeAsExtension = $flag;
     }
 
     private function createDirectoryStructure()
@@ -35,29 +45,38 @@ class RenderEngine
         switch( $this->type ){
             case "twig":
                 // Create the directory <path-to-template>/twig/cache
-                $partialsPath = untrailingslashit( $this->getTemplatePath() ) . '/cache/';
+                $partialsPath = $this->getBaseDirectory() . '/cache/';
                 if( !file_exists( $partialsPath ) ){
                     wp_mkdir_p( $partialsPath );
                 }
                 break;
             default:
                 // Create the directory <path-to-template>/mustache/partials
-                $partialsPath = untrailingslashit( $this->getTemplatePath() ) . '/partials/';
+                $partialsPath = $this->getBaseDirectory() . '/partials/';
                 if( !file_exists( $partialsPath ) ){
                     wp_mkdir_p( $partialsPath );
+                }
+                $cachePath = $this->getBaseDirectory() . '/cache/';
+                if( !file_exists( $cachePath ) ){
+                    wp_mkdir_p( $cachePath );
                 }
                 break;
         }
     }
 
-    public function getTemplatePath( $fileName = '' )
+    public function getBaseDirectory()
     {
-        if( file_exists($fileName) ){
-            return $fileName;
-        }
+        return untrailingslashit($this->templateFolder);
+    }
 
+    private function parseFileName($fileName)
+    {
+        return  ( $this->useTypeAsExtension ? "{$fileName}.{$this->typeExtension}" : $fileName );
+    }
 
-        $pathToFile = "{$this->templateFolder}/{$this->type}/{$fileName}";
+    public function getTemplatePath( $fileName )
+    {
+        $pathToFile = trailingslashit( $this->getBaseDirectory() ) . $this->parseFileName($fileName) ;
         if( file_exists( $pathToFile ) ){
             return $pathToFile;
         }
@@ -70,10 +89,10 @@ class RenderEngine
         if( $template = $this->getTemplatePath( $fileName ) ){
             switch($this->type){
                 case "twig":
-                    $raw = $this->renderTwigTemplate( $template, $context );
+                    $raw = $this->renderTwigTemplate( $fileName, $context );
                     break;
                 default:
-                    $raw = $this->renderMustacheTemplate($template, $context);
+                    $raw = $this->renderMustacheTemplate( $fileName, $context );
                     break;
             }
             return $raw;
@@ -83,24 +102,28 @@ class RenderEngine
         return "<strong>Not it!</strong>";
     }
 
-    private function renderMustacheTemplate($template, $context)
+    private function renderMustacheTemplate($fileName, $context)
     {
         $options = array();
-        $options['partials_loader'] = new Mustache_Loader_FilesystemLoader(untrailingslashit($this->templateFolder));
+//        $options['cache'] = $this->getBaseDirectory() . '/cache';
+        $options['loader'] = new Mustache_Loader_FilesystemLoader( $this->getBaseDirectory() );
+        $options['partials_loader'] = new Mustache_Loader_FilesystemLoader( $this->getBaseDirectory() . '/partials' );
+        $options['charset'] = 'UTF-8';
+
+        $options = apply_filters( 'wpex_set_mustache_engine_options', $options );
 
         $mustache = new Mustache_Engine($options);
 
-        return $mustache->render($template, $context);
+
+        return $mustache->render( $fileName, $context );
     }
 
-    private function renderTwigTemplate($template, $context)
+    private function renderTwigTemplate($fileName, $context)
     {
-
-        $loader = new Twig_Loader_Filesystem( $this->getTemplatePath() );
-        $twig = new Twig_Environment( $loader, array( 'cache' => $this->getTemplatePath('cache') ) );
-        $template = $twig->loadTemplate( $this->getTemplatePath($template) );
+        $loader = new Twig_Loader_Filesystem( $this->getBaseDirectory() );
+        $twig = new Twig_Environment( $loader, array( 'cache' => $this->getBaseDirectory() . '/cache' ) );
+        $template = $twig->loadTemplate( $this->getTemplatePath($fileName) );
         return $template->render( $context );
-
     }
 
 }

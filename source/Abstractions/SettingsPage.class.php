@@ -301,6 +301,7 @@ abstract class SettingsPage
 
     private function getTemplateFilePath()
     {
+        // TODO: Remove this function
         // Search for the custom file
         if( file_exists( $templatePath = "{$this->customTemplatesPath}/{$this->templateExtension}/{$this->menuSlug}.{$this->templateExtension}" )  ){
             $this->templateFolder = "{$this->customTemplatesPath}/{$this->templateExtension}/";
@@ -319,9 +320,9 @@ abstract class SettingsPage
 
     public function render()
     {
-        $renderer = new RenderEngine();
+        $renderer = new RenderEngine( untrailingslashit($this->customTemplatesPath) . "/{$this->templateExtension}", $this->templateExtension );
         $this->processRegisteredFields();
-        echo $renderer->renderTemplate( $this->getTemplateFilePath(), $this->getContext() );
+        echo $renderer->renderTemplate( $this->menuSlug, $this->getContext() );
     }
 
 }
