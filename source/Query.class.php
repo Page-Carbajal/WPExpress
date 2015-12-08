@@ -198,4 +198,22 @@ class Query
         // TODO: Add functionality
         return $this;
     }
+
+    // Helper methods
+
+    public static function getMetaValues($metaKey, $transientExpiration = 300)
+    {
+        global $wpdb;
+        $metaKey = sanitize_title( $metaKey );
+        $transientID = "_wpx_metavalues_for_{$metaKey}";
+
+        if( $value = get_transient( $transientID ) ){
+            return $value;
+        } else {
+            $items = $wpdb->get_col( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE (meta_key = '{$metaKey}' AND meta_key IS NOT NULL);" );
+            set_transient( $transientID, $items, $transientExpiration );
+            return $items;
+        }
+    }
+
 }
