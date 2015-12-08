@@ -122,7 +122,8 @@ class RenderEngine
     {
         $loader = new Twig_Loader_Filesystem( $this->getBaseDirectory() );
         $twig = new Twig_Environment( $loader, array( 'cache' => $this->getBaseDirectory() . '/cache' ) );
-        $template = $twig->loadTemplate( $this->getTemplatePath($fileName) );
+        $fileName = $this->parseFileName( $fileName );
+        $template = $twig->loadTemplate( $fileName );
         return $template->render( $context );
     }
 
