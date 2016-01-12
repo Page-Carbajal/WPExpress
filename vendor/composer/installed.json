@@ -48,18 +48,54 @@
         ]
     },
     {
-        "name": "twig/twig",
-        "version": "v1.23.1",
-        "version_normalized": "1.23.1.0",
+        "name": "page-carbajal/wpexpress-query",
+        "version": "0.8",
+        "version_normalized": "0.8.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/twigphp/Twig.git",
-            "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
+            "url": "https://github.com/Page-Carbajal/WPExpress-Query.git",
+            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
-            "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-Query/zipball/cc25cf67e0db1410a907ff813b0722c5c55059f5",
+            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5",
+            "shasum": ""
+        },
+        "time": "2016-01-12 22:16:44",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GNU-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "email": "awesome@pagecarbajal.com"
+            }
+        ],
+        "description": "A WPDB abstraction",
+        "homepage": "https://github.com/Page-Carbajal/WPExpress"
+    },
+    {
+        "name": "twig/twig",
+        "version": "v1.23.3",
+        "version_normalized": "1.23.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/twigphp/Twig.git",
+            "reference": "ae53fc2c312fdee63773b75cb570304f85388b08"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae53fc2c312fdee63773b75cb570304f85388b08",
+            "reference": "ae53fc2c312fdee63773b75cb570304f85388b08",
             "shasum": ""
         },
         "require": {
@@ -69,7 +105,7 @@
             "symfony/debug": "~2.7",
             "symfony/phpunit-bridge": "~2.7"
         },
-        "time": "2015-11-05 12:49:06",
+        "time": "2016-01-11 14:02:19",
         "type": "library",
         "extra": {
             "branch-alias": {

@@ -1,0 +1,19 @@
+{
+    "name": "page-carbajal/wpexpress-query",
+    "type": "library",
+    "description": "A WPDB abstraction",
+    "license": "GNU-3.0",
+    "homepage": "https://github.com/Page-Carbajal/WPExpress",
+    "authors": [
+        {
+            "name": "Page Carbajal",
+            "email": "awesome@pagecarbajal.com"
+        }
+    ],
+    "autoload": {
+        "psr-4":{
+            "WPExpress\\": "source/"
+        }
+    },
+    "require": {}
+}
