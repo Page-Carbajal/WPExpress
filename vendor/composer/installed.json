@@ -1,5 +1,41 @@
 [
     {
+        "name": "page-carbajal/wpexpress-query",
+        "version": "0.8",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Page-Carbajal/WPExpress-Query.git",
+            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-Query/zipball/cc25cf67e0db1410a907ff813b0722c5c55059f5",
+            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5",
+            "shasum": ""
+        },
+        "time": "2016-01-12 22:16:44",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GNU-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "email": "awesome@pagecarbajal.com"
+            }
+        ],
+        "description": "A WPDB abstraction",
+        "homepage": "https://github.com/Page-Carbajal/WPExpress"
+    },
+    {
         "name": "mustache/mustache",
         "version": "v2.9.0",
         "version_normalized": "2.9.0.0",
@@ -46,42 +82,6 @@
             "mustache",
             "templating"
         ]
-    },
-    {
-        "name": "page-carbajal/wpexpress-query",
-        "version": "0.8",
-        "version_normalized": "0.8.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Page-Carbajal/WPExpress-Query.git",
-            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-Query/zipball/cc25cf67e0db1410a907ff813b0722c5c55059f5",
-            "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5",
-            "shasum": ""
-        },
-        "time": "2016-01-12 22:16:44",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "WPExpress\\": "source/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GNU-3.0"
-        ],
-        "authors": [
-            {
-                "name": "Page Carbajal",
-                "email": "awesome@pagecarbajal.com"
-            }
-        ],
-        "description": "A WPDB abstraction",
-        "homepage": "https://github.com/Page-Carbajal/WPExpress"
     },
     {
         "name": "twig/twig",
@@ -145,5 +145,44 @@
         "keywords": [
             "templating"
         ]
+    },
+    {
+        "name": "page-carbajal/wpexpress-ui",
+        "version": "0.4",
+        "version_normalized": "0.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Page-Carbajal/WPExpress-UI.git",
+            "reference": "cb389f46546e5f9b0c02fe2e2b16a38574b223b8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-UI/zipball/cb389f46546e5f9b0c02fe2e2b16a38574b223b8",
+            "reference": "cb389f46546e5f9b0c02fe2e2b16a38574b223b8",
+            "shasum": ""
+        },
+        "require": {
+            "mustache/mustache": "^2.9",
+            "twig/twig": "^1.23"
+        },
+        "time": "2016-01-12 23:10:25",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL3"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "email": "awesome@pagecarbajal.com"
+            }
+        ],
+        "description": "HTML Helper and Render Engine for WPExpress."
     }
 ]
