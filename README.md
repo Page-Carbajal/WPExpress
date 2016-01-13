@@ -49,8 +49,8 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 ###Version 0.5 - Separation of Packages UI and Query
 
 - Both packages are included through composer
-- Created the package WPExpress/UI(https://github.com/Page-Carbajal/WPExpress-UI)
-- Created the package WPExpress/Query(https://github.com/Page-Carbajal/WPExpress-Query)
+- Created the package [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
+- Created the package [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
 
 ###Version 0.4 - Twig and RenderEngine enhancements
 
