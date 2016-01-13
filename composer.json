@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=5.3",
-        "mustache/mustache": "^2.9",
-        "twig/twig": "^1.23"
+        "page-carbajal/wpexpress-ui": "^0.4.0",
+        "page-carbajal/wpexpress-query": "^0.8.0"
     }
 }

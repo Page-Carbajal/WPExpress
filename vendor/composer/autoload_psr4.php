@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WPExpress\\' => array($baseDir . '/source', $vendorDir . '/page-carbajal/wpexpress-query/source', $vendorDir . '/page-carbajal/wpexpress-ui/source'),
+    'WPExpress\\' => array($baseDir . '/source', $vendorDir . '/page-carbajal/wpexpress-ui/source', $vendorDir . '/page-carbajal/wpexpress-query/source'),
 );

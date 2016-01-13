@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1195178a2b1b696f32bfc3310d52330b",
-    "content-hash": "01a57a9f8cdf16dbfec50efcb898307f",
+    "hash": "8de23621402c9e5da597577e39bf2ba9",
+    "content-hash": "8a8c16c29417f69078bde294d864a4de",
     "packages": [
         {
             "name": "mustache/mustache",
@@ -54,17 +54,88 @@
             "time": "2015-08-15 19:23:13"
         },
         {
-            "name": "twig/twig",
-            "version": "v1.23.1",
+            "name": "page-carbajal/wpexpress-query",
+            "version": "0.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
+                "url": "https://github.com/Page-Carbajal/WPExpress-Query.git",
+                "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
-                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+                "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-Query/zipball/cc25cf67e0db1410a907ff813b0722c5c55059f5",
+                "reference": "cc25cf67e0db1410a907ff813b0722c5c55059f5",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WPExpress\\": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Page Carbajal",
+                    "email": "awesome@pagecarbajal.com"
+                }
+            ],
+            "description": "A WPDB abstraction",
+            "homepage": "https://github.com/Page-Carbajal/WPExpress",
+            "time": "2016-01-12 22:16:44"
+        },
+        {
+            "name": "page-carbajal/wpexpress-ui",
+            "version": "0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Page-Carbajal/WPExpress-UI.git",
+                "reference": "cb389f46546e5f9b0c02fe2e2b16a38574b223b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-UI/zipball/cb389f46546e5f9b0c02fe2e2b16a38574b223b8",
+                "reference": "cb389f46546e5f9b0c02fe2e2b16a38574b223b8",
+                "shasum": ""
+            },
+            "require": {
+                "mustache/mustache": "^2.9",
+                "twig/twig": "^1.23"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WPExpress\\": "source/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL3"
+            ],
+            "authors": [
+                {
+                    "name": "Page Carbajal",
+                    "email": "awesome@pagecarbajal.com"
+                }
+            ],
+            "description": "HTML Helper and Render Engine for WPExpress.",
+            "time": "2016-01-12 23:10:25"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.23.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "ae53fc2c312fdee63773b75cb570304f85388b08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae53fc2c312fdee63773b75cb570304f85388b08",
+                "reference": "ae53fc2c312fdee63773b75cb570304f85388b08",
                 "shasum": ""
             },
             "require": {
@@ -112,7 +183,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-11-05 12:49:06"
+            "time": "2016-01-11 14:02:19"
         }
     ],
     "packages-dev": [],
