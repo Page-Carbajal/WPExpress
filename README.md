@@ -46,6 +46,14 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Changelog
 
+###Version 0.5.1
+
+- Moved to require PHP 5.6 or higher
+- Updated the version of WPExpress UI
+- Removed the vendor folder from the repository
+- Fixed the BaseModel/getSupportedFeatures error
+- Adopted [Semantic Versioning](http://semver.org)
+
 ###Version 0.5 - Separation of Packages UI and Query
 
 - Both packages are included through composer

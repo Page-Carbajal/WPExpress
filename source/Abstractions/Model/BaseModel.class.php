@@ -74,11 +74,16 @@ abstract class BaseModel
 
     protected function getSupportedFeatures()
     {
-        $features = array(
-            'title' => $this->titleSupport,
-            'editor' => $this->editorSupport,
-            'thumbnail' => $this->thumbnailSupport,
-            );
+        $features = array();
+        if($this->titleSupport){
+            $features[] = 'title';
+        }
+        if($this->editorSupport){
+            $features[] = 'editor';
+        }
+        if($this->thumbnailSupport){
+            $features[] = 'thumbnail';
+        }
         return $features;
     }
 
