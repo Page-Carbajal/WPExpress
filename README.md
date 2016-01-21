@@ -46,6 +46,21 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Changelog
 
+###TODO
+
+- Make Post class final
+- Make Post class extend CustomPost 
+- Create class CustomPost Type for faster declaration
+- Add icons support for BaseModel
+
+
+###Version 0.5.2
+
+- Applied code styling to BaseModel class
+- Added property BaseModel/menuPosition accessible with magic methods
+- Fixed the default menu position to 20
+
+
 ###Version 0.5.1
 
 - Moved to require PHP 5.6 or higher
