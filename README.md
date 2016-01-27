@@ -53,6 +53,10 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 - Create class CustomPost Type for faster declaration
 - Add icons support for BaseModel
 
+###Version 0.5.3 - Settings Page Error
+
+- Added vendor directory to .gitignore 
+
 
 ###Version 0.5.2
 
