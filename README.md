@@ -53,8 +53,11 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 - Create class CustomPost Type for faster declaration
 - Add icons support for BaseModel
 
-###Version 0.5.3 - Settings Page Error
+###Version 0.5.3 - Fixes SettingsPage Render Error
 
+- Throw exception if template file not found
+- Implemented fail-safe to render dedault settings-page template on error
+- Updated WPExpress/UI to 0.5.1
 - Added vendor directory to .gitignore 
 
 
