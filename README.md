@@ -54,6 +54,13 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 - Add icons support for BaseModel
 
 
+###Version 0.6.0 - New models
+
+- Added empty Sample classes Post and Taxonomy
+- Added empty BaseTaxonomy class
+- Added empty BasePostModel class
+
+
 ###Version 0.5.4 - Updated WPExpress/UI version
 
 - Updated WPExpress to 0.5.2
