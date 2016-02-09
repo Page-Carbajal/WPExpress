@@ -56,6 +56,7 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ###Version 0.6.0 - New models
 
+- Implemented basic methods for BaseTaxonomy
 - Added empty Sample classes Post and Taxonomy
 - Added empty BaseTaxonomy class
 - Added empty BasePostModel class
