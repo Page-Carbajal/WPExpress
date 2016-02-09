@@ -4,132 +4,33 @@
 namespace WPExpress\Model;
 
 
-class BaseTaxonomy
+use WPExpress\Database\Taxonomy;
+
+
+abstract class BaseTaxonomy extends Taxonomy
 {
 
-    protected $tax;
-    protected $name;
-    protected $labels;
-    protected $capabilities;
-
-
-    public function __construct( $bean = null )
-    {
-        if( is_string($bean) ) {
-            $this->tax = get_taxonomy($bean);
-        } elseif( is_object($bean) && property_exists($bean, 'name') ) {
-            $this->tax = $bean;
-        }
-
-        if( isset( $this->tax ) ) {
-            $this->name = $this->tax->name;
-        }
-
+    public function __construct( $bean ){
+        parent::__construct($bean);
     }
 
-    protected function setLabels( $name, $pluralName )
+    public function implementThumnbanil()
     {
-        $labels = array(
-            'name'                       => $name,
-            'singular_name'              => $name,
-            'search_items'               => "Search {pluralName}",
-            'popular_items'              => "Popular {pluralName}",
-            'all_items'                  => "All {pluralName}",
-            'parent_item'                => null,
-            'parent_item_colon'          => null,
-            'edit_item'                  => "Edit {name}",
-            'update_item'                => "Update {name}",
-            'add_new_item'               => "Add New {name}",
-            'new_item_name'              => "New {name} Name",
-            'separate_items_with_commas' => "Separate {pluralName} with commas",
-            'add_or_remove_items'        => "Add or remove {pluralName}",
-            'choose_from_most_used'      => "Choose from the most used {pluralName}",
-            'not_found'                  => "No {pluralName} found.",
-            'menu_name'                  => "{pluralName}",
-        );
-
-        if( function_exists('apply_filters') ) {
-            $labels = apply_filters("wpex_taxonomy_{$name}_labels", $labels);
-        }
-
-        $this->labels = $labels;
+        // TODO: TBD
     }
 
-    protected function getLabels()
+    public function addField( $field )
     {
-        return $this->labels;
+        // TODO: TBD
     }
 
-    protected function setCapabilities( $capabilities )
+    public function getFields()
     {
-        $this->capabilities = $capabilities;
+        // TODO: TBD
     }
 
-    protected function getCapabilities()
+    public function getField()
     {
-        return $this->capabilities;
-    }
-
-
-    /****CRUD Methods****/
-
-    public static function create( $name, $pluralName, $forObjects = null, $slug = false, $attributes = null )
-    {
-        $defaultAttributes = array(
-            'labels'                => static::getLabels(),
-            'rewrite'               => array( 'slug' => ( $slug !== false ? $slug : sanitize_title($name) ) ),
-            'description'           => '',
-            'public'                => true,
-            'hierarchical'          => false,
-            'show_ui'               => null,
-            'show_in_menu'          => null,
-            'show_in_nav_menus'     => null,
-            'show_tagcloud'         => null,
-            'show_in_quick_edit'    => null,
-            'show_admin_column'     => false,
-            'meta_box_cb'           => null,
-            'capabilities'          => array(),
-            'query_var'             => $name,
-            'update_count_callback' => '',
-            '_builtin'              => false,
-        );
-
-        $objects = array();
-        if( $forObjects != null ) {
-            if( !is_array($forObjects) ) {
-                $objects = array( $forObjects );
-            } else {
-                $objects = array_merge($objects, $forObjects);
-            }
-        }
-
-        register_taxonomy($name, $objects, array_merge($defaultAttributes, $attributes));
-
-        return new static($name);
-    }
-
-    public function edit( $newName, $newSlug = false )
-    {
-
-    }
-
-    public function delete()
-    {
-
-    }
-
-    /*****Add to Object*****/
-
-    public function appendToObject( $postID )
-    {
-
-    }
-
-
-    /*****Search Methods*****/
-
-    public function getTerms()
-    {
-
+        // TOD: TBD
     }
 }

@@ -11,4 +11,8 @@ class BasePost
 
     }
 
+    // TODO: Replicate the Post class functionality.
+    // TODO: Refactorize the code
+    // TODO: Deprecate Post class
+
 }
