@@ -54,6 +54,10 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 - Add icons support for BaseModel
 
 
+###Version 0.6.1 - Updated Query version
+
+- Updated WPExpress Query version
+
 ###Version 0.6.0 - New models
 
 - Implementing BaseTaxonomy
