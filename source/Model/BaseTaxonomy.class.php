@@ -10,7 +10,8 @@ use WPExpress\Database\Taxonomy;
 abstract class BaseTaxonomy extends Taxonomy
 {
 
-    public function __construct( $bean ){
+    public function __construct( $bean )
+    {
         parent::__construct($bean);
     }
 

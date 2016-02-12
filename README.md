@@ -1,7 +1,8 @@
 # WPExpress
+
 A light weight framework for WordPress Developers
 
-Built to help you DRY. WPExpress is a package that helps you achieve the most common taks on WordPress
+Built to help you DRY. WPExpress is being developed to expedite the repetitive work, giving you the chance to work in code that matters in your WordPress projects.
 
 ##Quick Start
 
@@ -9,49 +10,56 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Framework Structure
 
-* WPExpress
-    * Query
-    * Abstractions
-        * Model
-            * BaseModel
-            * BaseTaxonomy
-        * Settings Page
-        * Dashboard Widget
-    * Model
-        * Post
-        * Taxonomy
-    * UI
-        * RenderEngine
-        * HTML/ Tags
-            * Textbox
-            * Radio
-            * Checkbox
-            * Select
-            * TextArea
-            * Code
-            * WYSIWYG
-            * GoogleMap
-
-##Road Map
-
-* Encapsulate common tasks such as getAll, getByField, getPermalink, getThumbailURL, getAttachments
-* Register CPTs and Taxonomies
-* Implement dotEnv for configurations
-* Provides a set of Abstract classes to build 
-    * Custom Post Types / Fields
-    * Custom Taxonomies
-    * DashboardWidgets
-
+- Database  [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
+	- Query
+	- Taxonomy
+	- User **TBD**
+	- UserRole **TBD**
+	- Transient **TBD**
+- Model
+	- BaseModel
+	- BaseModelInterface
+	- BaseTaxonomy
+	- BaseUser **TBD**
+	- BaseRole **TBD**
+	- BaseRelation **TBD**
+- Admin
+	- BaseSettingsPage
+	- Metabox **TBD**
+	- Widget **TBD**
+- API **TBD**
+	- BaseAPI
+- UI [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
+	- RenderEngine
+	- HTML/Tags
+	- ReactJS **TBD**
+	
+##RoadMap
 
 
 ##Changelog
 
 ###TODO
 
-- Make Post class final
-- Make Post class extend CustomPost 
-- Create class CustomPost Type for faster declaration
 - Add icons support for BaseModel
+
+##Current Track
+
+###Version 1.0.0
+
+- Made Post class final
+- Made Post class extend BaseModel 
+- Added empty abstract class Admin/MetaBox class
+- Added empty abstract class API/BaseApi 
+- Added empty abstract classes BaseUser and BaseUserRole 
+- Added BaseModel, BaseModelInterface and BaseTaxonomy abstract classes
+- Finished the first iteration on the project structure
+- Removed Abstractions, Model and Interfaces folder from project structure
+
+
+##Version Zero-Six
+
+This version is maintained for compatibility purposes only. 
 
 
 ###Version 0.6.1 - Updated Query version

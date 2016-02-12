@@ -1,9 +1,7 @@
 <?php
-/**
- * Developer: Page Carbajal (https://github.com/Page-Carbajal)
- */
 
-namespace WPExpress\Abstractions\Model;
+
+namespace WPExpress\Model;
 
 
 use WPExpress\Query;

@@ -1,10 +1,7 @@
 <?php
-/**
- * Developer: Page Carbajal (https://github.com/Page-Carbajal)
- * Date: October 21 2015, 12:32 PM
- */
 
-namespace WPExpress\Abstractions;
+
+namespace WPExpress\Admin;
 
 
 use WPExpress\UI;
@@ -12,7 +9,7 @@ use WPExpress\UI\RenderEngine;
 use WPExpress\UI\HTML\Tags;
 
 
-abstract class SettingsPage
+abstract class BaseSettingsPage
 {
 
     protected $fieldPrefix;
@@ -36,8 +33,10 @@ abstract class SettingsPage
 
     protected $settingsLegend;
 
-    public function __construct( $title, $capabilities, $menuSlug = false, $settingsLegend = 'Settings', $customTemplatePath = false )
+    public function __construct( $title, $capabilities, $menuSlug = false )
     {
+        $settingsLegend = 'Settings'; // TODO: Replace
+        $customTemplatePath = false; // TODO: Replace
         $this->post = null;
 
         $this->fields                    = array();
@@ -312,7 +311,7 @@ abstract class SettingsPage
             return $customTemplatesPath;
         }
 
-        return untrailingslashit( dirname(__FILE__) ) . "/../../resources/templates";
+        return untrailingslashit(dirname(__FILE__)) . "/../../resources/templates";
     }
 
     public function render()
@@ -322,10 +321,10 @@ abstract class SettingsPage
         if( file_exists($this->getTemplatesPath() . "/{$this->templateExtension}/{$this->menuSlug}.{$this->templateExtension}") ) {
             echo $engine->renderTemplate($this->menuSlug, $this->getContext());
         } else {
-            if( file_exists( $this->getTemplatesPath() . "/{$this->templateExtension}/settings-page.{$this->templateExtension}" ) ){
+            if( file_exists($this->getTemplatesPath() . "/{$this->templateExtension}/settings-page.{$this->templateExtension}") ) {
                 echo $engine->renderTemplate('settings-page', $this->getContext());
             } else {
-                throw new \Exception( "Template file not found at <{$this->getTemplatesPath()}> - WPExpress @ SettingsPage.", 404);
+                throw new \Exception("Template file not found at <{$this->getTemplatesPath()}> - WPExpress @ SettingsPage.", 404);
             }
         }
     }
