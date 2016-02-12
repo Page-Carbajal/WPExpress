@@ -1,4 +1,4 @@
-# WPExpress
+# WPExpress - A WordPress Framework for Developers
 
 A light weight framework for WordPress Developers
 
