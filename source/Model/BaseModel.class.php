@@ -30,10 +30,10 @@ abstract class BaseModel
 
     protected $fieldPrefix;
 
-    protected        $isPublic;
-    protected        $name;
-    protected        $postTypeSlug;
-    protected static $postType;
+    protected $isPublic;
+    protected $name;
+    protected $postTypeSlug;
+    protected $postType;
     // Labels
     protected $nameLabel;
     protected $singularNameLabel;
@@ -45,7 +45,11 @@ abstract class BaseModel
 
     public function __construct( $bean )
     {
+        $me   = new \ReflectionClass($this);
         $post = null;
+
+        // If your class name is Book. Your Post Type would be 'book'
+        $this->postType = sanitize_title($me->getShortName());
 
         if( is_int($bean) ) {
             $post = get_post($bean);
@@ -65,13 +69,17 @@ abstract class BaseModel
 
         // Setup Basic post data
         if( empty( $this->nameLabel ) ) {
-            $me = new \ReflectionClass($this);
             $this->nameLabel         = $me->getShortName();
             $this->postTypeSlug      = sanitize_title($this->nameLabel);
             $this->singularNameLabel = $this->nameLabel;
         }
 
         $this->registerCustomPostType();
+    }
+
+    public function getPostType()
+    {
+        return $this->postType;
     }
 
     protected function setPublic( $public )

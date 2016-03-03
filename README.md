@@ -46,6 +46,12 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 ##Current Track
 
 
+###Version 1.2.0
+
+- Added the method getPostType to BaseModel
+- Deleted the BaseModelInterface class in favor of Convention over Configuration
+
+
 ###Version 1.1.0
 
 - Simplified the classes Page and Post
