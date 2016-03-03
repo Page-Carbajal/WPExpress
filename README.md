@@ -45,6 +45,14 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Current Track
 
+
+###Version 1.1.0
+
+- Simplified the classes Page and Post
+- Added constructor function to make it easier for folks to get started with the project
+- Removed the datatype from function declaration on BaseModel/setPublic
+
+
 ###Version 1.0.0
 
 - Made Post class final

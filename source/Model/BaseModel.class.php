@@ -43,9 +43,38 @@ abstract class BaseModel
     // Original Post Object
     protected $post;
 
-    //public function __construct(){};
+    public function __construct( $bean )
+    {
+        $post = null;
 
-    protected function setPublic( bool $public )
+        if( is_int($bean) ) {
+            $post = get_post($bean);
+        } elseif( ( $bean instanceof \WP_Post ) && !empty( $bean->ID ) ) {
+            $post = $bean;
+        }
+
+        // Load Basic post data
+        if( !empty( $post ) ) {
+            $this->post    = $post;
+            $this->ID      = $post->ID;
+            $this->title   = $post->post_title;
+            $this->content = $post->post_content;
+            $this->excerpt = $post->post_excerpt;
+            // TODO: Load fields
+        }
+
+        // Setup Basic post data
+        if( empty( $this->nameLabel ) ) {
+            $me = new \ReflectionClass($this);
+            $this->nameLabel         = $me->getShortName();
+            $this->postTypeSlug      = sanitize_title($this->nameLabel);
+            $this->singularNameLabel = $this->nameLabel;
+        }
+
+        $this->registerCustomPostType();
+    }
+
+    protected function setPublic( $public )
     {
         $this->isPublic = $public;
     }
@@ -53,7 +82,7 @@ abstract class BaseModel
     protected function getPostTypeLabels()
     {
         $labels = array(
-            'name'          => $this->nameLabel,
+            'name'          => ( $this->nameLabel ),
             'singular_name' => ( empty( $this->singularNameLabel ) ? $this->nameLabel : $this->singularNameLabel ),
         );
         return $labels;
@@ -89,30 +118,34 @@ abstract class BaseModel
 
     protected function registerCustomPostType()
     {
-        $options = array(
-            'labels'              => $this->getPostTypeLabels(),
-            'description'         => $this->postTypeDescription,
-            'public'              => $this->isPublic,
-            'show_ui'             => true,
-            'capability_type'     => 'post',
-            'map_meta_cap'        => true,
-            'publicly_queryable'  => true,
-            'menu_icon'           => '',
-            'menu_position'       => ( isset( $this->menuPosition ) ? $this->menuPosition : 20 ),
-            'exclude_from_search' => true,
-            'hierarchical'        => false,
-            'rewrite'             => array( 'slug' => $this->postTypeSlug ),
-            'query_var'           => true,
-            'supports'            => $this->getSupportedFeatures(),
-            'has_archive'         => false,
-            'show_in_nav_menus'   => false,
-        );
+        if( !post_type_exists($this->getPostType()) ) {
 
-        if( !empty( $this->parentPostType ) ) {
-            $options['show_in_menu'] = "edit.php?post_type={$this->parentPostType}";
+            $options = array(
+                'labels'              => $this->getPostTypeLabels(),
+                'description'         => $this->postTypeDescription,
+                'public'              => $this->isPublic,
+                'show_ui'             => true,
+                'capability_type'     => 'post',
+                'map_meta_cap'        => true,
+                'publicly_queryable'  => true,
+                'menu_icon'           => '',
+                'menu_position'       => ( isset( $this->menuPosition ) ? $this->menuPosition : 20 ),
+                'exclude_from_search' => true,
+                'hierarchical'        => false,
+                'rewrite'             => array( 'slug' => $this->postTypeSlug ),
+                'query_var'           => true,
+                'supports'            => $this->getSupportedFeatures(),
+                'has_archive'         => false,
+                'show_in_nav_menus'   => false,
+            );
+
+            if( !empty( $this->parentPostType ) ) {
+                $options['show_in_menu'] = "edit.php?post_type={$this->parentPostType}";
+            }
+
+            register_post_type($this->getPostType(), $options);
+
         }
-
-        register_post_type($this->getPostType(), $options);
 
         return $this;
     }
@@ -161,9 +194,9 @@ abstract class BaseModel
             return $this->$property;
         }
         // TODO: Implement overridable data as follows. Instead of property_exists method
-//        if( array_key_exists( $property, $this->data ) ){
-//            return $this->data[$property];
-//        }
+        //        if( array_key_exists( $property, $this->data ) ){
+        //            return $this->data[$property];
+        //        }
         return false;
     }
 
@@ -174,7 +207,7 @@ abstract class BaseModel
         }
 
         // TODO: Same as with the get Method
-//        $this->data[$property] = $value;
+        //        $this->data[$property] = $value;
     }
 
     protected function addCustomField()
