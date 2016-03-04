@@ -43,7 +43,7 @@ abstract class BaseModel
     // Original Post Object
     protected $post;
 
-    public function __construct( $bean )
+    public function __construct( $bean = null )
     {
         $me   = new \ReflectionClass($this);
         $post = null;
