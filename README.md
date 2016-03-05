@@ -44,31 +44,40 @@ The stable release of the Framework with al of its members finished and working 
 
 Mine will be a CLI tool for WPExpress. The concept is similar to Rails rake or Laravel artisan.
 
-**Why Mine?
+**Why Mine?**
 
 The word Mine in english has a personal attachment to it. But in spanish is the nickname of my mom. This is my homage to her name. It is very little to be able to tell how much she meant to me, but it's a start.   
 
 ####Commands
 
-**New Theme
+**New Theme**
 
 ```bash
 $ mine new theme AwesomeTheme
 ```
 
-**New Plugin
+**New Plugin**
 
 ```bash
 $ mine new plugin AwesomePlugin
 ```
 
-**New Model
+**New Model**
 
 ```bash 
 $ mine new model Book
 ```
 
-When you generate themes or plugins with Mine
+**New Settings Page**
+
+```bash 
+$ mine new settings-page MySettings
+```
+
+
+When you generate themes or plugins with **Mine** it will automatically create a folder with a composer file on it, download the latest WPExpress preset the PSR-4 autoload.
+
+You will be able to test the theme or the plugin right away
 
 ##Changelog
 
