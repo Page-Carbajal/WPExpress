@@ -36,6 +36,39 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 	
 ##RoadMap
 
+###WPExpress 1.3
+
+The stable release of the Framework with al of its members finished and working 100%
+
+###WPExpress/Mine
+
+Mine will be a CLI tool for WPExpress. The concept is similar to Rails rake or Laravel artisan.
+
+**Why Mine?
+
+The word Mine in english has a personal attachment to it. But in spanish is the nickname of my mom. This is my homage to her name. It is very little to be able to tell how much she meant to me, but it's a start.   
+
+####Commands
+
+**New Theme
+
+```bash
+$ mine new theme AwesomeTheme
+```
+
+**New Plugin
+
+```bash
+$ mine new plugin AwesomePlugin
+```
+
+**New Model
+
+```bash 
+$ mine new model Book
+```
+
+When you generate themes or plugins with Mine
 
 ##Changelog
 
