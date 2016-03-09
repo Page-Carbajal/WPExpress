@@ -87,6 +87,11 @@ You will be able to test the theme or the plugin right away
 
 ##Current Track
 
+
+###Version 1.2.3 - WPExpress/UI 1.0.0
+
+- Upgraded to WPExpress/UI 1.0.0
+
 ###Version 1.2.2 - Fixed BaseSettingsPage Template Path Error
 
 - Fixed the template path verification error

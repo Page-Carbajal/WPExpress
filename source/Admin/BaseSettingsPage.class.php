@@ -6,55 +6,38 @@ namespace WPExpress\Admin;
 
 use WPExpress\UI;
 use WPExpress\UI\RenderEngine;
-use WPExpress\UI\HTML\Tags;
+use WPExpress\UI\FieldCollection;
 
 
 abstract class BaseSettingsPage
 {
 
-    protected $fieldPrefix;
+    protected $fields;
+    protected $fieldPrefix = '__wpx_';
     protected $pageTitle;
     protected $pageType;
     protected $menuTitle;
     protected $capabilities;
     protected $menuSlug;
-    protected $fields;
-    protected $properties;
     protected $description;
     protected $customTemplatesPath;
     protected $templateExtension;
     protected $templateFolder;
-
-    protected $registeredMetaFields;
-    protected $registeredMetaFieldArrays;
-
-
-    protected $post;
-
-    protected $settingsLegend;
+    protected $settingsPageHeading;
 
     public function __construct( $title, $capabilities, $menuSlug = false )
     {
-        $settingsLegend     = 'Settings'; // TODO: Replace
-        $customTemplatePath = false; // TODO: Replace
-        $this->post         = null;
+        $this->fields              = new FieldCollection();
+        $this->pageTitle           = $title;
+        $this->capabilities        = $capabilities;
+        $this->templateExtension   = empty( $this->templateExtension ) ? 'mustache' : $this->templateExtension;
+        $this->settingsPageHeading = empty( $this->settingsPageHeading ) ? 'Settings' : $this->settingsPageHeading;
 
-        $this->fields                    = array();
-        $this->properties                = array();
-        $this->registeredMetaFieldArrays = array();
-        $this->registeredMetaFields      = array();
-
-        $this->templateExtension = 'mustache';
-        $this->setCustomTemplatePath($customTemplatePath);
-
-        $this->capabilities   = $capabilities;
-        $this->settingsLegend = $settingsLegend;
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
 
-        if( !empty( $_POST ) ) {
-            $this->post = $_POST;
+        if( $this->pageType !== false ) {
+            $this->registerPage();
         }
-
     }
 
     private function registerFilters()
@@ -63,17 +46,16 @@ abstract class BaseSettingsPage
         return $this;
     }
 
-    public function registerPage( $type = 'options', $level = null )
+    public function registerPage()
     {
-        $this->pageType = $type;
-        add_action('admin_menu', array( &$this, 'addMenuItem' ));
+        if( !empty( $this->pageType ) ) {
+            add_action('admin_menu', array( &$this, 'addMenuItem' ));
+        }
         return $this;
     }
 
     public function addMenuItem()
     {
-        $abc = 111;
-
         switch( $this->pageType ) {
             case "top":
                 add_menu_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
@@ -118,7 +100,7 @@ abstract class BaseSettingsPage
         $this->menuTitle   = $menuTitle;
         $this->menuSlug    = ( $menuSlug !== false ? sanitize_title($menuSlug) : sanitize_title($menuTitle) );
         $this->fieldPrefix = "__wex_{$this->menuSlug}_";
-        $this->pageTitle   = $menuTitle . ' ' . $this->settingsLegend;
+        $this->pageTitle   = $menuTitle . ' ' . $this->settingsPageHeading;
 
         return $this;
     }
@@ -171,15 +153,8 @@ abstract class BaseSettingsPage
      */
     public function getProperty( $property )
     {
-        $propertyName = "{$this->fieldPrefix}{}";
-        if( in_array($propertyName, array_keys($this->properties)) ) {
-            // If property exists return the value
-            return $this->properties[$propertyName];
-        }
-        // Check the database for the value and return the result
-        $this->properties[$propertyName] = $fieldValue = get_option($propertyName, "");
-
-        return $fieldValue;
+        // TODO: Deprecate this function
+        $this->getFieldValue($property);
     }
 
     /* Validate and Persist Data */
@@ -187,102 +162,118 @@ abstract class BaseSettingsPage
     {
         if( !empty( $_POST ) ) {
             do_action('wpExpressSettingsPageBeforeSave', $this, $_POST);
-            foreach( $this->properties as $name => $value ) {
-                $fieldName = substr($name, strlen($this->fieldPrefix), ( strlen($name) - strlen($this->fieldPrefix) ));
-                if( isset( $_POST[$fieldName] ) && !empty( $_POST[$fieldName] ) ) {
-                    update_option($name, $_POST[$fieldName]);
-                    $this->properties[$name] = $_POST[$fieldName];
+            foreach( $this->fields as $name => $field ) {
+                $optionName = "{$this->fieldPrefix}{$name}";
+                if( isset( $_POST[$name] ) && !empty( $_POST[$name] ) ) {
+                    update_site_option($optionName, $_POST[$name]);
                 }
             }
             do_action('wpExpressSettingsPageAfterSave', $this, $_POST);
         }
     }
 
-    public function registerMetaFieldsArray( $name, $collection, $fieldType, $groupName, $customAttributes = array() )
+    public function delete()
     {
-        $name                                            = sanitize_title($name);
-        $this->registeredMetaFieldArrays[]               = array( 'name' => $name, 'collection' => $collection, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
-        $this->properties["{$this->fieldPrefix}{$name}"] = '';
+        // TODO: Delete all data based on the existent fields
     }
 
-    private function addMetaFieldsArray( $name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array() )
+    //    public function registerMetaFieldsArray( $name, $collection, $fieldType, $groupName, $customAttributes = array() )
+    //    {
+    //        $name                                            = sanitize_title($name);
+    //        $this->registeredMetaFieldArrays[]               = array( 'name' => $name, 'collection' => $collection, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
+    //        $this->properties["{$this->fieldPrefix}{$name}"] = '';
+    //    }
+    //
+    //    private function addMetaFieldsArray( $name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array() )
+    //    {
+    //        $name                            = sanitize_title($name);
+    //        $propertyName                    = "{$this->fieldPrefix}{$name}";
+    //        $this->properties[$propertyName] = $items = get_option($propertyName, "");
+    //        $itemKeys                        = array_keys($items);
+    //
+    //        foreach( $collection as $key => $value ) {
+    //            //            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
+    //            $properties = array(
+    //                'name'      => $name . '[]',
+    //                'id'        => $name . "_{$key}",
+    //                'value'     => $key,
+    //                'labelText' => $key,
+    //                'group'     => ( empty( $groupName ) ? '' : $groupName ),
+    //            );
+    //
+    //            if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) && in_array($key, $items) ) {
+    //                $properties['checked'] = true;
+    //            }
+    //
+    //            $this->fields[] = array( 'type' => $fieldType, 'name' => $name . '[]', 'properties' => array_merge($properties, $customAttributes) );
+    //        }
+    //    }
+    //
+    //    public function registerMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
+    //    {
+    //        $name                                            = sanitize_title($name);
+    //        $this->registeredMetaFields[]                    = array( 'name' => $name, 'labelText' => $labelText, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
+    //        $this->properties["{$this->fieldPrefix}{$name}"] = '';
+    //    }
+    //
+    //    private function addMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
+    //    {
+    //        $name = sanitize_title($name);
+    //        // Add the field Markup
+    //        // Get the value if any!
+    //        $propertyName                    = "{$this->fieldPrefix}{$name}";
+    //        $this->properties[$propertyName] = $fieldValue = get_option($propertyName, "");
+    //
+    //        // Add the field Markup
+    //        $properties       = array( 'name' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
+    //        $properties['id'] = $properties['name'];
+    //        if( !empty( $group ) ) {
+    //            $properties['group'] = $groupName;
+    //        }
+    //
+    //        if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) ) {
+    //            if( $fieldValue == $name ) {
+    //                $properties['checked'] = true;
+    //            }
+    //        }
+    //
+    //        $this->fields[] = array( 'type' => $fieldType, 'name' => $name, 'properties' => array_merge($properties, $customAttributes) );
+    //    }
+    //
+    //    private function processRegisteredFields()
+    //    {
+    //        foreach( $this->registeredMetaFields as $field ) {
+    //            $this->addMetaField($field['name'], $field['labelText'], $field['fieldType'], $field['groupName'], $field['customAttributes']);
+    //        }
+    //
+    //        foreach( $this->registeredMetaFieldArrays as $arrayField ) {
+    //            $this->addMetaFieldsArray($arrayField['name'], $arrayField['collection'], $arrayField['fieldType'], $arrayField['groupName'], $arrayField['customAttributes']);
+    //        }
+    //    }
+
+    public function fields( $name )
     {
-        $name                            = sanitize_title($name);
-        $propertyName                    = "{$this->fieldPrefix}{$name}";
-        $this->properties[$propertyName] = $items = get_option($propertyName, "");
-        $itemKeys                        = array_keys($items);
-
-        foreach( $collection as $key => $value ) {
-            //            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
-            $properties = array(
-                'name'      => $name . '[]',
-                'id'        => $name . "_{$key}",
-                'value'     => $key,
-                'labelText' => $key,
-                'group'     => ( empty( $groupName ) ? '' : $groupName ),
-            );
-
-            if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) && in_array($key, $items) ) {
-                $properties['checked'] = true;
-            }
-
-            $this->fields[] = array( 'type' => $fieldType, 'name' => $name . '[]', 'properties' => array_merge($properties, $customAttributes) );
-        }
+        return $this->fields->field($name);
     }
 
-    public function registerMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
+    public function getFieldValue( $name )
     {
-        $name                                            = sanitize_title($name);
-        $this->registeredMetaFields[]                    = array( 'name' => $name, 'labelText' => $labelText, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
-        $this->properties["{$this->fieldPrefix}{$name}"] = '';
-    }
+        $currentValue = $this->fields($name);
+        $siteOption   = "{$this->fieldPrefix}{$name}";
 
-    private function addMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
-    {
-        $name = sanitize_title($name);
-        // Add the field Markup
-        // Get the value if any!
-        $propertyName                    = "{$this->fieldPrefix}{$name}";
-        $this->properties[$propertyName] = $fieldValue = get_option($propertyName, "");
-
-        // Add the field Markup
-        $properties       = array( 'name' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
-        $properties['id'] = $properties['name'];
-        if( !empty( $group ) ) {
-            $properties['group'] = $groupName;
+        if( empty( $currentValue ) ) {
+            $value = get_site_option($siteOption);
+            $this->fields->setValue($value);
         }
 
-        if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) ) {
-            if( $fieldValue == $name ) {
-                $properties['checked'] = true;
-            }
-        }
-
-        $this->fields[] = array( 'type' => $fieldType, 'name' => $name, 'properties' => array_merge($properties, $customAttributes) );
-    }
-
-    private function processRegisteredFields()
-    {
-        foreach( $this->registeredMetaFields as $field ) {
-            $this->addMetaField($field['name'], $field['labelText'], $field['fieldType'], $field['groupName'], $field['customAttributes']);
-        }
-
-        foreach( $this->registeredMetaFieldArrays as $arrayField ) {
-            $this->addMetaFieldsArray($arrayField['name'], $arrayField['collection'], $arrayField['fieldType'], $arrayField['groupName'], $arrayField['customAttributes']);
-        }
+        return $this->fields[$name]->getValue();
+        // return $this->fields->getValue(); // Equivalent
     }
 
     public function getValue( $fieldName )
     {
-        $fieldName    = sanitize_title($fieldName);
-        $propertyName = "{$this->fieldPrefix}{$fieldName}";
-        if( isset( $this->properties[$propertyName] ) ) {
-            if( empty( $this->properties[$propertyName] ) ) {
-                return $this->properties["{$this->fieldPrefix}{$fieldName}"] = get_option($propertyName, '');
-            }
-            return $this->properties[$propertyName];
-        }
-        return false;
+        // TODO: Deprecate this function
+        return $this->getFieldValue($fieldName);
     }
 
     private function getSegments()
@@ -293,11 +284,9 @@ abstract class BaseSettingsPage
 
     private function getContext()
     {
-        $this->processRegisteredFields();
-
-        $context             = array( 'pageTitle' => $this->pageTitle, 'description' => $this->description );
-        $context['fields']   = Tags::parseFields($this->fields);
-        $context['segments'] = $this->getSegments();
+        $context           = array( 'pageTitle' => $this->pageTitle, 'description' => $this->description );
+        $context['fields'] = $this->fields->parseFields(); // Returns HTML fields
+        //        $context['segments'] = $this->getSegments();
 
         $context = apply_filters('wpExpressSettingsPageContext', $context);
 

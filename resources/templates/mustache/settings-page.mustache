@@ -5,7 +5,9 @@
     <form method="post">
         {{# fields}}
             <p>
-                <label for="{{properties.id}}">{{properties.labelText}}</label> <br />
+                {{#properties.label}}
+                    <label for="{{properties.id}}">{{properties.label}}</label> <br />
+                {{/properties.label}}
                 {{{ html }}}
             </p>
         {{/fields}}
