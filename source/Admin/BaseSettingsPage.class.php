@@ -35,9 +35,9 @@ abstract class BaseSettingsPage
 
     public function __construct( $title, $capabilities, $menuSlug = false )
     {
-        $settingsLegend = 'Settings'; // TODO: Replace
+        $settingsLegend     = 'Settings'; // TODO: Replace
         $customTemplatePath = false; // TODO: Replace
-        $this->post = null;
+        $this->post         = null;
 
         $this->fields                    = array();
         $this->properties                = array();
@@ -213,7 +213,7 @@ abstract class BaseSettingsPage
         $itemKeys                        = array_keys($items);
 
         foreach( $collection as $key => $value ) {
-//            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
+            //            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
             $properties = array(
                 'name'      => $name . '[]',
                 'id'        => $name . "_{$key}",
@@ -307,7 +307,9 @@ abstract class BaseSettingsPage
     private function getTemplatesPath()
     {
         $customTemplatesPath = untrailingslashit($this->customTemplatesPath);
-        if( ( $this->customTemplatesPath !== false ) && file_exists("{$customTemplatesPath}/{$this->menuSlug}/{$this->templateExtension}") ) {
+        // Verify path and filename exists
+        $filePath = "{$customTemplatesPath}/{$this->menuSlug}.{$this->templateExtension}";
+        if( ( $this->customTemplatesPath !== false ) && file_exists($filePath) ) {
             return $customTemplatesPath;
         }
 
