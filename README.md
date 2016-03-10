@@ -53,12 +53,18 @@ The stable release of the Framework with al of its members finished and working 
 ###TODO
 
 - Add icons support for BaseModel
+- BaseSettingsPage/AutoSetValues for Fields
+    - Create the public method  BaseSettingsPage/setFieldValue to use the field key to set the field value
+    - Add apply_filters method to FieldCollection/addNewField to allow setting values with a filter
 
 ##Current Track
 
 
+
 ###Version 1.2.5 - BaseSettingsPage Beautification
 
+- Changed the methods update_site_option and get_site_option to update_option and get_option
+- Allow empty values on BaseSettings/save
 - Documentation update
 - Removed the property BaseSettingsPage/settingsPageHeading
 - Simplified the BaseSettingsPage constructor
