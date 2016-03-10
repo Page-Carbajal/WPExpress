@@ -41,7 +41,7 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ###Anouncing Minerva for WPExpress
 
-To be serious about this framework, I need to build a **Command Line Interface**. **Minerva** will be such **CLI**
+To be serious about this framework, I need to build a **Command Line Interface**. **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**
 
 ###WPExpress 1.3
 
