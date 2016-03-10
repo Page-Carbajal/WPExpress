@@ -154,18 +154,20 @@ abstract class BaseSettingsPage
     public function getProperty( $property )
     {
         // TODO: Deprecate this function
-        $this->getFieldValue($property);
+        $this->getOptionValue($property);
     }
 
     /* Validate and Persist Data */
     public function save()
     {
-        if( !empty( $_POST ) ) {
+        if( is_admin() && !empty( $_POST ) ) {
             do_action('wpExpressSettingsPageBeforeSave', $this, $_POST);
-            foreach( $this->fields as $name => $field ) {
-                $optionName = "{$this->fieldPrefix}{$name}";
-                if( isset( $_POST[$name] ) && !empty( $_POST[$name] ) ) {
-                    update_site_option($optionName, $_POST[$name]);
+            foreach( $this->fields->toArray() as $fieldName => $field ) {
+                $optionName = "{$this->fieldPrefix}{$fieldName}";
+                if( isset( $_POST[$fieldName] ) && !empty( $_POST[$fieldName] ) ) {
+                    update_site_option($optionName, $_POST[$fieldName]);
+                    // Update the field value :D
+                    $this->fields($fieldName)->setValue($_POST[$fieldName]);
                 }
             }
             do_action('wpExpressSettingsPageAfterSave', $this, $_POST);
@@ -256,24 +258,16 @@ abstract class BaseSettingsPage
         return $this->fields->field($name);
     }
 
-    public function getFieldValue( $name )
+    public function getOptionValue( $option )
     {
-        $currentValue = $this->fields($name);
-        $siteOption   = "{$this->fieldPrefix}{$name}";
-
-        if( empty( $currentValue ) ) {
-            $value = get_site_option($siteOption);
-            $this->fields->setValue($value);
-        }
-
-        return $this->fields[$name]->getValue();
-        // return $this->fields->getValue(); // Equivalent
+        $optionName = "{$this->fieldPrefix}{$option}";
+        return get_site_option($optionName);
     }
 
     public function getValue( $fieldName )
     {
         // TODO: Deprecate this function
-        return $this->getFieldValue($fieldName);
+        return $this->getOptionValue($fieldName);
     }
 
     private function getSegments()
