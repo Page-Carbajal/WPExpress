@@ -17,7 +17,7 @@ abstract class BaseSettingsPage
     protected $pageTitle;
     protected $pageType;
     protected $menuTitle;
-    protected $capabilities;
+    protected $userCapabilities;
     protected $menuSlug;
     protected $description;
     protected $customTemplatesPath;
@@ -25,11 +25,11 @@ abstract class BaseSettingsPage
     protected $templateFolder;
     protected $settingsPageHeading;
 
-    public function __construct( $title, $capabilities, $menuSlug = false )
+    public function __construct( $title, $userCapabilities = 'manage_options', $menuSlug = false )
     {
         $this->fields              = new FieldCollection();
         $this->pageTitle           = $title;
-        $this->capabilities        = $capabilities;
+        $this->userCapabilities    = $userCapabilities;
         $this->templateExtension   = empty( $this->templateExtension ) ? 'mustache' : $this->templateExtension;
         $this->settingsPageHeading = empty( $this->settingsPageHeading ) ? 'Settings' : $this->settingsPageHeading;
 
@@ -71,48 +71,48 @@ abstract class BaseSettingsPage
         switch( $this->pageType ) {
             case "top":
                 if( $this->actionHookIsValid($this->menuSlug, '') ) {
-                    add_menu_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_menu_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "dashboard":
                 if( $this->actionHookIsValid($this->menuSlug, 'index.php') ) {
-                    add_dashboard_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_dashboard_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "posts":
                 if( $this->actionHookIsValid($this->menuSlug, 'edit.php') ) {
-                    add_posts_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_posts_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "pages":
                 if( $this->actionHookIsValid($this->menuSlug, 'edit.php?post_type=page') ) {
-                    add_pages_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_pages_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "settings":
                 if( $this->actionHookIsValid($this->menuSlug, 'options-general.php') ) {
-                    add_options_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_options_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "users":
                 if( $this->actionHookIsValid($this->menuSlug, 'user.php') || $this->actionHookIsValid($this->menuSlug, 'profile.php') ) {
-                    add_users_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_users_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "plugins":
                 if( $this->actionHookIsValid($this->menuSlug, 'plugins.php') ) {
-                    add_plugins_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_plugins_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "theme":
                 if( $this->actionHookIsValid($this->menuSlug, 'themes.php') ) {
-                    add_theme_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_theme_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             default:
                 // Defaults to Tools Menu
                 if( $this->actionHookIsValid($this->menuSlug, 'tools.php') ) {
-                    add_management_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                    add_management_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
         }
