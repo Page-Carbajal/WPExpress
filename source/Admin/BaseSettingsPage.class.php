@@ -34,10 +34,15 @@ abstract class BaseSettingsPage
         $this->settingsPageHeading = empty( $this->settingsPageHeading ) ? 'Settings' : $this->settingsPageHeading;
 
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
+        // If pageType was not specified defaults to Tools menu
+        $this->registerPage();
+    }
 
-        if( $this->pageType !== false ) {
-            $this->registerPage();
-        }
+    public function setTopParentMenu( $option )
+    {
+        $this->pageType = ( in_array($option, array( 'top', 'dashboard', 'posts', 'pages', 'settings', 'users', 'plugins', 'theme', 'tools' )) ? $option : null );
+
+        return $this;
     }
 
     private function registerFilters()
@@ -48,42 +53,67 @@ abstract class BaseSettingsPage
 
     public function registerPage()
     {
-        if( !empty( $this->pageType ) ) {
-            add_action('admin_menu', array( &$this, 'addMenuItem' ));
-        }
+        add_action('admin_menu', array( &$this, 'addMenuItem' ));
         return $this;
+    }
+
+    private function actionHookIsValid( $menuSlug, $parentSlug )
+    {
+        $menuSlug   = plugin_basename($menuSlug);
+        $parentSlug = plugin_basename($parentSlug);
+        $hookname   = get_plugin_page_hookname($menuSlug, $parentSlug);
+
+        return !has_action($hookname);
     }
 
     public function addMenuItem()
     {
         switch( $this->pageType ) {
             case "top":
-                add_menu_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, '') ) {
+                    add_menu_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "dashboard":
-                add_dashboard_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'index.php') ) {
+                    add_dashboard_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "posts":
-                add_posts_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'edit.php') ) {
+                    add_posts_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "pages":
-                add_pages_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'edit.php?post_type=page') ) {
+                    add_pages_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
-            case "management":
-                add_management_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+            case "settings":
+                if( $this->actionHookIsValid($this->menuSlug, 'options-general.php') ) {
+                    add_options_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "users":
-                add_users_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'user.php') || $this->actionHookIsValid($this->menuSlug, 'profile.php') ) {
+                    add_users_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "plugins":
-                add_plugins_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'plugins.php') ) {
+                    add_plugins_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             case "theme":
-                add_theme_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                if( $this->actionHookIsValid($this->menuSlug, 'themes.php') ) {
+                    add_theme_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
             default:
-                // "options" -> Settings
-                add_options_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                // Defaults to Tools Menu
+                if( $this->actionHookIsValid($this->menuSlug, 'tools.php') ) {
+                    add_management_page($this->pageTitle, $this->menuTitle, $this->capabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
                 break;
         }
 

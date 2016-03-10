@@ -88,8 +88,10 @@ You will be able to test the theme or the plugin right away
 ##Current Track
 
 
-###Version 1.2.4 - WPExpress/UI 1.0.1
+###Version 1.2.4 - WPExpress/UI 1.0.2
 
+- Re-tagged
+- Upgrade composer dependency to WPExpress/UI version 1.0.2
 - Changed composer to require wpexpress-ui 1.0.1 
 - Fixed errors with HTMLParser and added a toArray method to FieldCollection 
 

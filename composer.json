@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "page-carbajal/wpexpress-ui": "^1.0.1",
+        "page-carbajal/wpexpress-ui": "^1.0.2",
         "page-carbajal/wpexpress-query": "^0.10.4"
     }
 }
