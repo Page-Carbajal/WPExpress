@@ -23,7 +23,6 @@ abstract class BaseSettingsPage
     protected $customTemplatesPath;
     protected $templateExtension;
     protected $templateFolder;
-    protected $settingsPageHeading;
 
     public function __construct( $title, $userCapabilities = 'manage_options', $menuSlug = false )
     {
@@ -31,7 +30,6 @@ abstract class BaseSettingsPage
         $this->pageTitle           = $title;
         $this->userCapabilities    = $userCapabilities;
         $this->templateExtension   = empty( $this->templateExtension ) ? 'mustache' : $this->templateExtension;
-        $this->settingsPageHeading = empty( $this->settingsPageHeading ) ? 'Settings' : $this->settingsPageHeading;
 
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
         // If pageType was not specified defaults to Tools menu
@@ -130,7 +128,7 @@ abstract class BaseSettingsPage
         $this->menuTitle   = $menuTitle;
         $this->menuSlug    = ( $menuSlug !== false ? sanitize_title($menuSlug) : sanitize_title($menuTitle) );
         $this->fieldPrefix = "__wex_{$this->menuSlug}_";
-        $this->pageTitle   = $menuTitle . ' ' . $this->settingsPageHeading;
+        $this->pageTitle   = $menuTitle;
 
         return $this;
     }

@@ -12,16 +12,17 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 - Database  [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
 	- Query
+	- Post
 	- Taxonomy
+	- MetaField
 	- User **TBD**
 	- UserRole **TBD**
 	- Transient **TBD**
 - Model
 	- BaseModel
-	- BaseModelInterface
 	- BaseTaxonomy
 	- BaseUser **TBD**
-	- BaseRole **TBD**
+	- BaseUserRole **TBD**
 	- BaseRelation **TBD**
 - Admin
 	- BaseSettingsPage
@@ -30,8 +31,10 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 - API **TBD**
 	- BaseAPI
 - UI [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
+    - BaseResources
 	- RenderEngine
-	- HTML/Tags
+	- FieldCollection
+	- HTMLFieldParser
 	- ReactJS **TBD**
 	
 ##RoadMap
@@ -86,6 +89,14 @@ You will be able to test the theme or the plugin right away
 - Add icons support for BaseModel
 
 ##Current Track
+
+
+###Version 1.2.5 - BaseSettingsPage Beautification
+
+- Documentation update
+- Removed the property BaseSettingsPage/settingsPageHeading
+- Simplified the BaseSettingsPage constructor
+- Renamed the property BaseSettingsPage/capabilities to BaseSettingsPage/userCapabilities 
 
 
 ###Version 1.2.4 - WPExpress/UI 1.0.2
