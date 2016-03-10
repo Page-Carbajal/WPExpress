@@ -10,32 +10,31 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 ##Framework Structure
 
-- Database  [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
-	- Query
+- Database  [WPExpress\Query](https://github.com/Page-Carbajal/WPExpress-Query)
+	- [Query](https://github.com/Page-Carbajal/WPExpress/wiki/Query)
 	- Post
 	- Taxonomy
 	- MetaField
-	- User **TBD**
-	- UserRole **TBD**
-	- Transient **TBD**
+	- User
+	- UserRole
+	- BaseTransient
 - Model
-	- BaseModel
-	- BaseTaxonomy
-	- BaseUser **TBD**
-	- BaseUserRole **TBD**
-	- BaseRelation **TBD**
+	- [BaseModel](https://github.com/Page-Carbajal/WPExpress/wiki/BaseModel)
+	- [BaseTaxonomy](https://github.com/Page-Carbajal/WPExpress/wiki/BaseTaxonomy)
+	- BaseUser
+	- BaseUserRole
+	- BaseRelation
 - Admin
-	- BaseSettingsPage
-	- Metabox **TBD**
-	- Widget **TBD**
-- API **TBD**
+	- [BaseSettingsPage](https://github.com/Page-Carbajal/WPExpress/wiki/BaseSettingsPage)
+	- BaseMetabox
+	- BaseWidget
 	- BaseAPI
-- UI [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
+- UI [WPExpress\UI](https://github.com/Page-Carbajal/WPExpress-UI)
     - BaseResources
-	- RenderEngine
-	- FieldCollection
+	- [FieldCollection](https://github.com/Page-Carbajal/WPExpress/wiki/FieldCollection)
 	- HTMLFieldParser
-	- ReactJS **TBD**
+	- RenderEngine
+	- ReactJS
 	
 ##RoadMap
 
@@ -43,22 +42,37 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 
 To be serious about this framework, I need to build a **Command Line Interface**. **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**
 
-###WPExpress 1.3
-
-The stable release of the Framework with al of its members finished and working 100%
-
 
 ##Changelog
 
 ###TODO
 
 - Add icons support for BaseModel
+
+- Tag to 1.4.0 - WPExpress/Query 1.0.0
+    - Database
+        - Users and UserRole
+        - BaseTransient
+    - WPExpress/Model
+        - BaseUser
+        - BaseUserRole
+        
+    
+
+- Tag to 1.3.0
+- Finish MetaBox class
+- Add BaseModel/fields property
+- Add automatic nonce security
 - BaseSettingsPage/AutoSetValues for Fields
     - Create the public method  BaseSettingsPage/setFieldValue to use the field key to set the field value
     - Add apply_filters method to FieldCollection/addNewField to allow setting values with a filter
 
 ##Current Track
 
+
+###Version 1.3.0
+
+- Documentation update
 
 
 ###Version 1.2.5 - BaseSettingsPage Beautification
