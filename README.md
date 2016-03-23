@@ -1,12 +1,103 @@
-# WPExpress - A WordPress Framework for Developers
+# WPExpress
+##WordPress Framework for Software Developers
 
-A light weight framework for WordPress Developers
+For all of you my fellow developer which are not familiar with WordPress. I was going to make the mistake of trying to sell you WordPress platform. But I am not anymore. Instead, I'll ask you to do a google search for ***why use wordpress***.
 
-Built to help you DRY. WPExpress is being developed to expedite the repetitive work, giving you the chance to work in code that matters in your WordPress projects.
+Then do the same for other Content Management Systems, read a little, then decide what's better for you.
+
+I will however tell you why I use WordPress to run my Websites.
+
+**WordPress** powers 25% of the websites on the Internet. This means that 1 of every 4 websites are using it.
+
+* Improved time to market
+* Easily create Content Networks
+* Thousands of themes free and premium
+* Thousands of plugins free and premium
+* It is already a great blogging platform
+* Great UX
+* BuiltIn API
+* Runs on apache or nginx
+* It runs 1/4 of the Internet's websites
+* And it is Open Source
+
+
+##Why should you use WPExpress?
+
+All parents tend to  brag 'bout their children. To refrain from doing just that I will rather talk to you 'bout why I like using frameworks like Rails, Laravel and Symfony.
+
+They make me love writing code. Very smart people wrote hundreds of thousands of lines of code to implement concepts such as Separation of Concern, Convention over Configuration, DRY and so on.
+
+I love rake, and artisan. I am infatuated with how Symfony is structured as a set of components rather than a Framework. I also have a thing for composer, autoloading and depedency management.
+
+And last but not least. I worship [Mustache](http://mustache.github.io) and [Twig](http://twig.sensiolabs.org)
+ 
+I get to know a world as awesome as this and then I go back to write ASP-like code. Like it is 2001 again. That made me sad –Insert the saddest ever emoticon here :(–.
+ 
+
+So I wanted to go from this
+
+```php
+
+function renderOutput()
+{
+<div class="<?php echo $postClass">
+<?if( false == $someValue ) : ?>
+    <p><?php echo $bigTitle; ?></p>
+<?php endif; ?>
+</div>
+}
+
+
+```
+
+To this
+
+```php
+
+function renderOutput()
+{
+    $engine = new RenderEngine('path/to/templates');
+    $context = array(
+        'postClass' => 'article bit title',
+        'bigTitle' => 'This is the big title',
+    );
+    echo $engine->render( 'mustache-template-file-name', $context );
+}
+
+```
+
+I wanted to go from this
+ 
+```php
+
+$args = array();
+
+$query = new WP_Query( $args );
+
+wp_reset_post_data();
+
+```
+
+To this
+
+```php
+
+$posts = Query::Posts->limit(10)->meta('field', 'value')->get();
+
+```
+
+I wanted to use composer, mustache, twig, and every other thing I love in modern PHP within WordPress. But here's the compromise. I do not want to change WordPress. 
+
+I do not want to write my own queries, I do not want to alter the core. I want WordPress to be kept intact. I just want a Framework which will allow me to do more with less.
+
+Less configuration, less plugins, less time to market. Finally I am writing this framework to write meaningful code, and build better websites. 
+
 
 ##Quick Start
 
-WPExpress is designed to be easy to use. Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/wiki)
+This small **WordPress Frmework** is designed to be easy to use. 
+
+Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/wiki) and then visit my website for [videos and tutorials on WPExpress](http://pagecarbajal.com/projects/wpexpress/)
 
 ##Framework Structure
 
@@ -14,252 +105,36 @@ WPExpress is designed to be easy to use. Start by reading our [documentation](ht
 	- [Query](https://github.com/Page-Carbajal/WPExpress/wiki/Query)
 	- Post
 	- Taxonomy
-	- MetaField
 	- User
 	- UserRole
-	- BaseTransient
 - Model
 	- [BaseModel](https://github.com/Page-Carbajal/WPExpress/wiki/BaseModel)
 	- [BaseTaxonomy](https://github.com/Page-Carbajal/WPExpress/wiki/BaseTaxonomy)
 	- BaseUser
 	- BaseUserRole
-	- BaseRelation
+	- BaseRelation **May Be**
+- Contracts
+    - BaseWordPressFilters
 - Admin
 	- [BaseSettingsPage](https://github.com/Page-Carbajal/WPExpress/wiki/BaseSettingsPage)
-	- BaseMetabox
 	- BaseWidget
 	- BaseAPI
 - UI [WPExpress\UI](https://github.com/Page-Carbajal/WPExpress-UI)
     - BaseResources
 	- [FieldCollection](https://github.com/Page-Carbajal/WPExpress/wiki/FieldCollection)
+	- MetaBoxCollection
 	- HTMLFieldParser
 	- RenderEngine
 	- ReactJS
+
+
 	
-##RoadMap
+###Minerva for WPExpress
 
-###Anouncing Minerva for WPExpress
+I need to build a **Command Line Interface** for this little framework. With some additional effort **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**.
 
-To be serious about this framework, I need to build a **Command Line Interface**. **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**
+Stay tuned for more information on it.  
 
 
-##Changelog
 
-###TODO
-
-- Add icons support for BaseModel
-
-- Tag to 1.4.0 - WPExpress/Query 1.0.0
-    - Database
-        - Users and UserRole
-        - BaseTransient
-    - WPExpress/Model
-        - BaseUser
-        - BaseUserRole
-        
-    
-
-- Tag to 1.3.0
-- Finish MetaBox class
-- Add BaseModel/fields property
-- Add automatic nonce security
-- BaseSettingsPage/AutoSetValues for Fields
-    - Create the public method  BaseSettingsPage/setFieldValue to use the field key to set the field value
-    - Add apply_filters method to FieldCollection/addNewField to allow setting values with a filter
-
-##Current Track
-
-
-###Version 1.3.0
-
-- Documentation update
-
-
-###Version 1.2.5 - BaseSettingsPage Beautification
-
-- Changed the methods update_site_option and get_site_option to update_option and get_option
-- Allow empty values on BaseSettings/save
-- Documentation update
-- Removed the property BaseSettingsPage/settingsPageHeading
-- Simplified the BaseSettingsPage constructor
-- Renamed the property BaseSettingsPage/capabilities to BaseSettingsPage/userCapabilities 
-
-
-###Version 1.2.4 - WPExpress/UI 1.0.2
-
-- Re-tagged
-- Upgrade composer dependency to WPExpress/UI version 1.0.2
-- Changed composer to require wpexpress-ui 1.0.1 
-- Fixed errors with HTMLParser and added a toArray method to FieldCollection 
-
-###Version 1.2.3 - WPExpress/UI 1.0.0
-
-- Upgraded to WPExpress/UI 1.0.0
-
-###Version 1.2.2 - Fixed BaseSettingsPage Template Path Error
-
-- Fixed the template path verification error
-
-
-###Version 1.2.1 - BaseModel simplification
-
-- Made the parameter $bean optional on BaseModel class
-
-
-###Version 1.2.0 - Dropped BaseModelInterface
-
-- Added the method getPostType to BaseModel
-- Deleted the BaseModelInterface class in favor of Convention over Configuration
-
-
-###Version 1.1.0
-
-- Simplified the classes Page and Post
-- Added constructor function to make it easier for folks to get started with the project
-- Removed the datatype from function declaration on BaseModel/setPublic
-
-
-###Version 1.0.0
-
-- Made Post class final
-- Made Post class extend BaseModel 
-- Added empty abstract class Admin/MetaBox class
-- Added empty abstract class API/BaseApi 
-- Added empty abstract classes BaseUser and BaseUserRole 
-- Added BaseModel, BaseModelInterface and BaseTaxonomy abstract classes
-- Finished the first iteration on the project structure
-- Removed Abstractions, Model and Interfaces folder from project structure
-
-
-##Version Zero-Six
-
-This version is maintained for compatibility purposes only. 
-
-
-###Version 0.6.1 - Updated Query version
-
-- Updated WPExpress Query version
-
-###Version 0.6.0 - New models
-
-- Implementing BaseTaxonomy
-- Updated WPExpress/Query dependency 
-- Implemented basic methods for BaseTaxonomy
-- Added empty Sample classes Post and Taxonomy
-- Added empty BaseTaxonomy class
-- Added empty BasePostModel class
-
-
-###Version 0.5.4 - Updated WPExpress/UI version
-
-- Updated WPExpress to 0.5.2
-
-###Version 0.5.3 - Fixes SettingsPage Render Error
-
-- Throw exception if template file not found
-- Implemented fail-safe to render dedault settings-page template on error
-- Updated WPExpress/UI to 0.5.1
-- Added vendor directory to .gitignore 
-
-
-###Version 0.5.2
-
-- Applied code styling to BaseModel class
-- Added property BaseModel/menuPosition accessible with magic methods
-- Fixed the default menu position to 20
-
-
-###Version 0.5.1
-
-- Moved to require PHP 5.6 or higher
-- Updated the version of WPExpress UI
-- Removed the vendor folder from the repository
-- Fixed the BaseModel/getSupportedFeatures error
-- Adopted [Semantic Versioning](http://semver.org)
-
-###Version 0.5 - Separation of Packages UI and Query
-
-- Both packages are included through composer
-- Created the package [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
-- Created the package [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
-
-###Version 0.4 - Twig and RenderEngine enhancements
-
-- Implemented RenderEngine changes to SettingsPage class
-- Modified the constructor for RenderEngine 
-- Added RenderEngine getTemplatePath public method
-- Added RenderEngine createDirectoryStructure private method
-- Finished the renderTwigTemplate method
-- Render Engine can now use Twig or Mustache
-- Required Twig with Composer
-
-
-###Version 0.3.2 - BaseModel Enhancements
-
-- Tagged to 0.3.2
-- Updated documentation
-- Moved methods getThumbnail and getThumbnailURL to BaseModel
-    - Both methods check for thumbnailSupport, else return false
-- Added empty BaseModel setPostTypeLabels
-- Implemented BaseModel getPostTypeLabels
-- Implemented BaseModel setSupportedFeatures and getSupportedFeatures (Title, Editor, Thumbnail)
-- Implemented BaseModel getByTerm
-- Implemented BaseModel getByField
-- Implemented BaseModel getAll
-- Implemented magic methods __set and __get in the base model
-- Implemented BaseModel registerCustomPostType method
-
-###Version 0.3.1
-
-- Implemented the term() method to search by taxonomy/value
-- Array values are transformed to a csv string in the meta method
-- Added the selectField method to Tags class
-- Edited the settings page template
-- Added the getValue method to SettingsPage class
-
-###Version 0.3
-
-* Refactoring of field management // Needs more work
-* Added save method to the SettingsPage class
-* Added Support for Array Fields
-* Added support for custom template path in SettingsPage
-* Added filter to support custom context
-* Refactoring of the template properties
-* Added checkboxField and radioButtonField methods
-* Finished Functionality to render settings page
-* Added empty UI/HTML/Tags class 
-* Rendering empty settings page
-* Added RenderEngine
-* Added empty settings page
-* Added resources directory
-* Added SettingPage abstract class
-* Added Mustache with composer
-* Added UI Class
-
-###Version 0.2.2
-
-* Added the empty methods registerCustomPostType and addCustomField to BaseModel
-* Added the getField method to BaseModel
-* Added the property postTypeSlug to BaseModel
-* Added the basic Constructor for class Post
-* Added empty sort and term methods to Query
-* Added methods getThumbnail and getThumbnailURL to Post class
-* Implemented static methods getAll, getByField, getByTaxonomy on BaseMode
-
-###Version 0.2.1
-
-* Implements basic methods for class Query
-
-###Version 0.2
-
-* Created Abstract class /Model/Abstractions/BaseModel
-* Created the Interface iBaseModel
-* Created the class Model/Post implements BaseModel and iBaseModel
-
-###Version 0.1
-
-* Created empty repository
-* Defined basic PSR-4 structure
-* Added Road Map and Changelog
-* Created the class Query. An abstraction layer for the class WP_Query
 
