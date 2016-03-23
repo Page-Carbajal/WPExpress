@@ -31,6 +31,7 @@
     - Grant exclusive access by ID, login, email, Role or capabilities
     - Enable Ajax Updates
     - Disable Ajax update
+- Added empty Contracts/BaseWordPressFilters class 
 - Implemented auto save values on post for custom fields
 - Implemented auto load values for custom fields
 - Implemented MetaBoxes and Custom Fields render methods
