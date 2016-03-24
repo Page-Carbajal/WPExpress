@@ -215,7 +215,7 @@ abstract class BaseModel
             // If the type has not meta boxes create one by default
             if( count($me->metaBoxes) == 0 && count($me->fields) > 0 ) {
                 $me->metaBoxes = new MetaBoxCollection();
-                $me->metaBoxes->add("Properties for {$me->title}");
+                $me->metaBoxes->add("Properties for {$me->singularNameLabel}");
             }
 
             foreach( $me->metaBoxes->toArray() as $ID => $box ) {
