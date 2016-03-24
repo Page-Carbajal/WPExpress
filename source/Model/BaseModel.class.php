@@ -490,12 +490,12 @@ abstract class BaseModel
         return self::toStaticList($posts);
     }
 
-    public static function getLatest( $limitTo = 10 )
+    public static function getMostRecent( $limitTo = 10 )
     {
         return self::get($limitTo);
     }
 
-    public static function getNewest( $limitTo = 10 )
+    public static function getLeastRecent( $limitTo = 10 )
     {
         return self::get($limitTo, false);
     }
