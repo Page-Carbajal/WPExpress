@@ -7,30 +7,21 @@
 - Tag to 1.4.0 - WPExpress/Query 1.0.0
     - Database
         - Users and UserRole
-        - BaseTransient
+        - Refactorize Query and Taxonomy classes
     - WPExpress/Model
         - BaseUser
-        - BaseUserRole
-        
-    
-
-- Tag to 1.3.0
-- Finish MetaBox class
-- Add BaseModel/fields property
-- Add automatic nonce security
-- BaseSettingsPage/AutoSetValues for Fields
-    - Create the public method  BaseSettingsPage/setFieldValue to use the field key to set the field value
-    - Add apply_filters method to FieldCollection/addNewField to allow setting values with a filter
-
-##Current Track
-
+        - BaseUserRole    
+        - Add automatic nonce security
+        - Add javascript field validation
 
 ###Version 1.3.0 - Base Model MetaBoxes and Fields
 
 - **TODO**
-    - Grant exclusive access by ID, login, email, Role or capabilities
+    - Restrict access to fields by user ID, login, email, Role or capabilities
     - Enable Ajax Updates
     - Disable Ajax update
+- Added methods BaseModel/getFieldValue and BaseModel/fieldsAreEmpty
+- Added BaseModel/fields property
 - Concealed the love legend and the link from the metabox-content template
 - Fixed BaseModel's Default meta box title
 - Finished field auto-loading and auto-saving 

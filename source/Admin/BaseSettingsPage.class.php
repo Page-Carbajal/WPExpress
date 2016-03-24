@@ -213,79 +213,6 @@ abstract class BaseSettingsPage
         // TODO: Delete all data based on the existent fields
     }
 
-    //    public function registerMetaFieldsArray( $name, $collection, $fieldType, $groupName, $customAttributes = array() )
-    //    {
-    //        $name                                            = sanitize_title($name);
-    //        $this->registeredMetaFieldArrays[]               = array( 'name' => $name, 'collection' => $collection, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
-    //        $this->properties["{$this->fieldPrefix}{$name}"] = '';
-    //    }
-    //
-    //    private function addMetaFieldsArray( $name, $collection, $fieldType = 'text', $groupName = '', $customAttributes = array() )
-    //    {
-    //        $name                            = sanitize_title($name);
-    //        $propertyName                    = "{$this->fieldPrefix}{$name}";
-    //        $this->properties[$propertyName] = $items = get_option($propertyName, "");
-    //        $itemKeys                        = array_keys($items);
-    //
-    //        foreach( $collection as $key => $value ) {
-    //            //            $basicFieldProperties = $this->getFieldBasicProperties($fieldType, $name, $value, $groupName, true);
-    //            $properties = array(
-    //                'name'      => $name . '[]',
-    //                'id'        => $name . "_{$key}",
-    //                'value'     => $key,
-    //                'labelText' => $key,
-    //                'group'     => ( empty( $groupName ) ? '' : $groupName ),
-    //            );
-    //
-    //            if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) && in_array($key, $items) ) {
-    //                $properties['checked'] = true;
-    //            }
-    //
-    //            $this->fields[] = array( 'type' => $fieldType, 'name' => $name . '[]', 'properties' => array_merge($properties, $customAttributes) );
-    //        }
-    //    }
-    //
-    //    public function registerMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
-    //    {
-    //        $name                                            = sanitize_title($name);
-    //        $this->registeredMetaFields[]                    = array( 'name' => $name, 'labelText' => $labelText, 'fieldType' => $fieldType, 'groupName' => $groupName, 'customAttributes' => $customAttributes );
-    //        $this->properties["{$this->fieldPrefix}{$name}"] = '';
-    //    }
-    //
-    //    private function addMetaField( $name, $labelText, $fieldType = 'text', $groupName = '', $customAttributes = array() )
-    //    {
-    //        $name = sanitize_title($name);
-    //        // Add the field Markup
-    //        // Get the value if any!
-    //        $propertyName                    = "{$this->fieldPrefix}{$name}";
-    //        $this->properties[$propertyName] = $fieldValue = get_option($propertyName, "");
-    //
-    //        // Add the field Markup
-    //        $properties       = array( 'name' => $name, 'value' => $fieldValue, 'labelText' => $labelText );
-    //        $properties['id'] = $properties['name'];
-    //        if( !empty( $group ) ) {
-    //            $properties['group'] = $groupName;
-    //        }
-    //
-    //        if( in_array($fieldType, array( 'checkbox', 'radiobutton' )) ) {
-    //            if( $fieldValue == $name ) {
-    //                $properties['checked'] = true;
-    //            }
-    //        }
-    //
-    //        $this->fields[] = array( 'type' => $fieldType, 'name' => $name, 'properties' => array_merge($properties, $customAttributes) );
-    //    }
-    //
-    //    private function processRegisteredFields()
-    //    {
-    //        foreach( $this->registeredMetaFields as $field ) {
-    //            $this->addMetaField($field['name'], $field['labelText'], $field['fieldType'], $field['groupName'], $field['customAttributes']);
-    //        }
-    //
-    //        foreach( $this->registeredMetaFieldArrays as $arrayField ) {
-    //            $this->addMetaFieldsArray($arrayField['name'], $arrayField['collection'], $arrayField['fieldType'], $arrayField['groupName'], $arrayField['customAttributes']);
-    //        }
-    //    }
 
     public function fields( $name )
     {
@@ -298,15 +225,16 @@ abstract class BaseSettingsPage
         return get_option($optionName);
     }
 
+    //DEPRECATED. Do not use!!!
     public function getValue( $fieldName )
     {
         // TODO: Deprecate this function
         return $this->getOptionValue($fieldName);
     }
 
+    //DEPRECATED. Do not use!!!
     private function getSegments()
     {
-
         return '';
     }
 

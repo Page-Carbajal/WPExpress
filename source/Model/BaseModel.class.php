@@ -300,6 +300,27 @@ abstract class BaseModel
         return $this->fields; // Is a direct access to the property
     }
 
+    private function fieldsAreEmpty()
+    {
+        $empty = true;
+        foreach( $this->fields->toArray() as $name => $field ){
+            if(!empty($field->value)){
+                $empty = false;
+                break;
+            }
+        }
+        return $empty;
+    }
+
+    public function getFieldValue($field)
+    {
+        if( $this->fieldsAreEmpty() ){
+            $this->loadFieldValues();
+        }
+        
+        return $this->fields->field($field)->getValue();
+    }
+
     // Load on constructor
     protected function loadFieldValues()
     {
@@ -438,6 +459,17 @@ abstract class BaseModel
     public function getByID( $ID )
     {
         return new static($ID);
+    }
+
+    public static function get( $limitTo = 10 )
+    {
+        $posts = Query::Custom(static::getPostType())->limit($limitTo)->get();
+        $list  = array();
+        foreach( $posts as $post ) {
+            $item   = new static($post);
+            $list[] = $item;
+        }
+        return $list;
     }
 
     public static function getAll()
