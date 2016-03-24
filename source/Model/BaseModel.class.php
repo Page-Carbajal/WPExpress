@@ -220,7 +220,7 @@ abstract class BaseModel
 
             foreach( $me->metaBoxes->toArray() as $ID => $box ) {
                 $arguments = array(
-//                    'metaboxes'      => $me->metaBoxes,
+                    //                    'metaboxes'      => $me->metaBoxes,
                     'currentMetaBox' => $ID,
                     'fields'         => $me->fields->parseFields($me->metaBoxes->box($ID)->getFields()),
                 );
@@ -264,8 +264,27 @@ abstract class BaseModel
 
     public static function registerScriptsAndStyles()
     {
-        // TODO: Implement Scripts for Controls and Validation
-        do_action('baseModelEnqueueStylesAndScripts');
+        $baseDir = untrailingslashit(dirname(__FILE__));
+
+        $style  = "{$baseDir}/../../resources/css/metabox.css";
+        $script = "{$baseDir}/../../resources/js/metabox-validation.js";
+
+        if( file_exists($style) ) {
+            // wp_enqueue_style('wpexpress-metabox-style', $style);
+            // Can't really enqueue a thing since this is not a plugin not a theme.
+            // Therefore we will rely in this case to something rather unappealing
+            add_action('admin_head', function () use ( $style ) {
+                $rawCSS = file_get_contents($style);
+                echo "<style type=\"text/css\">{$rawCSS}</style>";
+            });
+        }
+
+        if( file_exists($script) ) {
+            add_action('admin_footer', function () use ( $script ) {
+                $rawJS = file_get_contents($script);
+                echo "<script type=\"text/javascript\">{$rawJS}</script>";
+            });
+        }
     }
 
     /****Custom Field Methods****/

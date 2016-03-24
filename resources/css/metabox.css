@@ -1,0 +1,20 @@
+div.metaboxContent{
+    display: block;
+    padding: 20px 0 40px;
+}
+
+div.metaboxContent label{
+    display: inline-block;
+    min-width: 150px;
+    text-transform: capitalize;
+}
+div.metaboxContent input[type=text]{
+    display: inline-block;
+    min-width: 400px;
+}
+div.metaboxContent textarea{
+    display: block;
+    clear: both;
+    margin-top: 15px;
+    min-width: 60%;
+}

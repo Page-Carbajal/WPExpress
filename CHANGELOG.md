@@ -31,7 +31,11 @@
     - Grant exclusive access by ID, login, email, Role or capabilities
     - Enable Ajax Updates
     - Disable Ajax update
-- Added empty Contracts/BaseWordPressFilters class 
+- Implemented empty meta box validation scripts on admin
+- Implemented meta box styles on admin
+- Added empty Contracts/BaseWordPressFilters class
+- Implemented BaseModel/setTemplatePath method
+- Added the metabox-content.mustache template
 - Implemented auto save values on post for custom fields
 - Implemented auto load values for custom fields
 - Implemented MetaBoxes and Custom Fields render methods
