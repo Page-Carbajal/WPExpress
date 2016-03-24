@@ -188,7 +188,7 @@ abstract class BaseModel
         add_action('admin_init', array( $this, 'registerMetaBoxes' ));
         //        add_action('admin_head', array( $this, '' )); // Set with a script instead
         // Save Post MetaData
-        add_action('save_post', array( $this, 'saveFieldValues' ), 10, 2);
+        add_action('save_post', array( &$this, 'saveFieldValues' ), 10, 2);
         // Register Scripts
         add_action('admin_enqueue_scripts', array( __CLASS__, 'registerScriptsAndStyles' ));
 
@@ -220,9 +220,7 @@ abstract class BaseModel
 
             foreach( $me->metaBoxes->toArray() as $ID => $box ) {
                 $arguments = array(
-                    //                    'metaboxes'      => $me->metaBoxes,
                     'currentMetaBox' => $ID,
-                    'fields'         => $me->fields->parseFields($me->metaBoxes->box($ID)->getFields()),
                 );
                 add_meta_box($box->ID, $box->title, array( $this, 'renderFields' ), $me->getPostType(), $box->context, $box->priority, $arguments);
             }
@@ -254,10 +252,15 @@ abstract class BaseModel
 
     public function renderFields( $post, $params )
     {
-        $me           = new static();
+        $me = new static($post);
+
+        // Auto Load Field Values
+        $me->loadFieldValues();
+
         $templatePath = empty( $me->templatePath ) ? untrailingslashit(dirname(__FILE__)) . "/../../resources/templates" : $me->templatePath;
         $engine       = new RenderEngine($templatePath);
-        $fields       = isset( $params['args']['fields'] ) ? $params['args']['fields'] : null;
+        $boxID        = $params['args']['currentMetaBox'];
+        $fields       = $me->fields->parseFields($me->metaBoxes->box($boxID)->getFields());
 
         echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
     }
@@ -294,7 +297,7 @@ abstract class BaseModel
         if( $this->fields instanceof FieldCollection ) {
             $this->fields->field($name); //Sets active field
         }
-        return $this;
+        return $this->fields; // Is a direct access to the property
     }
 
     // Load on constructor
@@ -303,9 +306,10 @@ abstract class BaseModel
         $meta = get_post_meta($this->ID, $this->fieldsMetaID, true);
 
         if( is_array($meta) ) {
-            foreach( $this->fields as $name => $field ) {
-                if( isset( $meta[$name] ) ) {
-                    $this->fields($name)->setValue($meta[$name]);
+            foreach( $this->fields->toArray() as $name => $field ) {
+                $fieldName = sanitize_title($name);
+                if( isset( $meta[$fieldName] ) ) {
+                    $this->fields($name)->setValue($meta[$fieldName]);
                 }
             }
         }
@@ -313,15 +317,20 @@ abstract class BaseModel
         return $this;
     }
 
-    public function saveFieldValues()
+    public function saveFieldValues( $postID, $post = false )
     {
-        $meta = array();
+        $screen = get_current_screen();
+        if( $screen->post_type == $this->getPostType() ) {
+            $meta = array();
+            //$instance = new static($post);
 
-        foreach( $this->fields as $name => $field ) {
-            $meta[$name] = ( isset( $_POST ) && isset( $_POST[$name] ) ) ? $_POST[$name] : $this->fields($name)->getValue();
+            foreach( $this->fields->toArray() as $title => $field ) {
+                $fieldID        = sanitize_title($title);
+                $meta[$fieldID] = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+            }
+
+            update_post_meta($postID, $this->fieldsMetaID, $meta);
         }
-
-        update_post_meta($this->ID, $this->fieldsMetaID, $meta);
 
         return $this;
     }
