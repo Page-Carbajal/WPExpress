@@ -31,6 +31,7 @@
     - Grant exclusive access by ID, login, email, Role or capabilities
     - Enable Ajax Updates
     - Disable Ajax update
+- Concealed the love legend and the link from the metabox-content template
 - Fixed BaseModel's Default meta box title
 - Finished field auto-loading and auto-saving 
 - Implemented empty meta box validation scripts on admin
