@@ -47,6 +47,8 @@ abstract class BaseModel
     // Original Post Object
     protected $post;
 
+    private static $instance;
+
     public function __construct( $bean = null )
     {
         $me   = new \ReflectionClass($this);
@@ -303,8 +305,8 @@ abstract class BaseModel
     private function fieldsAreEmpty()
     {
         $empty = true;
-        foreach( $this->fields->toArray() as $name => $field ){
-            if(!empty($field->value)){
+        foreach( $this->fields->toArray() as $name => $field ) {
+            if( !empty( $field->value ) ) {
                 $empty = false;
                 break;
             }
@@ -312,12 +314,12 @@ abstract class BaseModel
         return $empty;
     }
 
-    public function getFieldValue($field)
+    public function getFieldValue( $field )
     {
-        if( $this->fieldsAreEmpty() ){
+        if( $this->fieldsAreEmpty() ) {
             $this->loadFieldValues();
         }
-        
+
         return $this->fields->field($field)->getValue();
     }
 
@@ -456,53 +458,48 @@ abstract class BaseModel
     /****** Static Methods **********/
     // Traversing Methods
 
-    public function getByID( $ID )
+    private function instance()
+    {
+        if( empty( self::$instance ) ) {
+            self::$instance = new static();
+        }
+        return self::$instance;
+    }
+
+    private static function toStaticList( $posts )
+    {
+        return array_map(function ( $post ) {
+            return new static($post);
+        }, $posts);
+    }
+
+    public static function getByID( $ID )
     {
         return new static($ID);
     }
 
     public static function get( $limitTo = 10 )
     {
-        $posts = Query::Custom(static::getPostType())->limit($limitTo)->get();
-        $list  = array();
-        foreach( $posts as $post ) {
-            $item   = new static($post);
-            $list[] = $item;
-        }
-        return $list;
+        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->get();
+        return self::toStaticList($posts);
     }
 
     public static function getAll()
     {
-        $posts = Query::Custom(static::getPostType())->all()->get();
-        $list  = array();
-        foreach( $posts as $post ) {
-            $item   = new static($post);
-            $list[] = $item;
-        }
-        return $list;
+        $posts = Query::Custom(self::instance()->getPostType())->all()->get();
+        return self::toStaticList($posts);
     }
 
     public static function getByField( $field, $value )
     {
-        $posts = Query::Custom(static::getPostType())->all()->meta($field, $value)->get();
-        $list  = array();
-        foreach( $posts as $post ) {
-            $item   = new static($post);
-            $list[] = $item;
-        }
-        return $list;
+        $posts = Query::Custom(self::instance()->getPostType())->all()->meta($field, $value)->get();
+        return self::toStaticList($posts);
     }
 
     public static function getByTaxonomy( $taxonomyName, $taxonomyTerm )
     {
-        $posts = Query::Custom(static::getPostType())->all()->term($taxonomyName, $taxonomyTerm)->get();
-        $list  = array();
-        foreach( $posts as $post ) {
-            $item   = new static($post);
-            $list[] = $item;
-        }
-        return $list;
+        $posts = Query::Custom(self::instance()->getPostType())->all()->term($taxonomyName, $taxonomyTerm)->get();
+        return self::toStaticList($posts);
     }
 
 }

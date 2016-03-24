@@ -28,8 +28,13 @@
         - Add javascript field validation
     - WPExpress/Admin
         - Autoload field values
+        
+###Version 1.3.1 - BaseModel refactoring
 
-###Version 1.3.0 - Base Model MetaBoxes and Fields
+- Added method toStaticList
+- Added static property and method instance to BaseModel
+
+###Version 1.3.0 - BaseModel MetaBoxes and Fields
 
 - Added methods BaseModel/getFieldValue and BaseModel/fieldsAreEmpty
 - Added BaseModel/fields property
