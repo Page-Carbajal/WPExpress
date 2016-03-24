@@ -4,7 +4,17 @@
 
 - Add icons support for BaseModel
 
-- Tag to 1.4.0 - WPExpress/Query 1.0.0
+- Version 1.6.0 - Repeatable Fields
+    - Develop methods for WPExpress/UI/FieldCollection repeatable fields
+- Version 1.5.0 - Additional field methods
+    - Develop methods for WPExpress/UI/FieldCollection
+        - addNumberInput
+        - addURLInput
+        - addEmailInput
+        - addGoogleMap
+        - addRichTextArea
+        - addCodeInput
+- Version 1.4.0 - WPExpress/Query 1.0.0
     - Database
         - Users and UserRole
         - Refactorize Query and Taxonomy classes
@@ -12,14 +22,15 @@
         - BaseUser
         - BaseUserRole    
         - Add automatic nonce security
+        - Restrict access to fields by user ID, login, email, Role or capabilities
+        - Implement method disableAjaxUpdate
+        - Implement Asynchronous field update
         - Add javascript field validation
+    - WPExpress/Admin
+        - Autoload field values
 
 ###Version 1.3.0 - Base Model MetaBoxes and Fields
 
-- **TODO**
-    - Restrict access to fields by user ID, login, email, Role or capabilities
-    - Enable Ajax Updates
-    - Disable Ajax update
 - Added methods BaseModel/getFieldValue and BaseModel/fieldsAreEmpty
 - Added BaseModel/fields property
 - Concealed the love legend and the link from the metabox-content template
