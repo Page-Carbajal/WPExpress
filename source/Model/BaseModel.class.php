@@ -478,10 +478,38 @@ abstract class BaseModel
         return new static($ID);
     }
 
-    public static function get( $limitTo = 10 )
+    public static function get( $limitTo = 10, $newerFirst = true )
     {
-        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->get();
+        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->orderByDate($newerFirst)->get();
         return self::toStaticList($posts);
+    }
+
+    public static function getSorted( $limitTo, $sortField, $lowToHigh = false )
+    {
+        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->sortBy($sortField)->sortOrder($lowToHigh)->get();
+        return self::toStaticList($posts);
+    }
+
+    public static function getLatest( $limitTo = 10 )
+    {
+        return self::get($limitTo);
+    }
+
+    public static function getNewest( $limitTo = 10 )
+    {
+        return self::get($limitTo, false);
+    }
+
+    public function getFirst()
+    {
+        $post = Query::Custom(self::instance()->getPostType())->limit(1)->orderByDate(false)->get('first');
+        return new static($post);
+    }
+
+    public function getLast()
+    {
+        $post = Query::Custom(self::instance()->getPostType())->limit(1)->orderByDate()->get('first');
+        return new static($post);
     }
 
     public static function getAll()
