@@ -457,7 +457,7 @@ abstract class BaseModel
 
     /****** Static Methods **********/
     // Traversing Methods
-
+    // TODO: Consider abstracting this to a class called TraversingMethods for better reading and ease of further development
     private function instance()
     {
         if( empty( self::$instance ) ) {
