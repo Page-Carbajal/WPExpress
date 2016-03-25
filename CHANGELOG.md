@@ -31,6 +31,7 @@
         
 ###Version 1.3.1 - BaseModel refactoring
 
+- Fixed BaseModel/instance method bug with reflection 
 - Added several traversing methods to BaseModel
 - Added method toStaticList
 - Added static property and method instance to BaseModel

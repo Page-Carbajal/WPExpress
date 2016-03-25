@@ -460,7 +460,9 @@ abstract class BaseModel
     // TODO: Consider abstracting this to a class called TraversingMethods for better reading and ease of further development
     private function instance()
     {
-        if( empty( self::$instance ) ) {
+        $currentClass = get_called_class();
+        $instanceName = empty( self::$instance ) ? '' : new \ReflectionClass(self::$instance);
+        if( empty( self::$instance ) || ( $instanceName->name != $currentClass ) ) {
             self::$instance = new static();
         }
         return self::$instance;
