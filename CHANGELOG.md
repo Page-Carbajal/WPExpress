@@ -15,20 +15,22 @@
         - addRichTextArea
         - addCodeInput
         - addCalendar
-- Version 1.4.0 - WPExpress/Query 1.0.0
-    - Database
-        - Users and UserRole
-        - Refactorize Query and Taxonomy classes
-    - WPExpress/Model
-        - BaseUser
-        - BaseUserRole    
-        - Add automatic nonce security
-        - Restrict access to fields by user ID, login, email, Role or capabilities
-        - Implement method disableAjaxUpdate
-        - Implement Asynchronous field update
-        - Add javascript field validation
-    - WPExpress/Admin
-        - Autoload field values
+
+
+###Version 1.4.0 - WPExpress/Query 1.0.0
+- Database
+    - Users and UserRole
+    - Refactorize Query and Taxonomy classes
+- WPExpress/Model
+    - BaseUser
+    - BaseUserRole    
+    - Add automatic nonce security
+    - Restrict access to fields by user ID, login, email, Role or capabilities
+    - Implement method disableAjaxUpdate
+    - Implement Asynchronous field update
+    - Add javascript field validation
+- WPExpress/Admin
+    - Autoload field values
         
 ###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 
