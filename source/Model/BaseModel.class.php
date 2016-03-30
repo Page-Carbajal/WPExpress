@@ -342,17 +342,20 @@ abstract class BaseModel
 
     public function saveFieldValues( $postID, $post = false )
     {
-        $screen = get_current_screen();
-        if( $screen->post_type == $this->getPostType() ) {
-            $meta = array();
-            //$instance = new static($post);
+        if( function_exists('get_current_screen') ) {
 
-            foreach( $this->fields->toArray() as $title => $field ) {
-                $fieldID        = sanitize_title($title);
-                $meta[$fieldID] = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+            $screen = get_current_screen();
+            if( $screen->post_type == $this->getPostType() ) {
+                $meta = array();
+                //$instance = new static($post);
+
+                foreach( $this->fields->toArray() as $title => $field ) {
+                    $fieldID        = sanitize_title($title);
+                    $meta[$fieldID] = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+                }
+
+                update_post_meta($postID, $this->fieldsMetaID, $meta);
             }
-
-            update_post_meta($postID, $this->fieldsMetaID, $meta);
         }
 
         return $this;

@@ -14,6 +14,7 @@
         - addGoogleMap
         - addRichTextArea
         - addCodeInput
+        - addCalendar
 - Version 1.4.0 - WPExpress/Query 1.0.0
     - Database
         - Users and UserRole
@@ -28,6 +29,10 @@
         - Add javascript field validation
     - WPExpress/Admin
         - Autoload field values
+        
+###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
+
+- Fixed an error to verify the existence of a function before execution
         
 ###Version 1.3.1 - BaseModel refactoring
 
