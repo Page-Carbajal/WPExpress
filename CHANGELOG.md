@@ -31,6 +31,11 @@
     - Add javascript field validation
 - WPExpress/Admin
     - Autoload field values
+    
+###Version 1.3.3 - BaseModel/enableArchive
+
+- Added filter wpx_model_[PostType]_slug
+- Added methods BaseModel/enableArchive and disableArchive
         
 ###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 

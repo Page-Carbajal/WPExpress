@@ -27,6 +27,7 @@ abstract class BaseModel
     protected $titleSupport        = true;
     protected $editorSupport       = true;
     protected $thumbnailSupport    = true;
+    protected $hasArchive          = false;
     protected $postTypeDescription = '';
 
     protected $isPublic;
@@ -51,11 +52,10 @@ abstract class BaseModel
 
     public function __construct( $bean = null )
     {
-        $me   = new \ReflectionClass($this);
         $post = null;
 
         // If your class name is Book. Your Post Type would be 'book'
-        $this->postType = sanitize_title($me->getShortName());
+        $this->getPostType();
 
         if( is_int($bean) ) {
             $post = get_post($bean);
@@ -74,7 +74,7 @@ abstract class BaseModel
 
         // Setup Basic post data
         if( empty( $this->nameLabel ) ) {
-            $this->nameLabel         = $me->getShortName();
+            $this->nameLabel         = ucwords(implode(' ', explode('-', $this->getPostType())));
             $this->postTypeSlug      = sanitize_title($this->nameLabel);
             $this->singularNameLabel = $this->nameLabel;
         }
@@ -85,10 +85,15 @@ abstract class BaseModel
 
 
         $this->registerCustomPostType()->registerFilters();
+        
     }
 
     public function getPostType()
     {
+        if( empty( $this->postType ) ) {
+            $bean           = new \ReflectionClass($this);
+            $this->postType = sanitize_title($bean->getShortName());
+        }
         return $this->postType;
     }
 
@@ -148,6 +153,18 @@ abstract class BaseModel
         return $features;
     }
 
+    protected function enableArchive()
+    {
+        $this->hasArchive = true;
+        //TODO: Flush Rewrite rules by convention
+        //flush_rewrite_rules();
+    }
+
+    protected function disableArchive()
+    {
+        $this->hasArchive = false;
+    }
+
     protected function registerCustomPostType()
     {
         if( !post_type_exists($this->getPostType()) ) {
@@ -164,10 +181,10 @@ abstract class BaseModel
                 'menu_position'       => ( isset( $this->menuPosition ) ? $this->menuPosition : 20 ),
                 'exclude_from_search' => true,
                 'hierarchical'        => false,
-                'rewrite'             => array( 'slug' => $this->postTypeSlug ),
+                'rewrite'             => array( 'slug' => apply_filters("wpx_model_{$this->postTypeSlug}_slug", $this->postTypeSlug) ),
                 'query_var'           => true,
                 'supports'            => $this->getSupportedFeatures(),
-                'has_archive'         => false,
+                'has_archive'         => $this->hasArchive,
                 'show_in_nav_menus'   => false,
             );
 
