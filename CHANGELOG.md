@@ -34,6 +34,7 @@
     
 ###Version 1.3.3 - BaseModel/enableArchive
 
+- Added empty metabox-validation.js file 
 - Added filter wpx_model_[PostType]_slug
 - Added methods BaseModel/enableArchive and disableArchive
         
