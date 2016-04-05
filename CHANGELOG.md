@@ -32,6 +32,10 @@
 - WPExpress/Admin
     - Autoload field values
     
+###Version 1.3.4 - BaseModel static bindings
+
+- Fixed a array_map static binding bug
+
 ###Version 1.3.3 - BaseModel/enableArchive
 
 - Added empty metabox-validation.js file 

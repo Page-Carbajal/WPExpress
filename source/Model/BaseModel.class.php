@@ -88,6 +88,8 @@ abstract class BaseModel
         
     }
 
+    protected function __clone() {}
+
     public function getPostType()
     {
         if( empty( $this->postType ) ) {
@@ -478,7 +480,7 @@ abstract class BaseModel
     /****** Static Methods **********/
     // Traversing Methods
     // TODO: Consider abstracting this to a class called TraversingMethods for better reading and ease of further development
-    private function instance()
+    private static function instance()
     {
         $currentClass = get_called_class();
         $instanceName = empty( self::$instance ) ? '' : new \ReflectionClass(self::$instance);
@@ -490,9 +492,17 @@ abstract class BaseModel
 
     private static function toStaticList( $posts )
     {
-        return array_map(function ( $post ) {
-            return new static($post);
-        }, $posts);
+        // Had to implement a little refactoring here, since array_map closures do not work
+        // correctly with static bindings until 5.5.14 and prod version is 5.5.9
+        // TODO: Consider forcing PHP 5.5.14 or higher
+//        return array_map(function ( $post ) {
+//            return new static($post);
+//        }, $posts);
+        $list = array();
+        foreach( $posts as $p ){
+            $list[] = new static($p);
+        }
+        return $list;
     }
 
     public static function getByID( $ID )
@@ -502,42 +512,42 @@ abstract class BaseModel
 
     public static function get( $limitTo = 10, $newerFirst = true )
     {
-        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->orderByDate($newerFirst)->get();
-        return self::toStaticList($posts);
+        $posts = Query::Custom(static::instance()->getPostType())->limit($limitTo)->orderByDate($newerFirst)->get();
+        return static::toStaticList($posts);
     }
 
     public static function getSorted( $limitTo, $sortField, $lowToHigh = false )
     {
-        $posts = Query::Custom(self::instance()->getPostType())->limit($limitTo)->sortBy($sortField)->sortOrder($lowToHigh)->get();
-        return self::toStaticList($posts);
+        $posts = Query::Custom(static::instance()->getPostType())->limit($limitTo)->sortBy($sortField)->sortOrder($lowToHigh)->get();
+        return static::toStaticList($posts);
     }
 
     public static function getMostRecent( $limitTo = 10 )
     {
-        return self::get($limitTo);
+        return static::get($limitTo);
     }
 
     public static function getLeastRecent( $limitTo = 10 )
     {
-        return self::get($limitTo, false);
+        return static::get($limitTo, false);
     }
 
     public function getFirst()
     {
-        $post = Query::Custom(self::instance()->getPostType())->limit(1)->orderByDate(false)->get('first');
+        $post = Query::Custom(static::instance()->getPostType())->limit(1)->orderByDate(false)->get('first');
         return new static($post);
     }
 
     public function getLast()
     {
-        $post = Query::Custom(self::instance()->getPostType())->limit(1)->orderByDate()->get('first');
+        $post = Query::Custom(static::instance()->getPostType())->limit(1)->orderByDate()->get('first');
         return new static($post);
     }
 
     public static function getAll()
     {
-        $posts = Query::Custom(self::instance()->getPostType())->all()->get();
-        return self::toStaticList($posts);
+        $posts = Query::Custom(static::instance()->getPostType())->all()->get();
+        return static::toStaticList($posts);
     }
 
     public static function getByField( $field, $value )
@@ -548,8 +558,8 @@ abstract class BaseModel
 
     public static function getByTaxonomy( $taxonomyName, $taxonomyTerm )
     {
-        $posts = Query::Custom(self::instance()->getPostType())->all()->term($taxonomyName, $taxonomyTerm)->get();
-        return self::toStaticList($posts);
+        $posts = Query::Custom(static::instance()->getPostType())->all()->term($taxonomyName, $taxonomyTerm)->get();
+        return static::toStaticList($posts);
     }
 
 }
