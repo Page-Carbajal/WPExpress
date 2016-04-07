@@ -32,6 +32,10 @@
 - WPExpress/Admin
     - Autoload field values
     
+###Version 1.3.5 - Method BaseMode/setCapabilityType
+
+- Added method BaseModel/setCapabilityType
+    
 ###Version 1.3.4 - BaseModel static bindings
 
 - Fixed a array_map static binding bug

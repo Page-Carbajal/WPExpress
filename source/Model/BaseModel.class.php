@@ -50,9 +50,14 @@ abstract class BaseModel
 
     private static $instance;
 
+    private $capabilityType;
+
+
     public function __construct( $bean = null )
     {
         $post = null;
+
+        $this->capabilityType = 'post';
 
         // If your class name is Book. Your Post Type would be 'book'
         $this->getPostType();
@@ -85,10 +90,12 @@ abstract class BaseModel
 
 
         $this->registerCustomPostType()->registerFilters();
-        
+
     }
 
-    protected function __clone() {}
+    protected function __clone()
+    {
+    }
 
     public function getPostType()
     {
@@ -167,6 +174,13 @@ abstract class BaseModel
         $this->hasArchive = false;
     }
 
+    protected function setCapabilityType( $type )
+    {
+        $this->capabilityType = in_array($type, array( 'post', 'page' )) ? $type : 'post';
+
+        return $this;
+    }
+
     protected function registerCustomPostType()
     {
         if( !post_type_exists($this->getPostType()) ) {
@@ -176,7 +190,7 @@ abstract class BaseModel
                 'description'         => $this->postTypeDescription,
                 'public'              => $this->isPublic,
                 'show_ui'             => true,
-                'capability_type'     => 'post',
+                'capability_type'     => $this->capabilityType,
                 'map_meta_cap'        => true,
                 'publicly_queryable'  => true,
                 'menu_icon'           => '',
@@ -495,11 +509,11 @@ abstract class BaseModel
         // Had to implement a little refactoring here, since array_map closures do not work
         // correctly with static bindings until 5.5.14 and prod version is 5.5.9
         // TODO: Consider forcing PHP 5.5.14 or higher
-//        return array_map(function ( $post ) {
-//            return new static($post);
-//        }, $posts);
+        //        return array_map(function ( $post ) {
+        //            return new static($post);
+        //        }, $posts);
         $list = array();
-        foreach( $posts as $p ){
+        foreach( $posts as $p ) {
             $list[] = new static($p);
         }
         return $list;
