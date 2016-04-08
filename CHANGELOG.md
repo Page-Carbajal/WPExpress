@@ -4,9 +4,9 @@
 
 - Add icons support for BaseModel
 
-- Version 1.6.0 - Repeatable Fields
+- Version 1.7.0 - Repeatable Fields
     - Develop methods for WPExpress/UI/FieldCollection repeatable fields
-- Version 1.5.0 - Additional field methods
+- Version 1.6.0 - Additional field methods
     - Develop methods for WPExpress/UI/FieldCollection
         - addNumberInput
         - addURLInput
@@ -15,6 +15,26 @@
         - addRichTextArea
         - addCodeInput
         - addCalendar
+        
+
+###Version 1.5.0 
+- Develop methods for UserRole class
+    - insert
+    - save
+    - delete
+    - get
+    - getAll
+    - getUsers
+    - addMember
+    - removeMember
+- Develop methods for BaseUser class
+    - getMetaFields
+    - getCurrent
+    - getRoles
+    - addRole
+    - removeRole
+    - makeAdmin
+    - getSites
 
 
 ###Version 1.4.0 - WPExpress/Query 1.0.0
@@ -34,6 +54,7 @@
     
 ###Version 1.3.6 - Method BaseModel/getAllInList
 
+- Updated Road Map
 - Added method BaseModel/getAllInList
     
 ###Version 1.3.5 - Method BaseMode/setCapabilityType
