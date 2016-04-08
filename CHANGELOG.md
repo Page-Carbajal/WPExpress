@@ -32,6 +32,10 @@
 - WPExpress/Admin
     - Autoload field values
     
+###Version 1.3.6 - Method BaseModel/getAllInList
+
+- Added method BaseModel/getAllInList
+    
 ###Version 1.3.5 - Method BaseMode/setCapabilityType
 
 - Added method BaseModel/setCapabilityType

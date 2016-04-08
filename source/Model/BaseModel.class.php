@@ -524,6 +524,11 @@ abstract class BaseModel
         return new static($ID);
     }
 
+    public static function getAllInList( $list )
+    {
+        return static::toStaticList($list);
+    }
+
     public static function get( $limitTo = 10, $newerFirst = true )
     {
         $posts = Query::Custom(static::instance()->getPostType())->limit($limitTo)->orderByDate($newerFirst)->get();
