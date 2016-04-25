@@ -49,8 +49,6 @@
     - Implement method disableAjaxUpdate
     - Implement Asynchronous field update
     - Add javascript field validation
-- WPExpress/Admin
-    - Autoload field values
 
 ###Version 1.3.7 - BaseSettingsPage Autoload Values
 
