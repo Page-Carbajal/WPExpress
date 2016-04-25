@@ -238,8 +238,16 @@ abstract class BaseSettingsPage
         return '';
     }
 
+    private function loadFieldValues()
+    {
+        foreach($this->fields->toArray() as $index => $field){
+            $this->fields($index)->setValue( $this->getOptionValue($index) );
+        }
+    }
+
     private function getContext()
     {
+        $this->loadFieldValues();
         $context           = array( 'pageTitle' => $this->pageTitle, 'description' => $this->description );
         $context['fields'] = $this->fields->parseFields(); // Returns HTML fields
         //        $context['segments'] = $this->getSegments();

@@ -51,6 +51,11 @@
     - Add javascript field validation
 - WPExpress/Admin
     - Autoload field values
+
+###Version 1.3.7 - BaseSettingsPage Autoload Values
+
+- Implemented option value autoload
+- Added method BaseSettingsPage/loadFieldValues
     
 ###Version 1.3.6 - Method BaseModel/getAllInList
 
