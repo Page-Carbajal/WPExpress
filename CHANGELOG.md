@@ -50,40 +50,54 @@
     - Implement Asynchronous field update
     - Add javascript field validation
 
+##Latest Releases
+
+###Version 1.3.8 - Untagged
+
+- Implemented support for Settings Pages on Custom Post Type menus 
+
+
 ###Version 1.3.7 - BaseSettingsPage Autoload Values
 
 - Implemented option value autoload
 - Added method BaseSettingsPage/loadFieldValues
+
     
 ###Version 1.3.6 - Method BaseModel/getAllInList
 
 - Updated Road Map
 - Added method BaseModel/getAllInList
-    
+
+
 ###Version 1.3.5 - Method BaseMode/setCapabilityType
 
 - Added method BaseModel/setCapabilityType
-    
+
+
 ###Version 1.3.4 - BaseModel static bindings
 
 - Fixed a array_map static binding bug
+
 
 ###Version 1.3.3 - BaseModel/enableArchive
 
 - Added empty metabox-validation.js file 
 - Added filter wpx_model_[PostType]_slug
 - Added methods BaseModel/enableArchive and disableArchive
-        
+
+
 ###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 
 - Fixed an error to verify the existence of a function before execution
-        
+
+
 ###Version 1.3.1 - BaseModel refactoring
 
 - Fixed BaseModel/instance method bug with reflection 
 - Added several traversing methods to BaseModel
 - Added method toStaticList
 - Added static property and method instance to BaseModel
+
 
 ###Version 1.3.0 - BaseModel MetaBoxes and Fields
 
