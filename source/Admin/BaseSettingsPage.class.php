@@ -237,14 +237,21 @@ abstract class BaseSettingsPage
         return get_option($optionName);
     }
 
-    //DEPRECATED. Do not use!!!
+    /**
+     * @param $fieldName
+     * @return mixed|void
+     * @deprecated 
+     */
     public function getValue( $fieldName )
     {
         // TODO: Deprecate this function
         return $this->getOptionValue($fieldName);
     }
 
-    //DEPRECATED. Do not use!!!
+    /**
+     * @return string
+     * @deprecated 
+     */
     private function getSegments()
     {
         return '';
