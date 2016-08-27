@@ -1,5 +1,10 @@
 ##Changelog
 
+###Version 1.4.1
+
+- Added default resouces/templates/settings-page.php file 
+
+
 ###Version 1.4.0
 
 - Added TODO.md file
