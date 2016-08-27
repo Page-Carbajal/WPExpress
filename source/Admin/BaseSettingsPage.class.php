@@ -257,31 +257,12 @@ abstract class BaseSettingsPage
         return $context;
     }
 
-    private function getTemplatesPath()
-    {
-        $customTemplatesPath = untrailingslashit($this->customTemplatesPath);
-        // Verify path and filename exists
-        $filePath = "{$customTemplatesPath}/{$this->templateExtension}/{$this->menuSlug}.{$this->templateExtension}";
-        if( ( $this->customTemplatesPath !== false ) && file_exists($filePath) ) {
-            return $customTemplatesPath;
-        }
-
-        return untrailingslashit(dirname(__FILE__)) . "/../../resources/templates";
-    }
 
     public function render()
     {
-        $engine = new RenderEngine($this->getTemplatesPath(), $this->templateExtension);
+        $engine = new RenderEngine( $this->getContext() );
 
-        if( file_exists($this->getTemplatesPath() . "/{$this->templateExtension}/{$this->menuSlug}.{$this->templateExtension}") ) {
-            echo $engine->renderTemplate($this->menuSlug, $this->getContext());
-        } else {
-            if( file_exists($this->getTemplatesPath() . "/{$this->templateExtension}/settings-page.{$this->templateExtension}") ) {
-                echo $engine->renderTemplate('settings-page', $this->getContext());
-            } else {
-                throw new \Exception("Template file not found at <{$this->getTemplatesPath()}> - WPExpress @ SettingsPage.", 404);
-            }
-        }
+        $engine->render($this->menuSlug);
     }
 
 }

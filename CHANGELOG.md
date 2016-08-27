@@ -1,72 +1,33 @@
 ##Changelog
 
-###TODO
+###Version 1.4.0
 
-- Add icons support for BaseModel
+- Added TODO.md file
+- Released new version of WPExpress without WPExpress/UI dependency
+- Assimilation of WPExpress/UI into core
 
-- Version 1.7.0 - Repeatable Fields
-    - Develop methods for WPExpress/UI/FieldCollection repeatable fields
-- Version 1.6.0 - Additional field methods
-    - Develop methods for WPExpress/UI/FieldCollection
-        - addNumberInput
-        - addURLInput
-        - addEmailInput
-        - addGoogleMap
-        - addRichTextArea
-        - addCodeInput
-        - addCalendar
-        
-
-###Version 1.5.0 
-- Develop methods for UserRole class
-    - insert
-    - save
-    - delete
-    - get
-    - getAll
-    - getUsers
-    - addMember
-    - removeMember
-- Develop methods for BaseUser class
-    - getMetaFields
-    - getCurrent
-    - getRoles
-    - addRole
-    - removeRole
-    - makeAdmin
-    - getSites
-
-
-###Version 1.4.0 - WPExpress/Query 1.0.0
-- Database
-    - Users and UserRole
-    - Refactorize Query and Taxonomy classes
-- WPExpress/Model
-    - BaseUser
-    - BaseUserRole    
-    - Add automatic nonce security
-    - Restrict access to fields by user ID, login, email, Role or capabilities
-    - Implement method disableAjaxUpdate
-    - Implement Asynchronous field update
-    - Add javascript field validation
 
 ###Version 1.3.7 - BaseSettingsPage Autoload Values
 
 - Implemented option value autoload
 - Added method BaseSettingsPage/loadFieldValues
-    
+
+
 ###Version 1.3.6 - Method BaseModel/getAllInList
 
 - Updated Road Map
 - Added method BaseModel/getAllInList
+
     
 ###Version 1.3.5 - Method BaseMode/setCapabilityType
 
 - Added method BaseModel/setCapabilityType
+
     
 ###Version 1.3.4 - BaseModel static bindings
 
 - Fixed a array_map static binding bug
+
 
 ###Version 1.3.3 - BaseModel/enableArchive
 
@@ -74,16 +35,19 @@
 - Added filter wpx_model_[PostType]_slug
 - Added methods BaseModel/enableArchive and disableArchive
         
+
 ###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 
 - Fixed an error to verify the existence of a function before execution
         
+
 ###Version 1.3.1 - BaseModel refactoring
 
 - Fixed BaseModel/instance method bug with reflection 
 - Added several traversing methods to BaseModel
 - Added method toStaticList
 - Added static property and method instance to BaseModel
+
 
 ###Version 1.3.0 - BaseModel MetaBoxes and Fields
 
@@ -122,9 +86,11 @@
 - Changed composer to require wpexpress-ui 1.0.1 
 - Fixed errors with HTMLParser and added a toArray method to FieldCollection 
 
+
 ###Version 1.2.3 - WPExpress/UI 1.0.0
 
 - Upgraded to WPExpress/UI 1.0.0
+
 
 ###Version 1.2.2 - Fixed BaseSettingsPage Template Path Error
 
@@ -170,6 +136,7 @@ This version is maintained for compatibility purposes only.
 
 - Updated WPExpress Query version
 
+
 ###Version 0.6.0 - New models
 
 - Implementing BaseTaxonomy
@@ -183,6 +150,7 @@ This version is maintained for compatibility purposes only.
 ###Version 0.5.4 - Updated WPExpress/UI version
 
 - Updated WPExpress to 0.5.2
+
 
 ###Version 0.5.3 - Fixes SettingsPage Render Error
 
@@ -207,11 +175,13 @@ This version is maintained for compatibility purposes only.
 - Fixed the BaseModel/getSupportedFeatures error
 - Adopted [Semantic Versioning](http://semver.org)
 
+
 ###Version 0.5 - Separation of Packages UI and Query
 
 - Both packages are included through composer
 - Created the package [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
 - Created the package [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
+
 
 ###Version 0.4 - Twig and RenderEngine enhancements
 
@@ -239,6 +209,7 @@ This version is maintained for compatibility purposes only.
 - Implemented magic methods __set and __get in the base model
 - Implemented BaseModel registerCustomPostType method
 
+
 ###Version 0.3.1
 
 - Implemented the term() method to search by taxonomy/value
@@ -246,6 +217,7 @@ This version is maintained for compatibility purposes only.
 - Added the selectField method to Tags class
 - Edited the settings page template
 - Added the getValue method to SettingsPage class
+
 
 ###Version 0.3
 
@@ -266,6 +238,7 @@ This version is maintained for compatibility purposes only.
 * Added Mustache with composer
 * Added UI Class
 
+
 ###Version 0.2.2
 
 * Added the empty methods registerCustomPostType and addCustomField to BaseModel
@@ -276,15 +249,18 @@ This version is maintained for compatibility purposes only.
 * Added methods getThumbnail and getThumbnailURL to Post class
 * Implemented static methods getAll, getByField, getByTaxonomy on BaseMode
 
+
 ###Version 0.2.1
 
 * Implements basic methods for class Query
+
 
 ###Version 0.2
 
 * Created Abstract class /Model/Abstractions/BaseModel
 * Created the Interface iBaseModel
 * Created the class Model/Post implements BaseModel and iBaseModel
+
 
 ###Version 0.1
 
