@@ -23,22 +23,28 @@ abstract class BaseSettingsPage
     protected $customTemplatesPath;
     protected $templateExtension;
     protected $templateFolder;
+    private   $targetPostType;
 
     public function __construct( $title, $userCapabilities = 'manage_options', $menuSlug = false )
     {
-        $this->fields              = new FieldCollection();
-        $this->pageTitle           = $title;
-        $this->userCapabilities    = $userCapabilities;
-        $this->templateExtension   = empty( $this->templateExtension ) ? 'mustache' : $this->templateExtension;
+        $this->fields            = new FieldCollection();
+        $this->pageTitle         = $title;
+        $this->userCapabilities  = $userCapabilities;
+        $this->templateExtension = empty( $this->templateExtension ) ? 'mustache' : $this->templateExtension;
 
         $this->setMenuTitle($title, $menuSlug)->registerFilters();
         // If pageType was not specified defaults to Tools menu
         $this->registerPage();
     }
 
-    public function setTopParentMenu( $option )
+    public function setTopParentMenu( $option, $targetPostType = false )
     {
-        $this->pageType = ( in_array($option, array( 'top', 'dashboard', 'posts', 'pages', 'settings', 'users', 'plugins', 'theme', 'tools' )) ? $option : null );
+        $this->pageType = ( in_array($option, array( 'top', 'dashboard', 'posts', 'pages', 'settings', 'users', 'plugins', 'theme', 'tools', 'custom' )) ? $option : null );
+        if( ( $this->pageType == 'custom' ) && ( false == $targetPostType ) ) {
+            $this->pageType = 'settings';
+        } else {
+            $this->targetPostType = $targetPostType;
+        }
 
         return $this;
     }
@@ -70,6 +76,12 @@ abstract class BaseSettingsPage
             case "top":
                 if( $this->actionHookIsValid($this->menuSlug, '') ) {
                     add_menu_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
+                }
+                break;
+            case "custom":
+                if( $this->actionHookIsValid($this->menuSlug, "edit.php?post_type={$this->targetPostType}") ) {
+                    add_submenu_page("edit.php?post_type={$this->targetPostType}", $this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
+                    //add_posts_page($this->pageTitle, $this->menuTitle, $this->userCapabilities, $this->menuSlug, array( &$this, 'render' ));
                 }
                 break;
             case "dashboard":
@@ -225,14 +237,21 @@ abstract class BaseSettingsPage
         return get_option($optionName);
     }
 
-    //DEPRECATED. Do not use!!!
+    /**
+     * @param $fieldName
+     * @return mixed|void
+     * @deprecated 
+     */
     public function getValue( $fieldName )
     {
         // TODO: Deprecate this function
         return $this->getOptionValue($fieldName);
     }
 
-    //DEPRECATED. Do not use!!!
+    /**
+     * @return string
+     * @deprecated 
+     */
     private function getSegments()
     {
         return '';
@@ -240,8 +259,8 @@ abstract class BaseSettingsPage
 
     private function loadFieldValues()
     {
-        foreach($this->fields->toArray() as $index => $field){
-            $this->fields($index)->setValue( $this->getOptionValue($index) );
+        foreach( $this->fields->toArray() as $index => $field ) {
+            $this->fields($index)->setValue($this->getOptionValue($index));
         }
     }
 
