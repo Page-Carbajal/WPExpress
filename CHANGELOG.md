@@ -19,30 +19,18 @@
 - Implemented option value autoload
 - Added method BaseSettingsPage/loadFieldValues
 
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 4425bc0e650d49e3c92e089079b9cf2e23bab5e2
 ###Version 1.3.6 - Method BaseModel/getAllInList
 
 - Updated Road Map
 - Added method BaseModel/getAllInList
 
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 4425bc0e650d49e3c92e089079b9cf2e23bab5e2
 ###Version 1.3.5 - Method BaseMode/setCapabilityType
 
 - Added method BaseModel/setCapabilityType
 
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 4425bc0e650d49e3c92e089079b9cf2e23bab5e2
 ###Version 1.3.4 - BaseModel static bindings
 
 - Fixed a array_map static binding bug
@@ -53,20 +41,12 @@
 - Added empty metabox-validation.js file 
 - Added filter wpx_model_[PostType]_slug
 - Added methods BaseModel/enableArchive and disableArchive
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 4425bc0e650d49e3c92e089079b9cf2e23bab5e2
 
 ###Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 
 - Fixed an error to verify the existence of a function before execution
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 4425bc0e650d49e3c92e089079b9cf2e23bab5e2
 
 ###Version 1.3.1 - BaseModel refactoring
 
