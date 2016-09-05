@@ -123,20 +123,27 @@ abstract class BaseModel
     protected function setPostTypeLabels( $customLabels )
     {
         $labels = $this->getPostTypeLabels();
-
-        $labels                  = shortcode_atts($labels, $customLabels);
-        $this->nameLabel         = $labels['name'];
-        $this->singularNameLabel = $labels['singular_name'];
+        $labels = shortcode_atts($labels, $customLabels);
+        
+        $this->setNameLabel($labels['name']);
+        $this->setSingularNameLabel($labels['singular_name']);
+        
+        return $this;
     }
 
     protected function setNameLabel( $name )
     {
         $this->nameLabel = $name;
+        
+        return $this;
     }
 
     protected function setSingularNameLabel( $singularName )
     {
         $this->singularNameLabel = $singularName;
+        $this->postTypeSlug      = sanitize_title($this->nameLabel);
+        
+        return $this;
     }
 
     protected function setSupportedFeatures( $supportTitle = true, $supportEditor = true, $supportThumbnail = false )
@@ -144,6 +151,7 @@ abstract class BaseModel
         $this->titleSupport     = $supportTitle;
         $this->editorSupport    = $supportEditor;
         $this->thumbnailSupport = $supportThumbnail;
+        
         return $this;
     }
 
@@ -488,6 +496,7 @@ abstract class BaseModel
         if( in_array($status, $options) ) {
             wp_update_post(array( 'id' => $this->ID, 'post_status' => $status ));
         }
+        
         return $this;
     }
 
