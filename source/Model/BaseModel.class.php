@@ -135,8 +135,8 @@ abstract class BaseModel
 
     protected function setNameLabel( $name )
     {
-        $this->nameLabel    = $name;
-        $this->postTypeSlug = sanitize_title($this->nameLabel);
+        $this->nameLabel = $name;
+        $this->postType  = sanitize_title($this->nameLabel);
 
         return $this;
     }
