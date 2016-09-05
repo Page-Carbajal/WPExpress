@@ -32,7 +32,6 @@ abstract class BaseModel
 
     protected $isPublic;
     protected $name;
-    protected $postTypeSlug;
     protected $postType;
     // Labels
     protected $nameLabel;
@@ -79,9 +78,9 @@ abstract class BaseModel
 
         // Setup Basic post data
         if( empty( $this->nameLabel ) ) {
-            $this->nameLabel         = ucwords(implode(' ', explode('-', $this->getPostType())));
-            $this->postTypeSlug      = sanitize_title($this->nameLabel);
-            $this->singularNameLabel = $this->nameLabel;
+            $currentObjectName = $this->getClassName();
+            $this->setNameLabel($currentObjectName);
+            $this->setSingularNameLabel($currentObjectName);
         }
 
         //Metaboxes and Fields
@@ -97,12 +96,15 @@ abstract class BaseModel
     {
     }
 
+    private function getClassName()
+    {
+        $bean = new \ReflectionClass($this);
+
+        return $bean->getShortName();
+    }
+
     public function getPostType()
     {
-        if( empty( $this->postType ) ) {
-            $bean           = new \ReflectionClass($this);
-            $this->postType = sanitize_title($bean->getShortName());
-        }
         return $this->postType;
     }
 
@@ -124,25 +126,25 @@ abstract class BaseModel
     {
         $labels = $this->getPostTypeLabels();
         $labels = shortcode_atts($labels, $customLabels);
-        
+
         $this->setNameLabel($labels['name']);
         $this->setSingularNameLabel($labels['singular_name']);
-        
+
         return $this;
     }
 
     protected function setNameLabel( $name )
     {
-        $this->nameLabel = $name;
-        
+        $this->nameLabel    = $name;
+        $this->postTypeSlug = sanitize_title($this->nameLabel);
+
         return $this;
     }
 
     protected function setSingularNameLabel( $singularName )
     {
         $this->singularNameLabel = $singularName;
-        $this->postTypeSlug      = sanitize_title($this->nameLabel);
-        
+
         return $this;
     }
 
@@ -151,7 +153,7 @@ abstract class BaseModel
         $this->titleSupport     = $supportTitle;
         $this->editorSupport    = $supportEditor;
         $this->thumbnailSupport = $supportThumbnail;
-        
+
         return $this;
     }
 
@@ -205,7 +207,7 @@ abstract class BaseModel
                 'menu_position'       => ( isset( $this->menuPosition ) ? $this->menuPosition : 20 ),
                 'exclude_from_search' => true,
                 'hierarchical'        => false,
-                'rewrite'             => array( 'slug' => apply_filters("wpx_model_{$this->postTypeSlug}_slug", $this->postTypeSlug) ),
+                'rewrite'             => array( 'slug' => apply_filters("wpx_model_{$this->getPostType()}_slug", $this->getPostType()) ),
                 'query_var'           => true,
                 'supports'            => $this->getSupportedFeatures(),
                 'has_archive'         => $this->hasArchive,
@@ -496,7 +498,7 @@ abstract class BaseModel
         if( in_array($status, $options) ) {
             wp_update_post(array( 'id' => $this->ID, 'post_status' => $status ));
         }
-        
+
         return $this;
     }
 

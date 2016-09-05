@@ -1,5 +1,9 @@
 ##Changelog
 
+###Version 1.4.3
+
+- Refactored the BaseModel class.
+
 ###Version 1.4.2
 
 - Fixed Empty postTypeSlug property 
