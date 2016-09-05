@@ -302,12 +302,17 @@ abstract class BaseModel
         // Auto Load Field Values
         $me->loadFieldValues();
 
-        $templatePath = empty( $me->templatePath ) ? untrailingslashit(dirname(__FILE__)) . "/../../resources/templates" : $me->templatePath;
-        $engine       = new RenderEngine($templatePath);
-        $boxID        = $params['args']['currentMetaBox'];
-        $fields       = $me->fields->parseFields($me->metaBoxes->box($boxID)->getFields());
+        $boxID  = $params['args']['currentMetaBox'];
+        $fields = array();
 
-        echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
+        if( $me->fields instanceof FieldCollection ) {
+            $fields = $me->fields->parseFields($me->metaBoxes->box($boxID)->getFields());
+        }
+
+        $engine = new RenderEngine();
+        $engine->render('metabox-content', array( 'fields' => $fields ));
+        //echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
+
     }
 
     public static function registerScriptsAndStyles()

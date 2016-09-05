@@ -1,5 +1,11 @@
 ##Changelog
 
+###Version 1.4.4 
+
+- Refactored BaseModel class to implement the new Renderengine 
+- Refactored RenderEngine class to accommodate for context on render  
+- Added default metabox-content.php template
+
 ###Version 1.4.3
 
 - Refactored the BaseModel class.
