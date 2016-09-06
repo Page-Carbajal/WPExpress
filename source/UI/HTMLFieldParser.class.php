@@ -35,14 +35,14 @@ class HTMLFieldParser
 
     public static function checkboxField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
-        $fieldProperties = self::getCheckedProperties($fieldProperties);
+        $attributes = self::setCheckAttributes($attributes, $fieldProperties);
         return self::renderInputField($name, 'checkbox', $attributes, $fieldProperties, $ID);
     }
 
     
     public static function radioButtonField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
-        $fieldProperties = self::getCheckedProperties($fieldProperties);
+        $attributes = self::setCheckAttributes($attributes, $fieldProperties);
         return self::renderInputField($name, 'radio', $attributes, $fieldProperties, $ID);
     }
 
@@ -65,18 +65,15 @@ class HTMLFieldParser
     }
 
 
-    private static function getCheckedProperties($fieldProperties)
+    private static function setCheckAttributes( $attributes, $fieldProperties)
     {
-        if( isset($fieldProperties['value']) ){
-            $fieldValue = $fieldProperties['value'];
-            unset($fieldProperties['value']);
-            $fieldProperties['data-field-value'] = $fieldValue;
-            if( 'on' === $fieldValue ){
-                $fieldProperties['checked'] = 'checked';
-            }
+        $fieldValue = $fieldProperties['value'];
+        $attributes['data-field-value'] = $fieldValue;
+        if( 'on' === $fieldValue ){
+            $attributes['checked'] = 'checked';
         }
 
-        return $fieldProperties;
+        return $attributes;
     }
 
     
