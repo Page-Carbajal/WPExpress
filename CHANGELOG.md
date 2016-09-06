@@ -1,5 +1,9 @@
 ##Changelog
 
+###Version 1.4.5
+
+- Added BaseModel wex_save_field_{$fieldID}_value filter
+
 ###Version 1.4.4 
 
 - Refactored BaseModel class to implement the new Renderengine 

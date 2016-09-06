@@ -399,7 +399,8 @@ abstract class BaseModel
 
                 foreach( $this->fields->toArray() as $title => $field ) {
                     $fieldID        = sanitize_title($title);
-                    $meta[$fieldID] = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+                    $fieldValue     = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+                    $meta[$fieldID] = apply_filters("wex_save_field_{$fieldID}_value", $fieldValue);
                 }
 
                 update_post_meta($postID, $this->fieldsMetaID, $meta);
