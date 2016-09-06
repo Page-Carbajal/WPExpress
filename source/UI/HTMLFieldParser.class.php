@@ -9,9 +9,7 @@ namespace WPExpress\UI;
 
 class HTMLFieldParser
 {
-
     // This class is inspired by Groovy's FormTagLib.groovy
-
     private $fieldCollection;
 
     public function __construct( $fields )
@@ -21,27 +19,34 @@ class HTMLFieldParser
             $this->parseFields();
         }
     }
+    
 
     public static function textField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
         return self::renderInputField($name, 'text', $attributes, $fieldProperties, $ID);
     }
+    
 
     public static function hiddenField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
         return self::renderInputField($name, 'hidden', $attributes, $fieldProperties, $ID);
     }
+    
 
     public static function checkboxField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
+        $fieldProperties = self::getCheckedProperties($fieldProperties);
         return self::renderInputField($name, 'checkbox', $attributes, $fieldProperties, $ID);
     }
 
+    
     public static function radioButtonField( $name, $attributes, $fieldProperties = null, $ID = null )
     {
+        $fieldProperties = self::getCheckedProperties($fieldProperties);
         return self::renderInputField($name, 'radio', $attributes, $fieldProperties, $ID);
     }
 
+    
     private static function renderInputField( $name, $type, $attributes, $fieldProperties, $ID )
     {
         $controlID       = empty( $ID ) ? $name : $ID;
@@ -59,6 +64,22 @@ class HTMLFieldParser
         return $field;
     }
 
+
+    private static function getCheckedProperties($fieldProperties)
+    {
+        if( isset($fieldProperties['value']) ){
+            $fieldValue = $fieldProperties['value'];
+            unset($fieldProperties['value']);
+            $fieldProperties['data-field-value'] = $fieldValue;
+            if( 'on' === $fieldValue ){
+                $fieldProperties['checked'] = 'checked';
+            }
+        }
+
+        return $fieldProperties;
+    }
+
+    
     protected static function arrayToHTMLAttributes( $list, $includeValue = true )
     {
         $attributes = array_map(function ( $key ) use ( $list, $includeValue ) {
@@ -74,6 +95,7 @@ class HTMLFieldParser
         return implode(' ', $attributes);
     }
 
+    
     /**
      * Generate a Select Field.
      * @param $name
@@ -130,6 +152,7 @@ class HTMLFieldParser
 
         return $field;
     }
+    
 
     public static function textArea( $name, $value, $attributes, $fieldProperties = null, $ID = null )
     {

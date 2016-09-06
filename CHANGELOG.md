@@ -1,5 +1,9 @@
 ##Changelog
 
+###Version 1.4.6
+
+- Added method HTMLFieldParser/getCheckedProperties
+
 ###Version 1.4.5
 
 - Added BaseModel wex_save_field_{$fieldID}_value filter
