@@ -1,5 +1,13 @@
 ##Changelog
 
+###Version 1.5.0
+
+- Added BaseModel setGridCustomColumns
+- Added BaseModel method setGridColumns
+- Added BaseModel property gridColumns
+- Made BadeModel getFirst and getLast methods static
+
+
 ###Version 1.4.8
 
 - Added styles to improve the custom fields presentation 

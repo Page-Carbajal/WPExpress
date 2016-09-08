@@ -42,7 +42,9 @@ abstract class BaseModel
     protected $metaBoxes;
     protected $fields;
     private   $fieldsMetaID = "__wex_fields";
+    private   $fieldsPrefix = "__wex_";
     protected $templatePath;
+    protected $gridColumns;
 
     // Original Post Object
     protected $post;
@@ -84,8 +86,9 @@ abstract class BaseModel
         }
 
         //Metaboxes and Fields
-        $this->metaBoxes = new MetaBoxCollection();
-        $this->fields    = new FieldCollection();
+        $this->metaBoxes   = new MetaBoxCollection();
+        $this->fields      = new FieldCollection();
+        $this->gridColumns = array();
 
 
         $this->registerCustomPostType()->registerFilters();
@@ -96,6 +99,7 @@ abstract class BaseModel
     protected function __clone()
     {
     }
+
 
     private function getClassName()
     {
@@ -251,6 +255,10 @@ abstract class BaseModel
         add_action('save_post', array( &$this, 'saveFieldValues' ), 10, 2);
         // Register Scripts
         add_action('admin_enqueue_scripts', array( __CLASS__, 'registerScriptsAndStyles' ));
+        // Register Custom Post Columns
+        add_filter("manage_{$this->getPostType()}_posts_columns", array( &$this, 'setGridCustomColumns' ));
+        // Register Post Column Get Value Filter
+        add_filter("manage_{$this->getPostType()}_posts_custom_column", array( __CLASS__, 'getCustomColumnValue' ), 10, 2);
 
         // OTHER AVAILABLE HOOKS
         // Attachment Hooks
@@ -284,6 +292,36 @@ abstract class BaseModel
                     'currentMetaBox' => $ID,
                 );
                 add_meta_box($box->ID, $box->title, array( $this, 'renderFields' ), $me->getPostType(), $box->context, $box->priority, $arguments);
+            }
+        }
+    }
+
+
+    public function setGridCustomColumns( $columns )
+    {
+        $fields     = $this->fields->toArray();
+        $fieldNames = array_keys($fields);
+
+        foreach($this->gridColumns as $name){
+            if( in_array($name, $fieldNames) ){
+                $columns[$name] = $fields[$name]->name;
+            }
+        }
+
+        return $columns;
+    }
+
+
+    public function setGridColumnNames( $columns )
+    {
+        $fields            = $this->fields->toArray();
+        $columns           = is_array($columns) ? $columns : array( $columns );
+        $fieldNames        = array_keys($fields);
+        $this->gridColumns = array();
+
+        foreach( $columns as $field ) {
+            if( in_array($field, $fieldNames) ) {
+                $this->gridColumns[] = $field;
             }
         }
     }
@@ -332,6 +370,13 @@ abstract class BaseModel
         $engine->render('metabox-content', array( 'fields' => $fields ));
         //echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
 
+    }
+
+
+    public static function getCustomColumnValue( $column, $postID )
+    {
+        //$meta = get_post_meta($postID, '__wex_fields');
+        return 'Value';
     }
 
 
@@ -609,14 +654,14 @@ abstract class BaseModel
     }
 
 
-    public function getFirst()
+    public static function getFirst()
     {
         $post = Query::Custom(static::instance()->getPostType())->limit(1)->orderByDate(false)->get('first');
         return new static($post);
     }
 
 
-    public function getLast()
+    public static function getLast()
     {
         $post = Query::Custom(static::instance()->getPostType())->limit(1)->orderByDate()->get('first');
         return new static($post);
