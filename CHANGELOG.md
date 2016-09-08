@@ -4,18 +4,22 @@
 
 - Added styles to improve the custom fields presentation 
 
+
 ###Version 1.4.7
 
 - Issue Fixed #5 - add_rewrite_tag() on a non-object 
 - Issue Fixed #7 - Post and Page classes 
 
+
 ###Version 1.4.6
 
 - Added method HTMLFieldParser/getCheckedProperties
 
+
 ###Version 1.4.5
 
 - Added BaseModel wex_save_field_{$fieldID}_value filter
+
 
 ###Version 1.4.4 
 
@@ -23,13 +27,16 @@
 - Refactored RenderEngine class to accommodate for context on render  
 - Added default metabox-content.php template
 
+
 ###Version 1.4.3
 
 - Refactored the BaseModel class.
 
+
 ###Version 1.4.2
 
 - Fixed Empty postTypeSlug property 
+
 
 ###Version 1.4.1
 
