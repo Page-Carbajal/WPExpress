@@ -2,8 +2,8 @@
 
 ###Version 1.4.7
 
-- Fixed Issue #5 - add_rewrite_tag() on a non-object
-- Fixed Issue #7 - Post and Page classes 
+- Issue Fixed #5 - add_rewrite_tag() on a non-object 
+- Issue Fixed #7 - Post and Page classes 
 
 ###Version 1.4.6
 
