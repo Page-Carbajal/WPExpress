@@ -3,6 +3,10 @@ div.metaboxContent{
     padding: 20px 0 40px;
 }
 
+div.metaboxContent .customField{
+    margin: 15px 0;
+}
+
 div.metaboxContent label{
     display: inline-block;
     min-width: 150px;
@@ -15,6 +19,8 @@ div.metaboxContent input[type=text]{
 div.metaboxContent textarea{
     display: block;
     clear: both;
-    margin-top: 15px;
+    margin-top: 10px;
     min-width: 60%;
+    width: 85%;
+    min-height: 120px;
 }

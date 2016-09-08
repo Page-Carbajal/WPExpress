@@ -1,5 +1,9 @@
 ##Changelog
 
+###Version 1.4.8
+
+- Added styles to improve the custom fields presentation 
+
 ###Version 1.4.7
 
 - Issue Fixed #5 - add_rewrite_tag() on a non-object 
