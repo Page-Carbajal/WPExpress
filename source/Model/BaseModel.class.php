@@ -92,6 +92,7 @@ abstract class BaseModel
 
     }
 
+
     protected function __clone()
     {
     }
@@ -103,15 +104,18 @@ abstract class BaseModel
         return $bean->getShortName();
     }
 
+
     public function getPostType()
     {
         return $this->postType;
     }
 
+
     protected function setPublic( $public )
     {
         $this->isPublic = $public;
     }
+
 
     protected function getPostTypeLabels()
     {
@@ -121,6 +125,7 @@ abstract class BaseModel
         );
         return $labels;
     }
+
 
     protected function setPostTypeLabels( $customLabels )
     {
@@ -133,6 +138,7 @@ abstract class BaseModel
         return $this;
     }
 
+
     protected function setNameLabel( $name )
     {
         $this->nameLabel = $name;
@@ -141,12 +147,14 @@ abstract class BaseModel
         return $this;
     }
 
+
     protected function setSingularNameLabel( $singularName )
     {
         $this->singularNameLabel = $singularName;
 
         return $this;
     }
+
 
     protected function setSupportedFeatures( $supportTitle = true, $supportEditor = true, $supportThumbnail = false )
     {
@@ -156,6 +164,7 @@ abstract class BaseModel
 
         return $this;
     }
+
 
     protected function getSupportedFeatures()
     {
@@ -172,6 +181,7 @@ abstract class BaseModel
         return $features;
     }
 
+
     protected function enableArchive()
     {
         $this->hasArchive = true;
@@ -179,10 +189,12 @@ abstract class BaseModel
         //flush_rewrite_rules();
     }
 
+
     protected function disableArchive()
     {
         $this->hasArchive = false;
     }
+
 
     protected function setCapabilityType( $type )
     {
@@ -191,7 +203,8 @@ abstract class BaseModel
         return $this;
     }
 
-    protected function registerCustomPostType()
+
+    public function registerCustomPostType()
     {
         if( !post_type_exists($this->getPostType()) ) {
 
@@ -225,9 +238,11 @@ abstract class BaseModel
         return $this;
     }
 
+
     protected function registerFilters()
     {
-        // TODO: Create Abstract Class WordPressFilters. Invoke it's init method here
+        // Register Post Type
+        add_action('init', array( &$this, 'registerCustomPostType' ));
         // Set Fields Values
         // Render Metaboxes and Fields
         add_action('admin_init', array( $this, 'registerMetaBoxes' ));
@@ -252,6 +267,7 @@ abstract class BaseModel
         return $this;
     }
 
+
     public function registerMetaBoxes()
     {
         if( is_admin() ) {
@@ -272,6 +288,7 @@ abstract class BaseModel
         }
     }
 
+
     public function setTemplatePath( $templatePath )
     {
         if( file_exists($templatePath) ) {
@@ -280,6 +297,7 @@ abstract class BaseModel
 
         return $this;
     }
+
 
     private function getMetaBoxContext( $instance, $fields )
     {
@@ -294,6 +312,7 @@ abstract class BaseModel
 
         return apply_filters("metabox_context_{$boxID}_at_{$postType}", $context);
     }
+
 
     public function renderFields( $post, $params )
     {
@@ -314,6 +333,7 @@ abstract class BaseModel
         //echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
 
     }
+
 
     public static function registerScriptsAndStyles()
     {
@@ -350,6 +370,7 @@ abstract class BaseModel
         return $this->fields; // Is a direct access to the property
     }
 
+
     private function fieldsAreEmpty()
     {
         $empty = true;
@@ -362,6 +383,7 @@ abstract class BaseModel
         return $empty;
     }
 
+
     public function getFieldValue( $field )
     {
         if( $this->fieldsAreEmpty() ) {
@@ -370,6 +392,7 @@ abstract class BaseModel
 
         return $this->fields->field($field)->getValue();
     }
+
 
     // Load on constructor
     protected function loadFieldValues()
@@ -387,6 +410,7 @@ abstract class BaseModel
 
         return $this;
     }
+
 
     public function saveFieldValues( $postID, $post = false )
     {
@@ -421,6 +445,7 @@ abstract class BaseModel
         return false;
     }
 
+
     public function __set( $property, $value )
     {
         if( property_exists($this, $property) ) {
@@ -435,6 +460,7 @@ abstract class BaseModel
         return get_permalink($this->ID);
     }
 
+
     public function getThumbnail( $size = 'full' )
     {
         if( $this->thumbnailSupport && has_post_thumbnail($this->ID) ) {
@@ -444,6 +470,7 @@ abstract class BaseModel
 
         return false;
     }
+
 
     public function getThumbnailURL()
     {
@@ -456,6 +483,7 @@ abstract class BaseModel
         }
         return false;
     }
+
 
     /****CRUD Methods****/
     public function create( $title = null, $content = null )
@@ -470,6 +498,7 @@ abstract class BaseModel
         return new static($post);
     }
 
+
     public function save()
     {
         $properties = array(
@@ -482,15 +511,18 @@ abstract class BaseModel
         return wp_update_post($properties);
     }
 
+
     public static function delete( $ID = null )
     {
         return wp_delete_post($ID);
     }
 
+
     public function publish()
     {
         $this->setStatus('publish');
     }
+
 
     public function setStatus( $status )
     {
@@ -508,6 +540,7 @@ abstract class BaseModel
         return $this;
     }
 
+
     /****** Static Methods **********/
     // Traversing Methods
     // TODO: Consider abstracting this to a class called TraversingMethods for better reading and ease of further development
@@ -520,6 +553,7 @@ abstract class BaseModel
         }
         return self::$instance;
     }
+
 
     private static function toStaticList( $posts )
     {
@@ -536,15 +570,18 @@ abstract class BaseModel
         return $list;
     }
 
+
     public static function getByID( $ID )
     {
         return new static($ID);
     }
 
+
     public static function getAllInList( $list )
     {
         return static::toStaticList($list);
     }
+
 
     public static function get( $limitTo = 10, $newerFirst = true )
     {
@@ -552,21 +589,25 @@ abstract class BaseModel
         return static::toStaticList($posts);
     }
 
+
     public static function getSorted( $limitTo, $sortField, $lowToHigh = false )
     {
         $posts = Query::Custom(static::instance()->getPostType())->limit($limitTo)->sortBy($sortField)->sortOrder($lowToHigh)->get();
         return static::toStaticList($posts);
     }
 
+
     public static function getMostRecent( $limitTo = 10 )
     {
         return static::get($limitTo);
     }
 
+
     public static function getLeastRecent( $limitTo = 10 )
     {
         return static::get($limitTo, false);
     }
+
 
     public function getFirst()
     {
@@ -574,11 +615,13 @@ abstract class BaseModel
         return new static($post);
     }
 
+
     public function getLast()
     {
         $post = Query::Custom(static::instance()->getPostType())->limit(1)->orderByDate()->get('first');
         return new static($post);
     }
+
 
     public static function getAll()
     {
@@ -586,11 +629,13 @@ abstract class BaseModel
         return static::toStaticList($posts);
     }
 
+
     public static function getByField( $field, $value )
     {
         $posts = Query::Custom(self::instance()->getPostType())->all()->meta($field, $value)->get();
         return self::toStaticList($posts);
     }
+
 
     public static function getByTaxonomy( $taxonomyName, $taxonomyTerm )
     {
