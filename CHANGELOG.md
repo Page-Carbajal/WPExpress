@@ -2,7 +2,7 @@
 
 ###Version 1.4.7
 
-- Fixed Post and Page classes
+- Fixed Post and Page classes 
 
 ###Version 1.4.6
 
