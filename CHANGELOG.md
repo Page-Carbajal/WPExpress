@@ -1,47 +1,50 @@
-##Changelog
+#Changelog
 
-###Version 1.5.0
+##Version 1.5.0
 
 - Added BaseModel setGridCustomColumns
 - Added BaseModel method setGridColumns
 - Added BaseModel property gridColumns
 - Made BadeModel getFirst and getLast methods static
+- Refactored RenderEngine class
+- Added BaseRenderEngine methods setContext, getMaybePaths and getTemplateNotFoundMessage
+- Refactored BaseRenderEngine class 
 
 
-###Version 1.4.8
+##Version 1.4.8
 
 - Added styles to improve the custom fields presentation 
 
 
-###Version 1.4.7
+##Version 1.4.7
 
 - Issue Fixed #5 - add_rewrite_tag() on a non-object 
 - Issue Fixed #7 - Post and Page classes 
 
 
-###Version 1.4.6
+##Version 1.4.6
 
 - Added method HTMLFieldParser/getCheckedProperties
 
 
-###Version 1.4.5
+##Version 1.4.5
 
 - Added BaseModel wex_save_field_{$fieldID}_value filter
 
 
-###Version 1.4.4 
+##Version 1.4.4 
 
 - Refactored BaseModel class to implement the new Renderengine 
 - Refactored RenderEngine class to accommodate for context on render  
 - Added default metabox-content.php template
 
 
-###Version 1.4.3
+##Version 1.4.3
 
 - Refactored the BaseModel class.
 
 
-###Version 1.4.2
+##Version 1.4.2
 
 - Fixed Empty postTypeSlug property 
 
