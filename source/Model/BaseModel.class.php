@@ -44,7 +44,7 @@ abstract class BaseModel
     private   $fieldsMetaID = "__wex_fields";
     private   $fieldsPrefix = "__wex_";
     protected $templatePath;
-    protected $gridColumns;
+    protected $tableFields;
 
     // Original Post Object
     protected $post;
@@ -53,12 +53,15 @@ abstract class BaseModel
 
     private $capabilityType;
 
+    private $serializeDataStorage;
+
 
     public function __construct( $bean = null )
     {
         $post = null;
 
-        $this->capabilityType = 'post';
+        $this->capabilityType       = 'post';
+        $this->serializeDataStorage = true;
 
         // If your class name is Book. Your Post Type would be 'book'
         $this->getPostType();
@@ -88,7 +91,7 @@ abstract class BaseModel
         //Metaboxes and Fields
         $this->metaBoxes   = new MetaBoxCollection();
         $this->fields      = new FieldCollection();
-        $this->gridColumns = array();
+        $this->tableFields = array();
 
 
         $this->registerCustomPostType()->registerFilters();
@@ -118,6 +121,12 @@ abstract class BaseModel
     protected function setPublic( $public )
     {
         $this->isPublic = $public;
+    }
+
+
+    protected function useSerializedDataStorage( $serialize = true )
+    {
+        $this->serializeDataStorage = ( $serialize === true );
     }
 
 
@@ -258,7 +267,7 @@ abstract class BaseModel
         // Register Custom Post Columns
         add_filter("manage_{$this->getPostType()}_posts_columns", array( &$this, 'setGridCustomColumns' ));
         // Register Post Column Get Value Filter
-        add_filter("manage_{$this->getPostType()}_posts_custom_column", array( __CLASS__, 'getCustomColumnValue' ), 10, 2);
+        add_filter("manage_{$this->getPostType()}_posts_custom_column", array( &$this, 'getCustomColumnValue' ), 10, 2);
 
         // OTHER AVAILABLE HOOKS
         // Attachment Hooks
@@ -299,31 +308,9 @@ abstract class BaseModel
 
     public function setGridCustomColumns( $columns )
     {
-        $fields     = $this->fields->toArray();
-        $fieldNames = array_keys($fields);
+        $customColumns = $this->fields->getTableLisFields();
 
-        foreach($this->gridColumns as $name){
-            if( in_array($name, $fieldNames) ){
-                $columns[$name] = $fields[$name]->name;
-            }
-        }
-
-        return $columns;
-    }
-
-
-    public function setGridColumnNames( $columns )
-    {
-        $fields            = $this->fields->toArray();
-        $columns           = is_array($columns) ? $columns : array( $columns );
-        $fieldNames        = array_keys($fields);
-        $this->gridColumns = array();
-
-        foreach( $columns as $field ) {
-            if( in_array($field, $fieldNames) ) {
-                $this->gridColumns[] = $field;
-            }
-        }
+        return array_slice($columns, 0, 2, true) + $customColumns + array_slice($columns, 2, count($columns) - 2);
     }
 
 
@@ -373,10 +360,26 @@ abstract class BaseModel
     }
 
 
-    public static function getCustomColumnValue( $column, $postID )
+    public function getCustomColumnValue( $fieldID, $postID )
     {
-        //$meta = get_post_meta($postID, '__wex_fields');
-        return 'Value';
+        static $history = array();
+
+        $tableFields = $this->fields->getTableLisFields();
+
+        if( in_array($fieldID, array_keys($tableFields)) && !isset( $history["{$fieldID}-{$postID}"] ) ) {
+            $fieldValue = '';
+            $meta       = get_post_meta($postID, $this->fieldsMetaID, true);
+            $fieldValue = ( isset( $meta[$fieldID] ) ? $meta[$fieldID] : $fieldValue );
+            if( false === $this->serializeDataStorage ) {
+                // TODO: Add format from fieldType
+                $fieldValue = get_post_meta($postID, "{$this->fieldsPrefix}{$fieldID}", true);
+                $fieldValue = ( empty($fieldValue) ? ( isset($meta[$fieldID]) ? $meta[$fieldID] : '' ) : $fieldValue ); // Supports switching serializedDataStorage value
+            }
+            $history["{$fieldID}-{$postID}"] = $fieldValue;
+
+            echo $fieldValue;
+        }
+
     }
 
 
@@ -442,6 +445,8 @@ abstract class BaseModel
     // Load on constructor
     protected function loadFieldValues()
     {
+        // TODO: Move to else statement on a higher version
+        // Load serialized fields values
         $meta = get_post_meta($this->ID, $this->fieldsMetaID, true);
 
         if( is_array($meta) ) {
@@ -450,6 +455,16 @@ abstract class BaseModel
                 if( isset( $meta[$fieldName] ) ) {
                     $this->fields($name)->setValue($meta[$fieldName]);
                 }
+            }
+        }
+
+        if( true !== $this->serializeDataStorage ) {
+            foreach( $this->fields->toArray() as $id => $field ) {
+                $fieldID    = $this->fieldsPrefix . sanitize_title($id);
+                $fieldName  = sanitize_title($id);
+                $fieldValue = get_post_meta($this->ID, $fieldID, true); // Supports switching serializedDataStorage value
+                $fieldValue = ( empty( $fieldValue ) ? ( isset( $meta[$fieldName] ) ? $meta[$fieldName] : '' ) : $fieldValue );
+                $this->fields($id)->setValue($fieldValue);
             }
         }
 
@@ -463,16 +478,26 @@ abstract class BaseModel
 
             $screen = get_current_screen();
             if( $screen->post_type == $this->getPostType() ) {
+
+
                 $meta = array();
-                //$instance = new static($post);
 
                 foreach( $this->fields->toArray() as $title => $field ) {
-                    $fieldID        = sanitize_title($title);
-                    $fieldValue     = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
-                    $meta[$fieldID] = apply_filters("wex_save_field_{$fieldID}_value", $fieldValue);
+                    $fieldID    = sanitize_title($title);
+                    $fieldValue = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+
+                    if( $this->serializeDataStorage ) {
+                        $meta[$fieldID] = apply_filters("wex_save_field_{$fieldID}_value", $fieldValue);
+                    } else {
+                        update_post_meta($postID, "{$this->fieldsPrefix}{$fieldID}", apply_filters("wex_save_field_{$fieldID}_value", $fieldValue));
+                    }
                 }
 
-                update_post_meta($postID, $this->fieldsMetaID, $meta);
+                // Save serialized data
+                if( !empty( $meta ) ) {
+                    update_post_meta($postID, $this->fieldsMetaID, $meta);
+                }
+
             }
         }
 

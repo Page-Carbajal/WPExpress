@@ -1,10 +1,18 @@
 #Changelog
 
-##Version 1.5.0
+##Version 2.0.0
 
-- Added BaseModel setGridCustomColumns
-- Added BaseModel method setGridColumns
-- Added BaseModel property gridColumns
+- Moved to version 2.0.0 because the changes on the API are not backwards compatible
+- Deleted releases 0.3.2, 0.4, 0.5, 0.5.1, , 0.5.2, , 0.5.3, , 0.5.4
+- Deleted releases 1.4.0, 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.4.5, 1.4.6, 1.4.7, 1.4.8 from repository
+- Updated TODO.md
+- Refactored FieldCollection class method addField
+- Refactored BaseModel class methods saveFieldValues and loadFieldValues
+- Implemented BaseModel class method useSerializedDataStorage
+- Implemented FieldCollection method getTableLisFields on BaseModel class
+- Added FieldCollection methods showOnGrid and getTableLisFields
+- Refactored FieldCollection class
+- Removed the OldRenderEngine class
 - Made BadeModel getFirst and getLast methods static
 - Refactored RenderEngine class
 - Added BaseRenderEngine methods setContext, getMaybePaths and getTemplateNotFoundMessage

@@ -18,6 +18,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         $this->selectedFieldName = false;
     }
 
+
     private function newField( $name, $type )
     {
         $field = new \stdClass();
@@ -32,6 +33,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $field;
     }
 
+
     private function addField( $name, $type = null )
     {
         if( isset( $this->container[$name] ) ) {
@@ -39,11 +41,13 @@ class FieldCollection implements \ArrayAccess, \Countable
             trigger_error("A field named {$name} is already part of the list!", E_USER_WARNING);
         }
         // Validates the given type against our list
-        $fieldType               = in_array($type, $this->fieldTypes) ? $type : 'text';
-        $this->container[$name]  = $this->newField($name, $fieldType);
-        $this->selectedFieldName = $name;
+        $fieldName                   = sanitize_title($name); //Prevent Errors on array_key 
+        $fieldType                   = in_array($type, $this->fieldTypes) ? $type : 'text';
+        $this->container[$fieldName] = $this->newField($fieldName, $fieldType);
+        $this->selectedFieldName     = $fieldName;
         return $this;
     }
+
 
     public function field( $name )
     {
@@ -51,11 +55,13 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function addHiddenInput( $name )
     {
         $this->addField($name, 'hidden');
         return $this;
     }
+
 
     public function addTextInput( $name )
     {
@@ -63,11 +69,13 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function addTextArea( $name )
     {
         $this->addField($name, 'textarea');
         return $this;
     }
+
 
     public function addRadioButton( $name )
     {
@@ -75,11 +83,13 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function addCheckBox( $name )
     {
         $this->addField($name, 'checkbox');
         return $this;
     }
+
 
     public function addSelect( $name, $options )
     {
@@ -87,6 +97,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         $this->setProperty('options', $options);
         return $this;
     }
+
 
     public function getID()
     {
@@ -96,6 +107,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         return false;
     }
 
+
     public function setID( $ID )
     {
         if( $this->selectedFieldName !== false ) {
@@ -103,6 +115,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         }
         return $this;
     }
+
 
     public function getAttribute( $att )
     {
@@ -112,6 +125,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         return false;
     }
 
+
     public function setAttribute( $att, $value )
     {
         if( $this->selectedFieldName !== false ) {
@@ -119,6 +133,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         }
         return $this;
     }
+
 
     public function getAttributes()
     {
@@ -128,13 +143,41 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function setAttributes( $atts )
     {
         if( $this->selectedFieldName !== false ) {
-            $this->container[$this->selectedFieldName]->attributes = $atts;
+            foreach( $atts as $key => $value ) {
+                if( !empty( $key ) && !empty( $value ) ) {
+                    $this->setAttribute($key, $value);
+                }
+            }
         }
         return $this;
     }
+
+
+    public function showOnGrid()
+    {
+        $this->setProperty('showOnGrid', true);
+        return $this;
+    }
+
+
+    public function getTableLisFields()
+    {
+        $fieldsList = array();
+        if( !empty( $this->container ) ) {
+            foreach( $this->container as $fieldName => $field ) {
+                if( isset( $field->properties['showOnGrid'] ) && $field->properties['showOnGrid'] == true ) {
+                    $fieldsList[$field->ID] = ( isset( $field->properties['label'] ) ? $field->properties['label'] : $fieldName );
+                }
+            }
+        }
+
+        return $fieldsList;
+    }
+
 
     public function getProperty( $property )
     {
@@ -144,6 +187,7 @@ class FieldCollection implements \ArrayAccess, \Countable
         return false;
     }
 
+
     private function setProperty( $property, $value )
     {
         if( $this->selectedFieldName !== false ) {
@@ -152,10 +196,12 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function getLabel()
     {
         return $this->getProperty('label');
     }
+
 
     //Labels and related data
     public function addLabel( $text )
@@ -164,10 +210,12 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+
     public function getValue()
     {
         return isset( $this->container[$this->selectedFieldName]->properties['value'] ) ? $this->container[$this->selectedFieldName]->properties['value'] : null;
     }
+
 
     public function setValue( $value )
     {
@@ -182,16 +230,16 @@ class FieldCollection implements \ArrayAccess, \Countable
     /****Parse HTML****/
     public function parseFields( $subset = null )
     {
-        if( empty($this->container) ){
+        if( empty( $this->container ) ) {
             return null;
         }
 
         $fields = $this->container;
         if( is_array($subset) && count($subset) > 0 ) {
-            $keys = array_keys($fields);
+            $keys   = array_keys($fields);
             $fields = array();
             foreach( $subset as $index ) {
-                if( in_array($index, $keys) && isset($this->container[$index]) ) {
+                if( in_array($index, $keys) && isset( $this->container[$index] ) ) {
                     $fields[$index] = $this->container[$index];
                 }
             }
@@ -200,10 +248,12 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $parser->parseFields();
     }
 
+
     public function toArray()
     {
         return $this->container;
     }
+
 
     /*****Contracts*****/
     /*****Implement Interface Methods*******/
@@ -216,20 +266,24 @@ class FieldCollection implements \ArrayAccess, \Countable
         }
     }
 
+
     public function offsetExists( $offset )
     {
         return isset( $this->container[$offset] );
     }
+
 
     public function offsetUnset( $offset )
     {
         unset( $this->container[$offset] );
     }
 
+
     public function offsetGet( $offset )
     {
         return isset( $this->container[$offset] ) ? $this->container[$offset] : null;
     }
+
 
     // Countable Methods
     public function count()
