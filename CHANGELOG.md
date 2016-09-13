@@ -1,5 +1,10 @@
 #Changelog
 
+##Version 2.0.1
+
+- Fixed the BaseModel postType setting
+
+
 ##Version 2.0.0
 
 - Moved to version 2.0.0 because the changes on the API are not backwards compatible

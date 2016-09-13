@@ -155,7 +155,7 @@ abstract class BaseModel
     protected function setNameLabel( $name )
     {
         $this->nameLabel = $name;
-        $this->postType  = sanitize_title($this->nameLabel);
+        $this->setSingularNameLabel($name);
 
         return $this;
     }
@@ -164,6 +164,7 @@ abstract class BaseModel
     protected function setSingularNameLabel( $singularName )
     {
         $this->singularNameLabel = $singularName;
+        $this->postType          = sanitize_title($this->singularNameLabel);
 
         return $this;
     }
@@ -373,7 +374,7 @@ abstract class BaseModel
             if( false === $this->serializeDataStorage ) {
                 // TODO: Add format from fieldType
                 $fieldValue = get_post_meta($postID, "{$this->fieldsPrefix}{$fieldID}", true);
-                $fieldValue = ( empty($fieldValue) ? ( isset($meta[$fieldID]) ? $meta[$fieldID] : '' ) : $fieldValue ); // Supports switching serializedDataStorage value
+                $fieldValue = ( empty( $fieldValue ) ? ( isset( $meta[$fieldID] ) ? $meta[$fieldID] : '' ) : $fieldValue ); // Supports switching serializedDataStorage value
             }
             $history["{$fieldID}-{$postID}"] = $fieldValue;
 
