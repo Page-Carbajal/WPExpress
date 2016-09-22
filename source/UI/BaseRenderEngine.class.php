@@ -19,7 +19,7 @@ abstract class BaseRenderEngine
         $this->templatePath         = 'templates';
         $this->typeExtension        = 'php';
         $this->includeFileExtension = true;
-        
+
         $this->setContext($context);
     }
 
@@ -46,12 +46,12 @@ abstract class BaseRenderEngine
             untrailingslashit(get_stylesheet_directory()) . "/templates/{$filename}", // Stylesheet directory with default templates path
             untrailingslashit(get_template_directory()) . "/templates/{$filename}", // Template directory with default templates path
             untrailingslashit($this->getTemplateDirectory()) . "/{$filename}", // Custom template path
-            untrailingslashit(dirname(__FILE__)) . "/../../resources/templates/{$filename}" // Default WPExpress templates
+            untrailingslashit(dirname(__FILE__)) . "/../../resources/templates/settings-page.php" // Default WPExpress templates
         );
 
         // Play nice with others
-        $this->maybePaths = apply_filters('wpx_render_template_paths', $maybePaths);
-        
+        $this->maybePaths = apply_filters("wpx_{$filename}_render_paths", $maybePaths);
+
         return $maybePaths;
     }
 
@@ -91,7 +91,7 @@ abstract class BaseRenderEngine
         <?php
         $message = ob_get_contents();
         ob_end_clean();
-        
+
         return $message;
     }
 

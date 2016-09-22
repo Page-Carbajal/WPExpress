@@ -20,7 +20,7 @@ abstract class BaseSettingsPage
     protected $userCapabilities;
     protected $menuSlug;
     protected $description;
-    protected $customTemplatesPath;
+    protected $customTemplatesPath = false;
     protected $templateExtension;
     protected $templateFolder;
     private   $targetPostType;
@@ -37,6 +37,7 @@ abstract class BaseSettingsPage
         $this->registerPage();
     }
 
+
     public function setTopParentMenu( $option, $targetPostType = false )
     {
         $this->pageType = ( in_array($option, array( 'top', 'dashboard', 'posts', 'pages', 'settings', 'users', 'plugins', 'theme', 'tools', 'custom' )) ? $option : null );
@@ -49,17 +50,20 @@ abstract class BaseSettingsPage
         return $this;
     }
 
+
     private function registerFilters()
     {
         add_filter('wp_loaded', array( $this, 'save' ), 10);
         return $this;
     }
 
+
     public function registerPage()
     {
         add_action('admin_menu', array( &$this, 'addMenuItem' ));
         return $this;
     }
+
 
     private function actionHookIsValid( $menuSlug, $parentSlug )
     {
@@ -69,6 +73,7 @@ abstract class BaseSettingsPage
 
         return !has_action($hookname);
     }
+
 
     public function addMenuItem()
     {
@@ -130,6 +135,7 @@ abstract class BaseSettingsPage
         return $this;
     }
 
+
     /**
      * Sets menu title, menu slug, and page title. Page title is concatenated with the translatable string " settings"
      * @param $menuTitle
@@ -145,6 +151,7 @@ abstract class BaseSettingsPage
         return $this;
     }
 
+
     /**
      * Handler to set a custom page title
      * @param $title
@@ -156,11 +163,19 @@ abstract class BaseSettingsPage
         return $this;
     }
 
+
     public function setPageDescription( $description )
     {
         $this->description = $description;
         return $this;
     }
+
+
+    public function getCustomTemplatePath()
+    {
+        return $this->customTemplatesPath;
+    }
+
 
     public function setCustomTemplatePath( $path )
     {
@@ -171,17 +186,20 @@ abstract class BaseSettingsPage
         return $this;
     }
 
+
     public function useMustacheTemplates()
     {
         $this->templateExtension = 'mustache';
         return $this;
     }
 
+
     public function useTwigTemplates()
     {
         $this->templateExtension = 'twig';
         return $this;
     }
+
 
     // Option Functions
 
@@ -196,6 +214,7 @@ abstract class BaseSettingsPage
         // TODO: Deprecate this function
         $this->getOptionValue($property);
     }
+
 
     /* Validate and Persist Data */
     public function save()
@@ -220,6 +239,7 @@ abstract class BaseSettingsPage
         }
     }
 
+
     public function delete()
     {
         // TODO: Delete all data based on the existent fields
@@ -231,16 +251,18 @@ abstract class BaseSettingsPage
         return $this->fields->field($name);
     }
 
+
     public function getOptionValue( $option )
     {
         $optionName = "{$this->fieldPrefix}{$option}";
         return get_option($optionName);
     }
 
+
     /**
      * @param $fieldName
      * @return mixed|void
-     * @deprecated 
+     * @deprecated
      */
     public function getValue( $fieldName )
     {
@@ -248,14 +270,16 @@ abstract class BaseSettingsPage
         return $this->getOptionValue($fieldName);
     }
 
+
     /**
      * @return string
-     * @deprecated 
+     * @deprecated
      */
     private function getSegments()
     {
         return '';
     }
+
 
     private function loadFieldValues()
     {
@@ -263,6 +287,7 @@ abstract class BaseSettingsPage
             $this->fields($index)->setValue($this->getOptionValue($index));
         }
     }
+
 
     private function getContext()
     {
@@ -280,6 +305,10 @@ abstract class BaseSettingsPage
     public function render()
     {
         $engine = new RenderEngine( $this->getContext() );
+
+        if( false !== $this->getCustomTemplatePath() ){
+            $engine->setTemplatePath($this->getCustomTemplatePath());
+        }
 
         $engine->render($this->menuSlug);
     }

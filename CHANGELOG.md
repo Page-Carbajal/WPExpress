@@ -1,5 +1,13 @@
 #Changelog
 
+##Version 2.0.2
+
+- Fixed the BaseRenderEngine default template path
+- Added method BaseSettingsPage getCustomTemplatePath method
+- Refactored BaseSettingsPage class
+- Changed the BaseRenderEngine class filter wpx_render_template_paths to wpx_{$filename}_render_paths
+
+
 ##Version 2.0.1
 
 - Fixed the BaseModel postType setting
