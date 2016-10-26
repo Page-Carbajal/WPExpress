@@ -1,5 +1,10 @@
 #Changelog
 
+##Version 2.0.3
+
+- Fixed the labels not showing on the defaults settings page
+
+
 ##Version 2.0.2
 
 - Fixed the BaseRenderEngine default template path
