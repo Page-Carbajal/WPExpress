@@ -1,13 +1,19 @@
 # WPExpress
-##WordPress Framework for Software Developers
 
-For all of you my fellow developer which are not familiar with WordPress. I was going to make the mistake of trying to sell you WordPress platform. But I am not anymore. Instead, I'll ask you to do a google search for ***why use wordpress***.
+## A WordPress Framework for Software Developers
+
+For all of you my fellow developers who are not familiar with WordPress. 
+
+Instead of trying to sell you into WordPress I'll ask you to do a google search for ***[why wordpress](https://www.google.com.mx/?gws_rd=ssl#q=why+wordpress)***.
 
 Then do the same for other Content Management Systems, read a little, then decide what's better for you.
 
 I will however tell you why I use WordPress to run my Websites.
 
-**WordPress** powers 25% of the websites on the Internet. This means that 1 of every 4 websites are using it.
+
+**WordPress** powers +25% of the websites on the Internet. This means that 1 of every 4 websites are using it.
+
+Some of the bennefits it gives me:
 
 * Improved time to market
 * Easily create Content Networks
@@ -21,52 +27,26 @@ I will however tell you why I use WordPress to run my Websites.
 * And it is Open Source
 
 
-##Why should you use WPExpress?
+## What is WPExpress
 
-All parents tend to  brag 'bout their children. To refrain from doing just that I will rather talk to you 'bout why I like using frameworks like Rails, Laravel and Symfony.
+I like using frameworks like Rails, Laravel and Symfony.
 
-They make me love writing code. Very smart people wrote hundreds of thousands of lines of code to implement concepts such as Separation of Concern, Convention over Configuration, DRY and so on.
+They make me love writing code. 
 
-I love rake, and artisan. I am infatuated with how Symfony is structured as a set of components rather than a Framework. I also have a thing for composer, autoloading and depedency management.
+Very smart people wrote hundreds of thousands of lines of code to implement concepts such as Separation of Concern, Convention over Configuration and so on.
 
-And last but not least. I worship [Mustache](http://mustache.github.io) and [Twig](http://twig.sensiolabs.org)
+I love rake, and artisan. I am infatuated with how [Symfony](https://github.com/symfony/symfony) is structured as a set of components rather than a full fledged Framework. 
+
+And I also have a thing for composer, autoloading and depedency management.
+
+Last but not least. I worship [Mustache](http://mustache.github.io) and [Twig](http://twig.sensiolabs.org)
  
-I get to know a world as awesome as this and then I go back to write ASP-like code. Like it is 2001 again. That made me sad –Insert the saddest ever emoticon here :(–.
+When you get to know and work in environments as cool as those I have talked about, going back to monolite-style code writing is, HARD.
+
+I found myself having to write similar code across different projects and I decided I wanted to focus on writing meaningful code and abstract the repetitive stuff as much as possible. 
  
 
-So I wanted to go from this
-
-```php
-
-function renderOutput()
-{
-<div class="<?php echo $postClass">
-<?if( false == $someValue ) : ?>
-    <p><?php echo $bigTitle; ?></p>
-<?php endif; ?>
-</div>
-}
-
-
-```
-
-To this
-
-```php
-
-function renderOutput()
-{
-    $engine = new RenderEngine('path/to/templates');
-    $context = array(
-        'postClass' => 'article bit title',
-        'bigTitle' => 'This is the big title',
-    );
-    echo $engine->render( 'mustache-template-file-name', $context );
-}
-
-```
-
-I wanted to go from this
+**I wanted to go from this**
  
 ```php
 
@@ -78,7 +58,7 @@ wp_reset_post_data();
 
 ```
 
-To this
+**To this**
 
 ```php
 
@@ -86,20 +66,23 @@ $posts = Query::Posts->limit(10)->meta('field', 'value')->get();
 
 ```
 
-I wanted to use composer, mustache, twig, and every other thing I love in modern PHP within WordPress. But here's the compromise. I do not want to change WordPress. 
+I wanted to use composer, abstraction and chainable methods, and every other thing I love in modern PHP within WordPress. But here's the compromise. I do not want to change WordPress. 
 
 I do not want to write my own queries, I do not want to alter the core. I want WordPress to be kept intact. I just want a Framework which will allow me to do more with less.
 
-Less configuration, less plugins, less time to market. Finally I am writing this framework to write meaningful code, and build better websites. 
+Less configuration, less plugins, less time to market. 
+
+Finally I am writing this framework to allo my self to focus on writing **meaningful code**. 
 
 
-##Quick Start
+
+## Quick Start
 
 This small **WordPress Frmework** is designed to be easy to use. 
 
 Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/wiki) and then visit my website for [videos and tutorials on WPExpress](http://pagecarbajal.com/projects/wpexpress/)
 
-##Framework Structure
+## Framework Structure
 
 - Database  [WPExpress\Query](https://github.com/Page-Carbajal/WPExpress-Query)
 	- [Query](https://github.com/Page-Carbajal/WPExpress/wiki/Query)
@@ -114,7 +97,7 @@ Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/
 	- BaseUserRole
 	- BaseRelation **May Be**
 - Contracts
-    - BaseWordPressFilters
+    - BaseWordPressFilters (Maybe TBD)
 - Admin
 	- [BaseSettingsPage](https://github.com/Page-Carbajal/WPExpress/wiki/BaseSettingsPage)
 	- BaseWidget
@@ -125,16 +108,17 @@ Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/
 	- MetaBoxCollection
 	- HTMLFieldParser
 	- RenderEngine
-	- ReactJS
+	- ReactJS (TBD)
 
 
 	
-###Minerva for WPExpress
+## Roadmap
+
+### Minerva for WPExpress
 
 I need to build a **Command Line Interface** for this little framework. With some additional effort **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**.
 
 Stay tuned for more information on it.  
-
 
 
 
