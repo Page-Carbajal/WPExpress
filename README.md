@@ -80,7 +80,7 @@ Finally I am writing this framework to allo my self to focus on writing **meanin
 
 This small **WordPress Frmework** is designed to be easy to use. 
 
-Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/wiki) and then visit my website for [videos and tutorials on WPExpress](http://pagecarbajal.com/projects/wpexpress/)
+Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/wiki).
 
 ## Framework Structure
 
