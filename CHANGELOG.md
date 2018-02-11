@@ -2,6 +2,7 @@
 
 ## Version 2.0.4
 
+- Upgraded WPExpress/Query dependency to 1.0.1
 - Fixed issued: License "GPL3" is not a valid SPDX license identifier
 
 

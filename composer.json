@@ -16,6 +16,6 @@
     },
     "require": {
         "php": ">=5.5",
-        "page-carbajal/wpexpress-query": "^0.10.4"
+        "page-carbajal/wpexpress-query": "^1.0.0"
     }
 }
