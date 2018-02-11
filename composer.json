@@ -1,7 +1,7 @@
 {
     "name": "page-carbajal/wpexpress",
     "type": "library",
-    "license": "GNU-3.0",
+    "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/Page-Carbajal/WPExpress",
     "authors":[
         {
