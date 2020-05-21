@@ -1,5 +1,9 @@
 # WP Express Framework Change log
 
+## Version 2.0.5 - May 21st 2020
+
+- Refactored class names for PSR-4 compliance
+
 ## Version 2.0.4
 
 - Upgraded WPExpress/Query dependency to 1.0.1
