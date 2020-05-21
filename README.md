@@ -111,14 +111,4 @@ Start by reading our [documentation](https://github.com/Page-Carbajal/WPExpress/
 	- ReactJS (TBD)
 
 
-	
-## Roadmap
-
-### Minerva for WPExpress
-
-I need to build a **Command Line Interface** for this little framework. With some additional effort **[Minerva](https://github.com/Page-Carbajal/Minerva)** will be such **CLI**.
-
-Stay tuned for more information on it.  
-
-
 
