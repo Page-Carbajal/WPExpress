@@ -1,8 +1,9 @@
 # WPExpress a WordPress Framework - Change Log
 
 
-### December 12th - Version 2.0.6
+### December 12th - Version 2.0.7
 
+- Added null safe operators to resources/templates/settings-page.php
 - Documentation changes
 
 
