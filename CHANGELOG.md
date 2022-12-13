@@ -1,22 +1,30 @@
-# WP Express WordPress Framework - Change log
+# WPExpress a WordPress Framework - Change Log
 
-## Version 2.0.5 - May 21st 2020
+
+### December 12th - Version 2.0.6
+
+- Documentation changes
+
+
+## 2020
+
+### Version 2.0.5 - May 21st 2020
 
 - Refactored class names for PSR-4 compliance
 
 
-## Version 2.0.4
+### Version 2.0.4
 
 - Upgraded WPExpress/Query dependency to 1.0.1
 - Fixed issued: License "GPL3" is not a valid SPDX license identifier
 
 
-## Version 2.0.3
+### Version 2.0.3
 
 - Fixed the labels not showing on the defaults settings page
 
 
-## Version 2.0.2
+### Version 2.0.2
 
 - Fixed the BaseRenderEngine default template path
 - Added method BaseSettingsPage getCustomTemplatePath method
@@ -24,12 +32,12 @@
 - Changed the BaseRenderEngine class filter wpx_render_template_paths to wpx_{$filename}_render_paths
 
 
-## Version 2.0.1
+### Version 2.0.1
 
 - Fixed the BaseModel postType setting
 
 
-## Version 2.0.0
+### Version 2.0.0
 
 - Moved to version 2.0.0 because the changes on the API are not backwards compatible
 - Deleted releases 0.3.2, 0.4, 0.5, 0.5.1, , 0.5.2, , 0.5.3, , 0.5.4
@@ -48,96 +56,96 @@
 - Refactored BaseRenderEngine class 
 
 
-## Version 1.4.8
+### Version 1.4.8
 
 - Added styles to improve the custom fields presentation 
 
 
-## Version 1.4.7
+### Version 1.4.7
 
 - Issue Fixed #5 - add_rewrite_tag() on a non-object 
 - Issue Fixed #7 - Post and Page classes 
 
 
-## Version 1.4.6
+### Version 1.4.6
 
 - Added method HTMLFieldParser/getCheckedProperties
 
 
-## Version 1.4.5
+### Version 1.4.5
 
 - Added BaseModel wex_save_field_{$fieldID}_value filter
 
 
-## Version 1.4.4 
+### Version 1.4.4 
 
 - Refactored BaseModel class to implement the new Renderengine 
 - Refactored RenderEngine class to accommodate for context on render  
 - Added default metabox-content.php template
 
 
-## Version 1.4.3
+### Version 1.4.3
 
 - Refactored the BaseModel class.
 
 
-## Version 1.4.2
+### Version 1.4.2
 
 - Fixed Empty postTypeSlug property 
 
 
-## Version 1.4.1
+### Version 1.4.1
 
 - Added default resouces/templates/settings-page.php file 
 
 
-## Version 1.4.0
+### Version 1.4.0
 
 - Added TODO.md file
 - Released new version of WPExpress without WPExpress/UI dependency
 - Assimilation of WPExpress/UI into core
 
 
-## Version 1.3.8 - Untagged
+### Version 1.3.8 - Untagged
 
 - Implemented support for Settings Pages on Custom Post Type menus 
 
 
-## Version 1.3.7 - BaseSettingsPage Autoload Values
+### Version 1.3.7 - BaseSettingsPage Autoload Values
 
 - Implemented option value autoload
 - Added method BaseSettingsPage/loadFieldValues
 
 
-## Version 1.3.6 - Method BaseModel/getAllInList
+### Version 1.3.6 - Method BaseModel/getAllInList
 
 - Updated Road Map
 - Added method BaseModel/getAllInList
 
 
-## Version 1.3.5 - Method BaseMode/setCapabilityType
+### Version 1.3.5 - Method BaseMode/setCapabilityType
 
 - Added method BaseModel/setCapabilityType
 
 
-## Version 1.3.4 - BaseModel static bindings
+### Version 1.3.4 - BaseModel static bindings
 
 - Fixed a array_map static binding bug
 
 
-## Version 1.3.3 - BaseModel/enableArchive
+### Version 1.3.3 - BaseModel/enableArchive
 
 - Added empty metabox-validation.js file 
 - Added filter wpx_model_[PostType]_slug
 - Added methods BaseModel/enableArchive and disableArchive
 
 
-## Version 1.3.2 - Fixed BaseModel saveFieldValues bug
+### Version 1.3.2 - Fixed BaseModel saveFieldValues bug
 
 - Fixed an error to verify the existence of a function before execution
 
 
-## Version 1.3.1 - BaseModel refactoring
+### Version 1.3.1 - BaseModel refactoring
 
 - Fixed BaseModel/instance method bug with reflection 
 - Added several traversing methods to BaseModel
@@ -145,7 +153,7 @@
 - Added static property and method instance to BaseModel
 
 
-## Version 1.3.0 - BaseModel MetaBoxes and Fields
+### Version 1.3.0 - BaseModel MetaBoxes and Fields
 
 - Added methods BaseModel/getFieldValue and BaseModel/fieldsAreEmpty
 - Added BaseModel/fields property
@@ -165,7 +173,7 @@
 - Added Collections/MetaBoxCollection class
 
 
-## Version 1.2.5 - BaseSettingsPage Beautification
+### Version 1.2.5 - BaseSettingsPage Beautification
 
 - Changed the methods update_site_option and get_site_option to update_option and get_option
 - Allow empty values on BaseSettings/save
@@ -175,7 +183,7 @@
 - Renamed the property BaseSettingsPage/capabilities to BaseSettingsPage/userCapabilities 
 
 
-## Version 1.2.4 - WPExpress/UI 1.0.2
+### Version 1.2.4 - WPExpress/UI 1.0.2
 
 - Re-tagged
 - Upgrade composer dependency to WPExpress/UI version 1.0.2
@@ -183,35 +191,35 @@
 - Fixed errors with HTMLParser and added a toArray method to FieldCollection 
 
 
-## Version 1.2.3 - WPExpress/UI 1.0.0
+### Version 1.2.3 - WPExpress/UI 1.0.0
 
 - Upgraded to WPExpress/UI 1.0.0
 
 
-## Version 1.2.2 - Fixed BaseSettingsPage Template Path Error
+### Version 1.2.2 - Fixed BaseSettingsPage Template Path Error
 
 - Fixed the template path verification error
 
 
-## Version 1.2.1 - BaseModel simplification
+### Version 1.2.1 - BaseModel simplification
 
 - Made the parameter $bean optional on BaseModel class
 
 
-## Version 1.2.0 - Dropped BaseModelInterface
+### Version 1.2.0 - Dropped BaseModelInterface
 
 - Added the method getPostType to BaseModel
 - Deleted the BaseModelInterface class in favor of Convention over Configuration
 
 
-## Version 1.1.0
+### Version 1.1.0
 
 - Simplified the classes Page and Post
 - Added constructor function to make it easier for folks to get started with the project
 - Removed the datatype from function declaration on BaseModel/setPublic
 
 
-## Version 1.0.0
+### Version 1.0.0
 
 - Made Post class final
 - Made Post class extend BaseModel 
@@ -223,17 +231,17 @@
 - Removed Abstractions, Model and Interfaces folder from project structure
 
 
-## Version Zero-Six
+### Version Zero-Six
 
 This version is maintained for compatibility purposes only. 
 
 
-## Version 0.6.1 - Updated Query version
+### Version 0.6.1 - Updated Query version
 
 - Updated WPExpress Query version
 
 
-## Version 0.6.0 - New models
+### Version 0.6.0 - New models
 
 - Implementing BaseTaxonomy
 - Updated WPExpress/Query dependency 
@@ -243,12 +251,12 @@ This version is maintained for compatibility purposes only.
 - Added empty BasePostModel class
 
 
-## Version 0.5.4 - Updated WPExpress/UI version
+### Version 0.5.4 - Updated WPExpress/UI version
 
 - Updated WPExpress to 0.5.2
 
 
-## Version 0.5.3 - Fixes SettingsPage Render Error
+### Version 0.5.3 - Fixes SettingsPage Render Error
 
 - Throw exception if template file not found
 - Implemented fail-safe to render dedault settings-page template on error
@@ -256,14 +264,14 @@ This version is maintained for compatibility purposes only.
 - Added vendor directory to .gitignore 
 
 
-## Version 0.5.2
+### Version 0.5.2
 
 - Applied code styling to BaseModel class
 - Added property BaseModel/menuPosition accessible with magic methods
 - Fixed the default menu position to 20
 
 
-## Version 0.5.1
+### Version 0.5.1
 
 - Moved to require PHP 5.6 or higher
 - Updated the version of WPExpress UI
@@ -272,14 +280,14 @@ This version is maintained for compatibility purposes only.
 - Adopted [Semantic Versioning](http://semver.org)
 
 
-## Version 0.5 - Separation of Packages UI and Query
+### Version 0.5 - Separation of Packages UI and Query
 
 - Both packages are included through composer
 - Created the package [WPExpress/UI](https://github.com/Page-Carbajal/WPExpress-UI)
 - Created the package [WPExpress/Query](https://github.com/Page-Carbajal/WPExpress-Query)
 
 
-## Version 0.4 - Twig and RenderEngine enhancements
+### Version 0.4 - Twig and RenderEngine enhancements
 
 - Implemented RenderEngine changes to SettingsPage class
 - Modified the constructor for RenderEngine 
@@ -290,7 +298,7 @@ This version is maintained for compatibility purposes only.
 - Required Twig with Composer
 
 
-## Version 0.3.2 - BaseModel Enhancements
+### Version 0.3.2 - BaseModel Enhancements
 
 - Tagged to 0.3.2
 - Updated documentation
@@ -306,7 +314,7 @@ This version is maintained for compatibility purposes only.
 - Implemented BaseModel registerCustomPostType method
 
 
-## Version 0.3.1
+### Version 0.3.1
 
 - Implemented the term() method to search by taxonomy/value
 - Array values are transformed to a csv string in the meta method
@@ -315,7 +323,7 @@ This version is maintained for compatibility purposes only.
 - Added the getValue method to SettingsPage class
 
 
-## Version 0.3
+### Version 0.3
 
 * Refactoring of field management // Needs more work
 * Added save method to the SettingsPage class
@@ -335,7 +343,7 @@ This version is maintained for compatibility purposes only.
 * Added UI Class
 
 
-## Version 0.2.2
+### Version 0.2.2
 
 * Added the empty methods registerCustomPostType and addCustomField to BaseModel
 * Added the getField method to BaseModel
@@ -346,19 +354,19 @@ This version is maintained for compatibility purposes only.
 * Implemented static methods getAll, getByField, getByTaxonomy on BaseMode
 
 
-## Version 0.2.1
+### Version 0.2.1
 
 * Implements basic methods for class Query
 
 
-## Version 0.2
+### Version 0.2
 
 * Created Abstract class /Model/Abstractions/BaseModel
 * Created the Interface iBaseModel
 * Created the class Model/Post implements BaseModel and iBaseModel
 
 
-## Version 0.1
+### Version 0.1
 
 * Created empty repository
 * Defined basic PSR-4 structure

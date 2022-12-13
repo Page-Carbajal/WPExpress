@@ -1,7 +1,7 @@
 {
     "name": "page-carbajal/wpexpress",
     "type": "library",
-    "license": "GPL-3.0-or-later",
+    "license": "GPL3",
     "homepage": "https://github.com/Page-Carbajal/WPExpress",
     "authors":[
         {
@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "php": ">=5.5",
-        "page-carbajal/wpexpress-query": "^1.0.0"
+        "php": ">=7.4",
+        "page-carbajal/wpexpress-query": "^1.1.0"
     }
 }

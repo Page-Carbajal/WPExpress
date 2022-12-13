@@ -1,6 +1,4 @@
-# WPExpress
-
-## A WordPress Framework for Software Developers
+# WPExpress - A WordPress Framework for Software Developers
 
 For all of you my fellow developers who are not familiar with WordPress. 
 
